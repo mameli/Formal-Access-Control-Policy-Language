@@ -1,14 +1,14 @@
 %--------------------------------------------------------------
-% thesis.tex 
+% thesis.tex
 %--------------------------------------------------------------
-% Corso di Laurea in Informatica 
+% Corso di Laurea in Informatica
 % http://if.dsi.unifi.it/
 % @Facolt\`a di Scienze Matematiche, Fisiche e Naturali
 % @Universit\`a degli Studi di Firenze
 %--------------------------------------------------------------
-% - template for the main file of Informatica@Unifi Thesis 
-% - based on Classic Thesis Style Copyright (C) 2008 
-%   Andr\'e Miede http://www.miede.de   
+% - template for the main file of Informatica@Unifi Thesis
+% - based on Classic Thesis Style Copyright (C) 2008
+%   Andr\'e Miede http://www.miede.de
 %--------------------------------------------------------------
 \documentclass[twoside,openright,titlepage,fleqn,
 	headinclude,12pt,a4paper,BCOR5mm,footinclude]{scrbook}
@@ -18,7 +18,7 @@
 % use the right myDegree option
 \newcommand{\myDegree}{Corso di Laurea in Informatica\xspace}
 %\newcommand{\myDegree}{
-	%Corso di Laurea Specialistica in Scienze e Tecnologie 
+	%Corso di Laurea Specialistica in Scienze e Tecnologie
 	%dell'Informazione\xspace}
 \newcommand{\myName}{Filippo Mameli\xspace}
 \newcommand{\myProf}{Rosario Pugliese\xspace}
@@ -33,10 +33,10 @@
 \newcommand{\myVersion}{Version 0.1\xspace}
 %--------------------------------------------------------------
 \usepackage[italian]{babel}
-\usepackage[latin1]{inputenc} 
-\usepackage[T1]{fontenc} 
-\usepackage[square,numbers]{natbib} 
-\usepackage[fleqn]{amsmath}  
+\usepackage[latin1]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[square,numbers]{natbib}
+\usepackage[fleqn]{amsmath}
 \usepackage{ellipsis}
 \usepackage{listings}
 \usepackage{subfig}
@@ -47,15 +47,15 @@
 \usepackage{dia-classicthesis-ldpkg}
 %--------------------------------------------------------------
 % Options for classicthesis.sty:
-% tocaligned eulerchapternumbers drafting linedheaders 
-% listsseparated subfig nochapters beramono eulermath parts 
+% tocaligned eulerchapternumbers drafting linedheaders
+% listsseparated subfig nochapters beramono eulermath parts
 % minionpro pdfspacing
-\usepackage[eulerchapternumbers,linedheaders,subfig,beramono,eulermath,
+\usepackage[eulerchapternumbers,linedheaders,subfig,eulermath,
 parts]{classicthesis}
 %--------------------------------------------------------------
 \newlength{\abcd} % for ab..z string length calculation
 % how all the floats will be aligned
-\newcommand{\myfloatalign}{\centering} 
+\newcommand{\myfloatalign}{\centering}
 \setlength{\extrarowheight}{3pt} % increase table row height
 \captionsetup{format=hang,font=small}
 %--------------------------------------------------------------
@@ -65,11 +65,11 @@ parts]{classicthesis}
 \geometry{
 	a4paper,
 	ignoremp,
-	bindingoffset = 1cm, 
+	bindingoffset = 1cm,
 	textwidth     = 13.5cm,
 	textheight    = 21.5cm,
 	lmargin       = 3.5cm, % left margin
-	tmargin       = 4cm    % top margin 
+	tmargin       = 4cm    % top margin
 }
 
 \lstset{
@@ -94,7 +94,7 @@ parts]{classicthesis}
 %--------------------------------------------------------------
 % Frontmatter
 %--------------------------------------------------------------
-\include{titlePage}
+\include{./title/titlePage}
 \pagestyle{scrheadings}
 %--------------------------------------------------------------
 % Mainmatter
@@ -111,7 +111,7 @@ parts]{classicthesis}
 \emph{"Inserire citazione" \break --- Inserire autore citazione} \vspace{\stretch{2}}\null
 \end{flushright}
 \cleardoublepage
-\include{esercizi}
+\include{Chapters/esercizi}
 \include{Chapters/bibliografia}
 %--------------------------------------------------------------
 \end{document}

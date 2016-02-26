@@ -1,0 +1,35 @@
+\chapter{esercizi}
+
+\begin{enumerate}
+\medskip
+\item 
+Scrivere le possibili evoluzioni del programma 
+\begin{verbatim}
+                       		co X: = X+2 // X: = X+1 oc
+\end{verbatim}
+assumendo che ciascun assegnamento è realizzato da tre azioni atomiche che
+caricano X in un registro (\verb"Load R X"), incrementano il valore del registro (\verb"Add R v") e memorizzano il valore del registro((\verb"Store R X"). Per ciascuna delle esecuzioni risultanti dallÕinterleaving delle azioni atomiche descrivere il contenuto dopo ogni passo della locazione condivisa X e dei registri privati,  $R_1$ del processo che esegue il primo assegnamento ed  $R_2$  per il processo che esegue il secondo assegnamento. Se assuma che il valore iniziale di X sia 50.
+\medskip
+\item
+Si definisca il problema della \emph{barrier synchronization} e si descrivano per sommi capi i differenti approcci alla sua soluzione. Se ne fornisca quindi una soluzione dettagliata utilizzando i semafori.
+\medskip
+\item
+Considerare n api ed un orso che possono avere accesso ad una tazza di miele
+inizialmente  vuota e con una capacità di k porzioni. L'orso dorme finchè la
+tazza è piena di k-porzioni,  quindi mangia tutto il miele e si rimette a
+dormire. Le api riforniscono in continuazione la  tazza con una porzione di
+miele finchè non si riempie; l'ape che aggiunge la k-esima porzione sveglia
+l'orso. Fornire una soluzione al problema modellando orso ed api come  processi
+e utilizzando un monitor per gestire le loro operazioni sulla tazza. Prevedere che le api possano eseguire l'operazione \emph{produce-honey} anche concorrentemente.
+ \medskip
+ \item  Descrivere le primitive di scambio messaggi send e receive sia sincrone che asincrone ed implementare
+ \vspace{-0.5cm}
+ \begin{verbatim}
+       - synch_send(v:int)
+       - send(v:int)
+       - receive(x:int)
+\end{verbatim}
+ \vspace{-0.3cm}
+utilizzando le primitive di LINDA.
+
+\end{enumerate}

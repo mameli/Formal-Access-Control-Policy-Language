@@ -14,7 +14,7 @@
 	headinclude,12pt,a4paper,BCOR5mm,footinclude]{scrbook}
 %--------------------------------------------------------------
 \newcommand{\myItalianTitle}{Estensione del linguaggio FACPL per esprimere politiche di accesso alle risorse di un sistema di calcolo basate sul comportamento passato\xspace}
-\newcommand{\myEnglishTitle}{Extention of language FACPL To use access control policies based on the past actions\xspace}
+\newcommand{\myEnglishTitle}{Extension of language FACPL To use access control policies based on the past actions\xspace}
 % use the right myDegree option
 \newcommand{\myDegree}{Corso di Laurea in Informatica\xspace}
 %\newcommand{\myDegree}{
@@ -94,7 +94,7 @@ parts]{classicthesis}
 %--------------------------------------------------------------
 % Frontmatter
 %--------------------------------------------------------------
-\include{./title/titlePage}
+\include{title/titlePage}
 \pagestyle{scrheadings}
 %--------------------------------------------------------------
 % Mainmatter
@@ -103,16 +103,22 @@ parts]{classicthesis}
 % use \cleardoublepage here to avoid problems with pdfbookmark
 %\include{intro} % use \myChapter command instead of \chapter
 \tableofcontents
-\listoffigures
+%\listoffigures
 \cleardoublepage
-\thispagestyle{empty}
-\begin{flushright}
-\null\vspace{\stretch {1}}
-\emph{"Inserire citazione" \break --- Inserire autore citazione} \vspace{\stretch{2}}\null
-\end{flushright}
-\cleardoublepage
-\include{Chapters/esercizi}
+%\thispagestyle{empty}
+%\begin{flushright}
+%\null\vspace{\stretch {1}}
+%\emph{"Inserire citazione" \break --- Inserire autore citazione} \vspace{\stretch{2}}\null
+%\end{flushright}
+%\cleardoublepage
+\include{Chapters/Introduzione}
+\include{Chapters/XACML_FACPL}
+\include{Chapters/Estensione}
+\include{Chapters/Esempi}
+\include{Chapters/Strumenti_FACPL}
+\include{Chapters/Conclusioni}
 \include{Chapters/bibliografia}
+
 %--------------------------------------------------------------
 \end{document}
 %--------------------------------------------------------------

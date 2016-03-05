@@ -1,0 +1,201 @@
+
+
+\newcommand{\sr}[1]{#1}
+
+\newcommand{\define}{\triangleq}
+
+
+
+\newcommand{\modif}[1]{{\color{red}#1}}
+
+%---------------------------------------
+%ACRONYM
+%---------------------------------------
+\newcommand{\xacml}{\ac{XACML}}
+\newcommand{\facpl}{\ac{FACPL}}
+\newcommand{\pbac}{\ac{PBAC}}
+\newcommand{\rbac}{\ac{RBAC}}
+
+\newcommand{\pdp}{\ac{PDP}}
+\newcommand{\pep}{\ac{PEP}}
+\newcommand{\pap}{\ac{PAP}}
+\newcommand{\pip}{\ac{PIP}}
+\newcommand{\pr}{\ac{PR}}
+
+\newcommand{\dsl}{\ac{DSL}}
+\newcommand{\ide}{\ac{IDE}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%SYNTAX
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%-----------------------------------
+%Algorithm
+%-----------------------------------
+
+\newcommand{\denyOver}{\x{d}\textrm{-}\x{over}_{\delta}}
+\newcommand{\permitOver}{\x{p}\textrm{-}\x{over}_{\delta}}
+\newcommand{\permitUnless}{\x{p}\textrm{-}\x{unless}\textrm{-}\x{d}_{\delta}}
+\newcommand{\denyUnless}{\x{d}\textrm{-}\x{unless}\textrm{-}\x{p}_{\delta}}
+\newcommand{\onlyOneApp}{\x{one}\textrm{-}\x{app}_{\delta}}
+\newcommand{\firstApp}{\x{first}\textrm{-}\x{app}_{\delta}}
+\newcommand{\weakCon}{\x{weak}\textrm{-}\x{con}_{\delta}}
+\newcommand{\strongCon}{\x{strong}\textrm{-}\x{con}_{\delta}}
+
+
+\newcommand{\denyOverO}[1]{\x{d}\textrm{-}\x{over}_{\x{#1}}}
+\newcommand{\permitOverO}[1]{\x{p}\textrm{-}\x{over}_{\x{#1}}}
+\newcommand{\permitUnlessO}[1]{\x{p}\textrm{-}\x{unless}\textrm{-}\x{d}_{\x{#1}}}
+\newcommand{\denyUnlessO}[1]{\x{d}\textrm{-}\x{unless}\textrm{-}\x{p}_{\x{#1}}}
+\newcommand{\onlyOneAppO}[1]{\x{one}\textrm{-}\x{app}_{\x{#1}}}
+\newcommand{\firstAppO}[1]{\x{first}\textrm{-}\x{app}_{\x{#1}}}
+\newcommand{\weakConO}[1]{\x{weak}\textrm{-}\x{con}_{\x{#1}}}
+\newcommand{\strongConO}[1]{\x{strong}\textrm{-}\x{con}_{\x{#1}}}
+
+%Obligation Types
+\newcommand{\obM}{\modif{\x{M}}}
+\newcommand{\obO}{\modif{\x{O}}}
+
+
+%PEP
+\newcommand{\based}{\x{base}}
+\newcommand{\debugAlg}{\x{debug}}
+\newcommand{\denyBiased}{\x{deny}\textrm{-}\x{biased}}
+\newcommand{\permitBiased}{\x{permit}\textrm{-}\x{biased}}
+
+%-------------------------------------
+%Syntax formatting, comparison functions, examples
+%-------------------------------------
+
+\newcommand{\alice}{\x{Alice}}
+\newcommand{\bob}{\x{Bob}}
+
+\newcommand{\polSet}[4]{{\bf{\{}}#1{\,}\x{target:}\,#2 {?}\, \x{policies:}#3^{+} {\,}\x{obl:}#4^{*}\, {\bf{\}}}}
+\newcommand{\polSetE}[4]{{\bf{\{}}#1 \, \x{target:}\,#2 \, \x{policies:}#3 \, \x{obl:}#4 \, {\bf{\}}}}
+\newcommand{\pol}[4]{{\bf{\langle}}#1{\,}\x{target:}\,#2 {?}{\,}\, \x{rules:}#3^{+} {\,}\x{obl:}#4^{*}{\,}{\bf{\rangle}}}
+\newcommand{\polE}[4]{{\bf{\langle}}#1{\,}\x{target:}\,#2 {\,}\, \x{rules:}#3 {\,}\x{obl:}#4 {\,}{\bf{\rangle}}}
+
+\newcommand{\pdpPol}[2]{\{ #1 \,  \, #2 \}}
+\newcommand{\obl}[1]{\, PepAction( #1^* ) }
+
+\newcommand{\streq}{\x{equal}}
+\newcommand{\exprOp}{\x{eop}}
+\newcommand{\exprOperator}{\x{op}}
+
+\newcommand{\attribute}[2]{( #1 , #2 )}
+
+%\newcommand{\mEl}{m}
+%\newcommand{\mEval}[2]{#2 \models #1}
+
+\newcommand{\x}[1]{{\sf #1}}
+
+
+%---------------------------------------
+% Separator
+%---------------------------------------
+
+\newcommand{\set}[1]{\{#1\}} % brackets for sets
+\newcommand{\Sep}{\ \mid\ }
+
+\newcommand{\policySetBegin}{{\bf{\{}}}
+\newcommand{\policyBegin}{{\bf{\{}}}
+\newcommand{\policySep}{\,\bf{\ }\,}
+\newcommand{\policiesBegin}{\x{policies:}\,}
+\newcommand{\targetBegin}{\x{target:}\,}
+\newcommand{\targetEnd}{\,{\bf{\ }}}
+\newcommand{\policiesEnd}{\,{\bf{\ }}}
+%\newcommand{\rulesBegin}{\x{rules:}\,}
+%\newcommand{\rulesEnd}{\,{\bf{\ }}}
+\newcommand{\policyEnd}{{\bf{\}}}}
+\newcommand{\policySetEnd}{{\bf{\}}}}
+%\newcommand{\conditionBegin}{\x{condition:}\,}
+%\newcommand{\conditionEnd}{\,{\bf{\ }}}
+\newcommand{\oblsBegin}{\x{obl:}\,}
+\newcommand{\oblsEnd}{\bf{\ }\,}
+\newcommand{\oblBegin}{{\bf{[}}}
+\newcommand{\oblEnd}{{\bf{]}}}
+
+\newcommand{\match}[3]{#1{\bf(}#2{\bf,}#3{\bf)}}
+\newcommand{\ruleOpt}[1]{{\bf{(}}#1{\bf{)}}}
+\newcommand{\oblOpt}[1]{{\bf{(}}#1{\bf{)}}}
+
+\newcommand*\lfrac[2]{{}_{#1}\!\backslash\!^{#2}} % table combining algorithm
+
+%------------------------------
+%Decisions & values
+%------------------------------
+\newcommand{\permit}{\x{permit}}
+\newcommand{\deny}{\x{deny}}
+\newcommand{\notApp}{\x{not}\textrm{-}\x{app}}
+\newcommand{\indet}{\x{indet}}
+\newcommand{\excpt}{\perp}
+\newcommand{\err}{\x{error}}
+
+\newcommand{\indetD}{\x{indetD}}
+\newcommand{\indetP}{\x{indetP}}
+\newcommand{\indetDP}{\x{indetDP}}
+
+\newcommand{\true}{\x{true}}
+\newcommand{\false}{\x{false}}
+
+%%%%%%%%%%%%%%%%%%%%%%%
+%SEMANTICS
+%%%%%%%%%%%%%%%%%%%%%%%
+
+%Auxiliary Semantic Functions and notations
+\newcommand{\pepSemR}[1]{(\!( #1 )\!)}
+\newcommand{\concat}{{\bullet}}
+\newcommand{\subobeff}[2]{#1\!\!\mid_{#2}} %sub sequence of obligations
+
+%Name of Semantic Function
+\newcommand{\denSemF}[1]{\mathcal{ #1 }}
+
+%Semantic Brakets
+%\newcommand{\denSem}[2]{[\![ #1 ]\!]_{#2}}
+\newcommand{\denSem}[2]{[\![ #1 ]\!] #2}
+
+%Named Semantics Functions
+\newcommand{\policySem}[2]{\denSemF{P}\denSem{#1}{#2}}
+\newcommand{\algSem}[2]{\denSemF{A}\denSem{#1}{#2}}
+\newcommand{\exprSem}[2]{\denSemF{E}\denSem{#1}{#2}}
+\newcommand{\oblSem}[2]{\denSemF{O}\denSem{#1}{#2}}
+\newcommand{\oblSemS}[2]{\denSemF{OS}\denSem{#1}{#2}}
+\newcommand{\pdpSem}[2]{\denSemF{P}dp\denSem{#1}{#2}}
+\newcommand{\pepSem}[2]{\denSemF{E}A\denSem{#1}{#2}}
+\newcommand{\pasSem}[1]{\denSemF{P}as\denSem{#1}{}}
+\newcommand{\reqSemS}[2]{\denSemF{R}\denSem{#1}{#2}}  %two arguments, \name as second argument
+\newcommand{\reqSem}[1]{\denSemF{R}\denSem{#1}{}} %used for PAS semantics
+
+%Generic Element of each Syntactic Category
+\newcommand{\expr}{\mathit{expr}}
+\newcommand{\effect}{\mathit{e}}
+\newcommand{\ob}{\mathit{o}}
+\newcommand{\obType}{\mathit{t}}
+\newcommand{\fo}{\mathit{f\!o}}
+\newcommand{\foS}{\mathit{f\!o}^*}
+\newcommand{\rSyntax}{\mathit{req}} %element of syntactic category Request
+\newcommand{\req}{\mathit{r}} % element of functional representation of Request
+\newcommand{\policy}{\mathit{p}}
+\newcommand{\algSyntax}{\mathit{a}}
+\newcommand{\pdpRes}{\mathit{res}}
+\newcommand{\dec}{\mathit{dec}} %decision
+\newcommand{\double}{\mathit{d}} %double
+\newcommand{\extVal}{\mathit{w}} % Obligations and table of expression semantics
+\newcommand{\enfAlg}{\mathit{ea}}
+\newcommand{\pdpSyntax}{\mathit{pdp}}
+\newcommand{\name}{\mathit{n}}
+\newcommand{\val}{\mathit{v}}
+\newcommand{\pepAction}{\mathit{pepAct}}
+
+\newcommand{\algNT}{\mathit{Alg}} %used in syntax section
+\newcommand{\algName}{\mathsf{alg}} % used in combining algorithms semantic section
+
+%Semantics of Combiing Algorithms
+\newcommand{\alg}[1]{\mathsf{alg}_{#1}}
+\newcommand{\algD}{\alg{\delta}}
+\newcommand{\algOp}{\otimes \mathsf{alg}}
+\newcommand{\algOpAlg}[1]{\otimes #1}
+
+\newcommand{\all}{\x{all}}
+\newcommand{\greedy}{\x{greedy}}
+\newcommand{\isFinal}[2]{\mathit{isFinal}_{#1}({#2})}
+\newcommand{\isFinalPred}[1]{\mathit{isFinal}_{#1}}

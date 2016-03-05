@@ -1,0 +1,84 @@
+\begin{table}[h!]
+\small
+\caption{Sintassi di FACPL}
+$
+\begin{array}{@{\,}r@{\ \ }r@{\ }r@{\ \ }l@{\ }}
+&&&\\[-.2cm]
+{\textbf{Policy Authorisation Systems}} &
+\mathit{PAS} & ::= & ( \,  \x{pep:} \, \mathit{EnfAlg}\ \ \x{pdp:}\, \mathit{PDP} \, )
+\\[.2cm]
+{\textbf{Enforcement algorithms}} &
+\mathit{EnfAlg}
+& ::= & \based \Sep \denyBiased \Sep \permitBiased
+\\[.2cm]
+{\textbf{Policy Decision Points}} &
+\mathit{PDP} & ::= & \pdpPol{\algNT\ }{\x{policies:} \, \mathit{Policy}^{+}}
+\\[.2cm]
+{\textbf{Combining algorithms}} &
+\algNT & ::= & \permitOver \Sep \denyOver \Sep \denyUnless \Sep \permitUnless \\
+&& \mid &
+\firstApp \Sep \onlyOneApp \Sep \weakCon \Sep \strongCon
+\\[.2cm]
+\textbf{fulfilment strategies} & \delta
+& ::= &
+\greedy \Sep \all
+\\[.2cm]
+{\textbf{Policies}} &
+\mathit{Policy} & ::= &
+\ruleOpt{\mathit{Effect}\ \ \x{target:} \, Expr\ \ \x{obl:} \, \mathit{Obligation}^{*} \, } \\
+&& \mid &
+\{ \algNT\ \ \x{target:} \, Expr\ \ \x{policies:} \, \mathit{Policy}^{+} \ \ \x{obl:} \, \mathit{Obligation}^{*} \, \}
+\\[.2cm]
+{\textbf{Effects}} &
+\mathit{Effect} & ::= & \permit \Sep \deny
+\\[.2cm]
+{\textbf{Obligations}} &
+\mathit{Obligation} & ::= & [ \, \mathit{Effect} \ \ \mathit{ObType} \ \ \obl{Expr} \, ]
+\\[.2cm]
+{\textbf{Obligation Types}} &
+\mathit{ObType} & ::= & \obM \Sep \obO
+\\[.4cm]
+\textbf{Expressions}&
+\mathit{Expr} & ::= &
+\mathit{Name} \Sep \mathit{Value}  \\
+& & \mid &\x{and(\mathit{Expr}, \mathit{Expr})} \Sep \x{or(\mathit{Expr}, \mathit{Expr})} \Sep \x{not(\mathit{Expr})} \\
+& & \mid &
+ \x{equal(\mathit{Expr},\mathit{Expr})}  \Sep \x{in}(\mathit{Expr}, \mathit{Expr}) \\
+& & \mid & \x{greater}\textrm{-}\x{than(\mathit{Expr},\mathit{Expr})} \Sep \x{add(\mathit{Expr} ,\mathit{Expr} )}\\
+& & \mid & \x{subtract(\mathit{Expr} ,\mathit{Expr} )} \Sep \x{divide(\mathit{Expr} ,\mathit{Expr} )}\\
+& & \mid & \x{multiply(\mathit{Expr} ,\mathit{Expr} )} \\[.2cm]
+%
+\textbf{Attribute Names} &
+\mathit{Name} & ::= & \mathit{Identifier}/\mathit{Identifier} \\[.2cm]
+%
+\textbf{Literal Values} &
+\mathit{Value} & ::= & \x{true} \mid \x{false} \mid \mathit{Double} \mid \mathit{String} \mid \mathit{Date}
+\\[.4cm]
+{\textbf{Requests}} &
+\mathit{Request} & ::= & {\attribute{\mathit{Name}}{\mathit{Value}}}^{+}
+\\[.1cm]
+\end{array}
+$
+\label{tab:facpl_syntax}
+\end{table}
+
+\begin{table}[!t]
+\small
+\caption{Sintassi ausiliaria per le risposte}
+$
+\begin{array}{@{\ }r@{\ \ \ \ }r@{\ }r@{\ \ }l@{\ }}
+
+&&&\\[-.2cm]
+{\textbf{PDP \ Responses }} &
+\mathit{PDPResponse} & ::= & \langle \,\mathit{Decision} \ \ \ \mathit{FObligation}^* \rangle
+\\[.2cm]
+{\textbf{Decisions}} &
+\mathit{Decision} & ::= & \permit \Sep \deny \Sep \notApp \Sep \indet
+\\[.2cm]
+{\textbf{Fulfilled obligations}} &
+\mathit{FObligation} & ::= &  [ \, \mathit{ObType} \ \ \obl{\mathit{Value}} \, ]\\[.1cm]
+
+\end{array}
+$
+\label{tab:facpl_context_syntax}
+\end{table}

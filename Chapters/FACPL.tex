@@ -1,19 +1,18 @@
 \chapter{Formal Access Control Policy Language }
 \label{chap:Formal Access Control Policy Language}
-Il linguaggio FACPL (fakpol)%/fɑːkpɒl/)
- è stato creato come alternativa a XACML. Come accennato nel capitolo precedente,
+Il linguaggio FACPL (fakpol) è stato creato come alternativa a XACML. Come accennato nel capitolo precedente,
 l'organizzazione OASIS ha ideato il linguaggio XACML per sviluppare sistemi basati sul modello PBAC.\par
 XML è utilizzato da XACML per definire le sue politiche. Questo linguaggio di markup è molto usato per lo scambio
 di dati tra sistemi, ma rende le politiche difficili da comprendere. Infatti anche le regole più semplici sono prolisse
 e questo rende la lettura problematica per un utente.\par
 FACPL nasce dalle idee di XACML e ha l'obiettivo di semplificare la scrittura di politiche e di definire un framework
-costruito sopra basi formali solide in modo da permettere agli sviluppatori di specificare e verificare automaticamente
+costruito sopra basi formali solide, in modo da permettere agli sviluppatori di specificare e verificare automaticamente
 delle proprietà.
 
 \section{Il processo di valutazione}
 \label{sec:Il processo di valutazione}
 \MyFigure{img/evaluationProcess.png}{Processo di valutazione}{1}
-In figura si mostra il processo di valutazione delle policy e delle richieste. Le componenti chiave sono tre:
+In figura \ref{fig:img/evaluationProcess.png} si mostra il processo di valutazione delle policy e delle richieste. Le componenti chiave sono tre:
 \begin{itemize}
   \item Policy Repository (PR)
   \item Policy Decision Point (PDP)
@@ -46,18 +45,17 @@ Il PEP ha compito di controllare lo svolgimento delle \eObligations tramite l'\e
 Il processo di \emph{enforcement} eseguito dal PEP determina l'\emph{enforced decision} in base al risultato delle obbligazioni.
 Questa decisione può differire da quella del PDP e corrisponde alla valutazione finale di tutto il processo.
 
+
 \section{Componenti del sistema}
 \label{sub:Componenti del sistema}
-
-Nella tabella 1 si mostra la sintassi di FACPL. Questa è data da una grammatica di tipo EBNF dove il simbolo ? indica
+Nella tabella \ref{tab:facpl_syntax} si mostra la sintassi di FACPL. Questa è data da una grammatica di tipo EBNF dove il simbolo ? indica
 elementi opzionali, * sequenze (anche vuote) e + sequenze non vuote.\par
 Al livello più alto troviamo il termine Policy Authorization System (PAS) che comprende le specifiche del PEP e del PDP.\par
 Il PEP è definito con un \emph{enforcing algorithm} che sarà applicato per stabilire quali sono le decisioni che devono
 passare al processo di \emph{enforcement}.\par
-Il PDP è definito come una sequenza di
-\textsuperscript{+} e da un algoritmo \emph{Alg} per combinare i
+Il PDP è definito come una sequenza di \emph{Policy}\textsuperscript{+} e da un algoritmo \emph{Alg} per combinare i
 risultati delle valutazione delle policy.\par
-\input{Chapters/Facpl_Syntax}
+\input{Chapters/Facpl_Syntax}{\label{Sintassi di FACPL}}
 Una \ePolicy può essere una \eRule semplice oppure un \ePolicySet cioè un insieme di rule o altri
 policy set. In questo modo si possono creare regole singole, ma anche gerarchie di regole.\par
 Un \ePolicySet è definito da un \etarget che indica l'insieme di richieste di accesso al quale la policy
@@ -75,8 +73,8 @@ Una \eObligation è definita da un effetto, da un tipo (M per obbligatorio e O p
 espressioni come argomento.\par
 
 Una richiesta consiste in una sequenza di \emph{attribute} organizzati in categorie.\par
-La risposta ad una richiesta FACPL è scritta utilizzando la sintassi ausiliaria riportata in tabella 2. La valutazione
-in due passi descritta in \ref{sec:Il processo di valutazione} produce due tipi diffenrenti di risposte:
+La risposta ad una richiesta FACPL è scritta utilizzando la sintassi ausiliaria riportata in tabella \ref{tab:facpl_context_syntax}.
+La valutazione in due passi descritta in \ref{sec:Il processo di valutazione} produce due tipi differenti di risposte:
 \begin{itemize}
   \item \emph{PDP Response}
   \item \emph{Decisions}
@@ -85,6 +83,7 @@ La prima nel caso in cui la decisione sia permit o deny si associa a una sequenz
 Una \emph{Fulfilled Obligation} è una coppia formata da un tipo e da un'azione con i rispettivi argomenti risultato della
 valutazione del PDP.
 \input{Chapters/Facpl_Syntax2}
+
 
 \section{Semantica }
 \label{sec:Semantica }
@@ -105,17 +104,17 @@ Valutare le espressioni corrisponde ad applicare gli operatori, a determinare le
 a ricavarne il valore associato.\par
 Se questo non è possibile, ad esempio l'attibuto è mancante e non può essere recuperato dal \emph{context handler}, si
 restituisce il valore speciale \texttt{BOTTOM}. Questo valore è usato per implementare strategie diverse per gestire
-la mancanza di un attributo. \texttt{BOTTOM} è trattato da FACPL in modo simile a \efalse in modo tale da gestire
-attributi mancanti senza generare errori.\par
+la mancanza di un attributo. \texttt{BOTTOM} è trattato da FACPL in modo simile a \texttt{false}, si gestisce
+così gli attributi mancanti senza generare errori.\par
 Gli operatori tengono conto degli argomenti e dei valori speciali come \texttt{BOTTOM} e \emph{error}.
-Se gli argomenti sono \etrue oppure \efalse gli operatori sono applicati in modo regolare.
+Se gli argomenti sono \texttt{true} oppure \texttt{false} gli operatori sono applicati in modo regolare.
 Se c'è un argomento \texttt{BOTTOM} e non ci sono \emph{error} si restituisce \texttt{BOTTOM}, \emph{error} altrimenti.
-Gli operatori \eand e \eor trattano diversamente i valori speciali. Specificatamente, \eand restituisce \etrue se entrambi
-gli operandi sono \etrue, \efalse se almeno uno è \efalse, \texttt{BOTTOM} se almeno uno è \texttt{BOTTOM} e nessun altro è
-\efalse o \emph{error}, \emph{error} negli altri casi. L'operatore \eor è il duale di \eand e ha priorità minore.
-L'operatore unario \emph{not} cambia i valori di \etrue e \efalse, ma non quelli di \texttt{BOTTOM} e \emph{error}.\par
-La valutazione di una \epolicy termina con il \emph{fulfilment} di tutte le \eObligations. Questo consiste nel valutare
-tutti gli argomenti dell'azione corrispondente all'\eobligation. All'occorrenza di un errore, la decisione della \epolicy
+Gli operatori \eand e \eor trattano diversamente i valori speciali. Specificatamente, \eand restituisce \texttt{true} se entrambi
+gli operandi sono \etrue, \texttt{false} se almeno uno è \efalse, \texttt{BOTTOM} se almeno uno è \texttt{BOTTOM} e nessun altro è
+\texttt{false} o \emph{error}, \emph{error} negli altri casi. L'operatore \eor è il duale di \eand e ha priorità minore.
+L'operatore unario \emph{not} cambia i valori di \texttt{true} e \texttt{false}, ma non quelli di \texttt{BOTTOM} e \emph{error}.\par
+La valutazione di una \epolicy termina con il \emph{fulfilment} di tutte le \emph{Obligations}. Questo consiste nel valutare
+tutti gli argomenti dell'azione corrispondente all'\emph{obligation}. All'occorrenza di un errore, la decisione della \epolicy
 sarà modificata in \texttt{indet}.
 Negli altri casi la decisione non cambierà e sarà quella del PDP prima del \emph{fulfillment}.\par
 Per valutare gli insiemi di \epolicy si devono applicare dei \emph{combining algorithm} specifici. Data una sequenza di
@@ -123,7 +122,7 @@ policy in input gli algoritmi stabiliscono una sequenza di valutazioni per le \e
 \emph{permit-overrides} come esempio.
 \begin{description}
 \item[permit-overrides]Se la valutazione di una \epolicy restituisce \emph{permit}, allora il risultato è \emph{permit}.
-                        In altre parole, \emph{permit} ha la precedenza, indipendente dal risultato delle altre \epolicy.
+                        In altre parole, \emph{permit} ha la precedenza, indipendente dal risultato delle altre \emph{policy}.
                         Invece, se c'è almeno una \epolicy che restituisce \emph{deny} e tutte le altre restituiscono
                         \texttt{not-app} o \emph{deny}, allora il risultato è \emph{deny}. Se tutte le policy restituiscono
                         \texttt{not-app}, allora il risultato è \texttt{not-app}. In tutti gli altri casi, il risultato è \texttt{indet}.
@@ -134,7 +133,7 @@ conforme alla strategia $\delta$ di \emph{fulfilment} scelta. Ci sono due possib
   \item[All]La strategia \emph{all} richiede la valutazione di tutte le \epolicy appartenenti alla sequenza in input e
             restituisce le \emph{fulfilled obligation} relative a tutte le decisioni.
   \item[Greedy]La strategia \emph{greedy} stabilisce che, se ad un certo punto, la valutazione della sequenza di \epolicy
-               in input non può cambiare, si può non esaminare le altre policy e terminare l'esecuzione. In questo modo
+               in input non può più cambiare, si può non esaminare le altre policy e terminare l'esecuzione. In questo modo
                si migliora le prestazioni della valutazione in quanto non si sprecano risorse computazionali
                per valutazioni di policy che non avrebbero alcun impatto sul risultato finale.
 \end{labeling}\par
@@ -148,10 +147,17 @@ enforcement scelto, il comportamento per le decisioni di tipo \texttt{not-app} e
 \end{description}
 Questi algoritmi evidenziano il fatto che le \eobligation non solo influenzano il processo di autorizzazione, ma anche l'enforcement.
 Si nota infine che gli errori causati da obbligazioni opzionali sono ignorati.
+
+
 \section{Esempio}
 \label{sec:Esempio}
+Ora si propone un semplice esempio di politica in FACPL. Due utenti possono interagire con il sistema attraverso delle richieste.
+John può scrivere sulla risorsa "file.txt", ma non vi è specificata nessuna regola per la lettura. Invece Tom può
+leggere il "file.txt", ma non può scriverci.\par
 \lstinputlisting[language = FACPL, caption = {Esempio di politica in FACPL}\label{lst:facpl_es_Pol}]{./code/esempioFacpl}
+Ci sono 4 richieste. Entrambi gli utenti richiedono sia l'azione di "WRITE" che l'azione di "READ".
 \lstinputlisting[language = FACPL, caption = {Esempio di richieste in FACPL}\label{lst:facpl_es_Req}]{./code/esempioRichiesteFacpl}
+L'output dopo l'esecuzione sarà il seguente:
 \begin{verbatim}
   Request: Request1
 
@@ -160,11 +166,22 @@ Si nota infine che gli errori causati da obbligazioni opzionali sono ignorati.
 
   Request: Request2
 
+    Authorization Decision: NOT_APPLICABLE
+    Obligations:
+
+  Request: Request3
+
     Authorization Decision: PERMIT
     Obligations: PERMIT M log_permit([Tom])
 
-  Request: Request3
+  Request: Request4
 
   Authorization Decision: DENY
   Obligations: DENY M log_deny([Tom])
 \end{verbatim}
+La prima richiesta di scrittura da parte di John viene chiaramente accettata, la sua richiesta di lettura però ha
+come risultato \emph{NOT APPLICABLE} in quanto non ci sono regole che possono essere usate per dare una valida risposta.
+La richiesta di lettuta di Tom invece viene accettata, mentre la sua ultima richiesta di scrittura riceve un deny
+perché è bloccata alla \emph{rule} writeRuleT.\par
+Da questo esempio si può vedere la semplicità con cui si possono scrivere le policy e le richieste.
+Le stesse politiche scritte in XML oltre a risultare prolisse a confronto, sono difficili da comprendere o analizzare.\par

@@ -1,0 +1,20 @@
+PolicySet filePolicy { permit-overrides
+	target:
+		equal("file.txt", file_name/resource-id)
+	policies:
+		Rule writeRuleJ ( permit target:
+				equal ("WRITE" , subject/action )
+				&& equal ("John", subject/id)
+		)
+		Rule readRuleT ( permit target:
+				equal ("READ" , subject/action )
+				&& equal ("Tom", subject/id)
+		)
+		Rule writeRuleT ( deny target:
+				equal ("WRITE" , subject/action )
+				&& equal ("Tom", subject/id)
+		)
+	obl:
+		[ deny M log_deny (subject / id )]
+		[ permit M log_permit (subject / id)]
+}

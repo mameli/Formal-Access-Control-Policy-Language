@@ -1,26 +1,170 @@
-\chapter{Linguaggio FACPL}
-\label{chap:Linguaggio FACPL}
+\chapter{Formal Access Control Policy Language }
+\label{chap:Formal Access Control Policy Language}
+Il linguaggio FACPL (fakpol)%/fɑːkpɒl/)
+ è stato creato come alternativa a XACML. Come accennato nel capitolo precedente,
+l'organizzazione OASIS ha ideato il linguaggio XACML per sviluppare sistemi basati sul modello PBAC.\par
+XML è utilizzato da XACML per definire le sue politiche. Questo linguaggio di markup è molto usato per lo scambio
+di dati tra sistemi, ma rende le politiche difficili da comprendere. Infatti anche le regole più semplici sono prolisse
+e questo rende la lettura problematica per un utente.\par
+FACPL nasce dalle idee di XACML e ha l'obiettivo di semplificare la scrittura di politiche e di definire un framework
+costruito sopra basi formali solide in modo da permettere agli sviluppatori di specificare e verificare automaticamente
+delle proprietà.
 
-% \section{XACML}
-% \label{sec:XACML}
-% XACML
-\section{Linguaggio FACPL}
-\label{sec:Linguaggio FACPL}
-FACPL
-\subsection{Sintassi}
-\label{sub:Sintassi}
-\input{Chapters/Facpl_Syntax}
-\subsection{Componenti del sistema}
+\section{Il processo di valutazione}
+\label{sec:Il processo di valutazione}
+\MyFigure{img/evaluationProcess.png}{Processo di valutazione}{1}
+In figura si mostra il processo di valutazione delle policy e delle richieste. Le componenti chiave sono tre:
+\begin{itemize}
+  \item Policy Repository (PR)
+  \item Policy Decision Point (PDP)
+  \item Policy Enforcement Point (PEP)
+\end{itemize}
+Si assume che un insieme di risorse sia in coppia con le Policy, e che queste definiscano le credenziali
+necessarie per ottenere l'accesso. Il PR contiene le Policy e le rende disponibili al PDP (Step 1), il
+quale decide se l'accesso viene garantito o meno. \par
+Quando la richiesta è ricevuta dal PEP (Step 2), le sue credenziali vengono codificate in una sequenza
+di attributi(una coppia nome-valore) per poi utilizzare quest'ultima per creare la richiesta FACPL(Step 3).\par
+Il Context Handler aggiunge attributi dell'ambiente (come la temperatura esterna) alla richiesta e
+poi invierà questa al PDP (Step 4).\par
+Il processo di autorizzazione del PDP restituisce una \emph{risposta} verificando che gli attributi, che possono far
+parte della richiesta o del contesto, siano conformi ai controlli delle policy (Step 5-8). La \emph{risposta} del PDP
+contiene una \emph{decisione} e una possibile \emph{obbligazione}(Step 9-10).\par
+La \emph{decisione} può essere di quattro tipi:
+\begin{itemize}
+  \item Permit
+  \item Deny
+  \item Not-applicable
+  \item Indeterminate
+\end{itemize}
+I primi due tipi indicano rispettivamente richiesta accettata e richiesta non accettata. Se viene restituito Not-applicable
+non ci sono policy su cui si poteva valutare la decisione, se ci sono altri errori la risposta è Indeterminate.
+Le \ePolicy gestiscono automaticamente il risultato Indeterminate combinandolo con le altre decisioni
+a seconda della strategia del \emph{Combining Algorithm} associato alla Policy stessa.\par
+Le \eObligations sono azioni addizionali che devono essere eseguite dopo la restituzione di una decisione.
+Solitamente corrispondono all'aggiornamento di un file, l'invio di un messaggio o l'esecuzione di un comando.
+Il PEP ha compito di controllare lo svolgimento delle \eObligations tramite l'\emph{obligation service} (Step 11-12).
+Il processo di \emph{enforcement} eseguito dal PEP determina l'\emph{enforced decision} in base al risultato delle obbligazioni.
+Questa decisione può differire da quella del PDP e corrisponde alla valutazione finale di tutto il processo.
+
+\section{Componenti del sistema}
 \label{sub:Componenti del sistema}
-\subsubsection{Target}
-\label{subs:Target}
-\subsubsection{Obligation}
-\label{subs:Obligation}
 
-\subsubsection{PDP}
-\label{subs:PDP}
-\subsubsection{PEP}
-\label{subs:PEP}
+Nella tabella 1 si mostra la sintassi di FACPL. Questa è data da una grammatica di tipo EBNF dove il simbolo ? indica
+elementi opzionali, * sequenze (anche vuote) e + sequenze non vuote.\par
+Al livello più alto troviamo il termine Policy Authorization System (PAS) che comprende le specifiche del PEP e del PDP.\par
+Il PEP è definito con un \emph{enforcing algorithm} che sarà applicato per stabilire quali sono le decisioni che devono
+passare al processo di \emph{enforcement}.\par
+Il PDP è definito come una sequenza di
+\textsuperscript{+} e da un algoritmo \emph{Alg} per combinare i
+risultati delle valutazione delle policy.\par
+\input{Chapters/Facpl_Syntax}
+Una \ePolicy può essere una \eRule semplice oppure un \ePolicySet cioè un insieme di rule o altri
+policy set. In questo modo si possono creare regole singole, ma anche gerarchie di regole.\par
+Un \ePolicySet è definito da un \etarget che indica l'insieme di richieste di accesso al quale la policy
+viene applicata, da una lista di \eObligations cioè le azioni opzionali o obbligatoriche da eseguire, da una
+sequenza di \ePolicy e da un algoritmo per la combinazione.\par
+Una \eRule  è specificata da un \emph{effect} , che può essere permit o deny , da un \etarget
+e da una lista di \eObligations(che può essere anche vuota). \par
+Le \emph{Expressions} sono costituite da \emph{attribute names} e da valori letterali(per esempio booleani, stringhe, date).\par
+Un \emph{attribute name} indica il valore di un attributo. Questo può essere contenuto in una richiesta o nel contesto. La
+struttura di un attribute name è della forma \emph{Identifier}/\emph{Identifier}. Dove il primo elemento indica la categoria
+e il secondo il nome dell'attributo. Per esempio Name / ID rappresenta il valore di un attributo ID di categoria Name.\par
+Un \emph{combining algorithm} ha lo scopo di risolvere conflitti delle decisioni date dalle valutazioni delle policy.
+Ad esempio permit-overrides assegna la precedenza alle decisioni con effetto permit rispetto a quelle di tipo deny.\par
+Una \eObligation è definita da un effetto, da un tipo (M per obbligatorio e O per opzionale) e da un'azione e le relative
+espressioni come argomento.\par
 
+Una richiesta consiste in una sequenza di \emph{attribute} organizzati in categorie.\par
+La risposta ad una richiesta FACPL è scritta utilizzando la sintassi ausiliaria riportata in tabella 2. La valutazione
+in due passi descritta in \ref{sec:Il processo di valutazione} produce due tipi diffenrenti di risposte:
+\begin{itemize}
+  \item \emph{PDP Response}
+  \item \emph{Decisions}
+\end{itemize}
+La prima nel caso in cui la decisione sia permit o deny si associa a una sequenza (anche vuota) di fulfilled obligations.\par
+Una \emph{Fulfilled Obligation} è una coppia formata da un tipo e da un'azione con i rispettivi argomenti risultato della
+valutazione del PDP.
+\input{Chapters/Facpl_Syntax2}
+
+\section{Semantica }
+\label{sec:Semantica }
+Si presenta adesso informalmente il processo di autorizzazione del PDP e poi quello di enforcement del PEP.\par
+Quando il PDP riceve una richiesta di accesso, valuta la richiesta in base alle \epolicy disponibili poi determina
+il risultato unendo le decisioni restituite dalle policy con l'utilizzo dei \emph{combining algorithm}.\par
+La valutazione di una policy inizia dalla verifica dell'applicabilità della richiesta, che è compiuta valutando
+l'espressione definita dal \etarget. Ci sono due casi:
+\begin{description}
+  \item La verifica dà un risultato positivo. Nel caso in cui ci siano \emph{rules}, l'effetto della regola viene restituito.
+        Nel caso di \ePolicySet, il risultato è ottenuto dalla valutazione delle \epolicy contenute e dalla combinazione di queste.
+        tramite l'algoritmo specificato dal PDP. In entrambi i casi in seguito si procederà al \emph{fulfilment} delle
+        \eobligation da parte del PEP.
+  \item La verifica dà un risultato negativo. Nel caso in cui la valutazione sia determinata \efalse, viene restituito
+        \texttt{not-app}. Nel caso di \emph{error} o di un valore non booleano, si restituisce \texttt{indet}.
+\end{description}
+Valutare le espressioni corrisponde ad applicare gli operatori, a determinare le occorrenze degli \emph{attribute names} e
+a ricavarne il valore associato.\par
+Se questo non è possibile, ad esempio l'attibuto è mancante e non può essere recuperato dal \emph{context handler}, si
+restituisce il valore speciale \texttt{BOTTOM}. Questo valore è usato per implementare strategie diverse per gestire
+la mancanza di un attributo. \texttt{BOTTOM} è trattato da FACPL in modo simile a \efalse in modo tale da gestire
+attributi mancanti senza generare errori.\par
+Gli operatori tengono conto degli argomenti e dei valori speciali come \texttt{BOTTOM} e \emph{error}.
+Se gli argomenti sono \etrue oppure \efalse gli operatori sono applicati in modo regolare.
+Se c'è un argomento \texttt{BOTTOM} e non ci sono \emph{error} si restituisce \texttt{BOTTOM}, \emph{error} altrimenti.
+Gli operatori \eand e \eor trattano diversamente i valori speciali. Specificatamente, \eand restituisce \etrue se entrambi
+gli operandi sono \etrue, \efalse se almeno uno è \efalse, \texttt{BOTTOM} se almeno uno è \texttt{BOTTOM} e nessun altro è
+\efalse o \emph{error}, \emph{error} negli altri casi. L'operatore \eor è il duale di \eand e ha priorità minore.
+L'operatore unario \emph{not} cambia i valori di \etrue e \efalse, ma non quelli di \texttt{BOTTOM} e \emph{error}.\par
+La valutazione di una \epolicy termina con il \emph{fulfilment} di tutte le \eObligations. Questo consiste nel valutare
+tutti gli argomenti dell'azione corrispondente all'\eobligation. All'occorrenza di un errore, la decisione della \epolicy
+sarà modificata in \texttt{indet}.
+Negli altri casi la decisione non cambierà e sarà quella del PDP prima del \emph{fulfillment}.\par
+Per valutare gli insiemi di \epolicy si devono applicare dei \emph{combining algorithm} specifici. Data una sequenza di
+policy in input gli algoritmi stabiliscono una sequenza di valutazioni per le \epolicy date. Si propone in seguito l' algoritmo
+\emph{permit-overrides} come esempio.
+\begin{description}
+\item[permit-overrides]Se la valutazione di una \epolicy restituisce \emph{permit}, allora il risultato è \emph{permit}.
+                        In altre parole, \emph{permit} ha la precedenza, indipendente dal risultato delle altre \epolicy.
+                        Invece, se c'è almeno una \epolicy che restituisce \emph{deny} e tutte le altre restituiscono
+                        \texttt{not-app} o \emph{deny}, allora il risultato è \emph{deny}. Se tutte le policy restituiscono
+                        \texttt{not-app}, allora il risultato è \texttt{not-app}. In tutti gli altri casi, il risultato è \texttt{indet}.
+\end{description}
+Se il risultato della decisione è \emph{permit} o \emph{deny}, ogni algoritmo restituisce una sequenza di \emph{fulfilled obbligations}
+conforme alla strategia $\delta$ di \emph{fulfilment} scelta. Ci sono due possibili strategie:
+\begin{labeling}{alligator}
+  \item[All]La strategia \emph{all} richiede la valutazione di tutte le \epolicy appartenenti alla sequenza in input e
+            restituisce le \emph{fulfilled obligation} relative a tutte le decisioni.
+  \item[Greedy]La strategia \emph{greedy} stabilisce che, se ad un certo punto, la valutazione della sequenza di \epolicy
+               in input non può cambiare, si può non esaminare le altre policy e terminare l'esecuzione. In questo modo
+               si migliora le prestazioni della valutazione in quanto non si sprecano risorse computazionali
+               per valutazioni di policy che non avrebbero alcun impatto sul risultato finale.
+\end{labeling}\par
+L'ultimo passo consiste nell'inviare la risposta del PDP al PEP per l'\emph{enforcement}. A questo scopo, il PEP verifica
+che tutti gli eventuali obblighi imposti dal PDP al richiedente siano soddisfatti e decide, in base all' algoritmo di
+enforcement scelto, il comportamento per le decisioni di tipo \texttt{not-app} e \texttt{indet}. Gli algoritmi sono:
+\begin{description}
+  \item[base]Il PEP mantiene tutte le decisioni, ma se c'è un errore nella verifica degli obblighi il risultato è \texttt{indet}.
+  \item[deny-biased]Il PEP concede l'accesso solo nel caso in cui questa sia la decisione del PDP e che gli eventuali obblighi imposti dal PDP siano stati soddisfatti. In tutti gli altri casi, il PEP nega l’accesso.
+  \item[permit-biased]Questo algoritmo è il duale di deny-biased.
+\end{description}
+Questi algoritmi evidenziano il fatto che le \eobligation non solo influenzano il processo di autorizzazione, ma anche l'enforcement.
+Si nota infine che gli errori causati da obbligazioni opzionali sono ignorati.
 \section{Esempio}
 \label{sec:Esempio}
+\lstinputlisting[language = FACPL, caption = {Esempio di politica in FACPL}\label{lst:facpl_es_Pol}]{./code/esempioFacpl}
+\lstinputlisting[language = FACPL, caption = {Esempio di richieste in FACPL}\label{lst:facpl_es_Req}]{./code/esempioRichiesteFacpl}
+\begin{verbatim}
+  Request: Request1
+
+    Authorization Decision: PERMIT
+    Obligations: PERMIT M log_permit([John])
+
+  Request: Request2
+
+    Authorization Decision: PERMIT
+    Obligations: PERMIT M log_permit([Tom])
+
+  Request: Request3
+
+  Authorization Decision: DENY
+  Obligations: DENY M log_deny([Tom])
+\end{verbatim}

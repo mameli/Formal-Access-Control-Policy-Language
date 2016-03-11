@@ -1,0 +1,20 @@
+\begin{table}[!t]
+\small
+\caption{Sintassi ausiliaria per le risposte}
+$
+\begin{array}{@{\ }r@{\ \ \ \ }r@{\ }r@{\ \ }l@{\ }}
+
+&&&\\[-.2cm]
+{\textbf{PDP \ Responses }} &
+\mathit{PDPResponse} & ::= & \langle \,\mathit{Decision} \ \ \ \mathit{FObligation}^* \rangle
+\\[.2cm]
+{\textbf{Decisions}} &
+\mathit{Decision} & ::= & \permit \Sep \deny \Sep \notApp \Sep \indet
+\\[.2cm]
+{\textbf{Fulfilled obligations}} &
+\mathit{FObligation} & ::= &  [ \, \mathit{ObType} \ \ \obl{\mathit{Value}} \, ]\\[.1cm]
+
+\end{array}
+$
+\label{tab:facpl_context_syntax}
+\end{table}

@@ -3,7 +3,7 @@
 \section{Controllo degli accessi}
 \label{sec:Controllo degli accessi}
 La protezione dei dati ha determinato la necessità di creare strumenti per il controllo degli accessi che potevano eliminare
-,o almeno limitare, i rischi derivati dalla perdita delle informazioni.\\
+,o almeno limitare, i rischi derivati dalla perdita delle informazioni.\par
 Nel corso del tempo si sono sviluppati alcuni modelli per i sistemi del controllo degli accessi. A seconda delle necessità
 sono stati adottati numerosi tipi di tecnologie\cite{NISTACM}. Nelle sezioni successive se ne presentano alcune.
 \subsection{Access Control List}
@@ -36,7 +36,7 @@ Policy Based Access Control riorganizza il modello ABAC per semplificare la gest
 Il sistema si basa su \emph{politiche} che non sono altro che insiemi di \emph{regole}. A ogni regola è associato un attributo
 che l'utente deve avere e ogni politica valuta tutte le regole nel suo insieme per creare la risposta sull'autorizzazione. Anche
 le politiche possono essere messe insieme per creare gruppi di politiche, in questo modo il sistema diventa scalabile e di
-più facile utilizzo.\\
+più facile utilizzo.\par
 Per costruire un sistema di controllo degli accessi basato sul modello PBAC è necessario l'utilizzo di
 un linguaggio adatto allo scopo. L'organizzazione OASIS (Organization for the Advancement of
  Structured Information Standards) ha creato il linguaggio eXtensible Access
@@ -45,32 +45,32 @@ Control Markup Language (XACML) che è diventato lo standard per lo sviluppo di 
 \label{sec:Usage Control}
 Dopo quaranta anni di studi sul controllo degli accessi i modelli sviluppati si sono consolidati e sono largamente utilizzati
 su sistemi operativi o applicazioni. Tuttavia la complessità e la varietà degli ambienti informatici moderni va oltre i limiti
-dei modelli creati.\\
-Il termine Usage Control (UCON) è stato ripreso da Jaehong Park e Ravi Sandhu per creare il modello $UCON_{ABC}$\cite{ucon},
+dei modelli creati.\par
+Il termine Usage Control (UCON) è stato ripreso da Jaehong Park e Ravi Sandhu per creare il modello UCON\textsubscript{ABC}\cite{ucon},
 questo è una generalizzazione dell'Access Control che include obbligazioni, condizioni sull'utilizzo,
 controlli continuativi e mutabilità. Comprende e migliora i modelli di controllo di accesso tradizionali, quali Trust
 Management (TM) e Digital Rights Management (DRM) aggiungendo la gestione di attributi variabili e la continuità nella valutazione
-delle decisioni per l'accesso. Il modello $UCON_{ABC}$ estende i controlli sull'accesso tradizionali ed è composto da otto componenti fondamentali.
-Queste sono subjects,subject attributes, objects,objects attributes, rights, authorizations, obligations e conditions.\\
+delle decisioni per l'accesso. Il modello UCON\textsubscript{ABC} estende i controlli sull'accesso tradizionali ed è composto da otto componenti fondamentali.
+Queste sono subjects,subject attributes, objects,objects attributes, rights, authorizations, obligations e conditions.\par
 \MyFigure{img/ucon.png}{UCON}{1.1}
 I Subjects sono entità a cui si associano degli attributi e hanno o esercitano Rights sugli Objects. Possiamo per semplicità
-associare i Subjects ad un singolo individuo umano.\\
+associare i Subjects ad un singolo individuo umano.\par
 Gli Objects sono insiemi di entità su cui i Subjects possono avere dei Rights, questi possono essere usati o vi si può
-fare accesso. Possono essere associati ad esempio a un libro , o a una qualsiasi risorsa.\\
-I Rights sono i privilegi che i Subjects hanno o esercitano sugli Objects.\\
+fare accesso. Possono essere associati ad esempio a un libro , o a una qualsiasi risorsa.\par
+I Rights sono i privilegi che i Subjects hanno o esercitano sugli Objects.\par
 I tre fattori Authorizations, oBligations e Conditions(da cui prende anche il
 nome il modello) sono predicati funzionali che devono essere valutati per le decisioni sull'uso.
 I tradizionali Access Controls utilizzano solo le Authorizations per il processo di decisione, Obligations e Conditions
-sono i nuovi componenti che entrano a far parte della valutazione.\\
+sono i nuovi componenti che entrano a far parte della valutazione.\par
 Le Authorizations devono valutare la decisione sull'uso. Queste danno un responso positivo
-o negativo a seconda che la domanda di un Subject sia accettata o meno.\\
-Le Obligation verificano i requisiti obbligatori che un Subject deve eseguire prima o durante l'utilizzo di una risorsa.\\
-Infine le Condition restituiscono true o false in base alle variabili dell'ambiente o allo stato del sistema.\\
+o negativo a seconda che la domanda di un Subject sia accettata o meno.\par
+Le Obligation verificano i requisiti obbligatori che un Subject deve eseguire prima o durante l'utilizzo di una risorsa.\par
+Infine le Condition restituiscono true o false in base alle variabili dell'ambiente o allo stato del sistema.\par
 Il processo di decisione è diviso in tre fasi\cite{SurveyUsageControl}:Before usage(pre), Ongoing usage(on) e After usage.
 \MyFigure{img/uconFase.png}{Fasi del processo di decisione}{1}
 La valutazione della prima parte inizia da una richiesta e non ha differenze con il processo valutativo dell'Accesso Control.
 Nella seconda invece si utilizzano i nuovi predicati introdotti ed è in questa parte che si affermano i controlli continuativi,
-le obbligazioni e le condizioni sull'utilizzo.\\
+le obbligazioni e le condizioni sull'utilizzo.\par
 L'ultima parte varia in base agli eventi delle fasi precedenti. Ad esempio se il Subject che ha richiesto un accesso ha violato
 una policy oltre al non aver ricevuto l'autorizzazione potrebbe anche essere ammonito e il sistema potrebbe non accettare più
 nessuna sua richiesta.

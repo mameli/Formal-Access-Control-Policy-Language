@@ -1,4 +1,4 @@
-\chapter{Access Control e Usage Control}
+\myChapter{Access Control e Usage Control}
 \label{chap:Access Control e Usage Control}
 \section{Controllo degli accessi}
 \label{sec:Controllo degli accessi}
@@ -42,7 +42,7 @@ un linguaggio adatto allo scopo. L'organizzazione OASIS (Organization for the Ad
  Structured Information Standards) ha creato il linguaggio eXtensible Access
 Control Markup Language (XACML) che è diventato lo standard per lo sviluppo di un sistema costruito sul modello PBAC.
 \section{Usage Control}
-\label{sec:Usage Control}
+\label{sec:Usage_Control}
 Dopo quaranta anni di studi sul controllo degli accessi i modelli sviluppati si sono consolidati e sono largamente utilizzati
 su sistemi operativi o applicazioni. Tuttavia la complessità e la varietà degli ambienti informatici moderni va oltre i limiti
 dei modelli creati.\par
@@ -75,5 +75,21 @@ L'ultima parte varia in base agli eventi delle fasi precedenti. Ad esempio se il
 una policy oltre al non aver ricevuto l'autorizzazione potrebbe anche essere ammonito e il sistema potrebbe non accettare più
 nessuna sua richiesta.
 
-\subsubsection{Esempi di Usage Control}
-\label{subs:Esempi}
+\subsection{Esempi di Usage Control}
+\label{subs:es_UC}
+Si propongono adesso due esempio in cui si utilizza lo Usage Control
+\subsubsection*{Accessi in lettura e scrittura di file}
+\label{subs:Accessi in lettura e scrittura di file}
+In un sistema ci sono alcuni file e gli utenti sono divisi in gruppi, si suppone inoltre che le richieste di lettura
+siano più comuni rispetto a quelle di scrittura.\par Tutti possono leggere i file, ma solo
+gli utenti nel gruppo degli amministratori possono modificare un elemento. Se uno degli amministratori sta scrivendo
+su un file, nessuno può leggerlo o apportare modifiche nello stesso momento. Una volta finita la scrittua si potrà sbloccare
+il file e renderlo di nuovo disponibile a tutti.\par
+Letture ripetute, su uno stesso insieme di file, vengono gestite in modo efficiente.
+\subsubsection{Servizio di streaming}
+\label{subs:Servizio di streaming}
+In un sistema gli utenti, dopo aver fatto il login, possono fare una richiesta di ascolto di un brano. I clienti
+sono divisi in due tipologie. Chi effettua il login come utente premium può fare richieste di ascolto senza nessuna restrizione.
+I clienti stardard hanno invece un tempo limite e una volta esaurito devono ascoltare la pubblità prima di poter fare
+un'altra richiestad di ascolto\par
+In questo caso si assumono le richieste di ascolto più numerose rispetto ai login o ai logout.

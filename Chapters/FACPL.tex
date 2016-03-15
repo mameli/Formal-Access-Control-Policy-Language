@@ -1,4 +1,4 @@
-\chapter{Formal Access Control Policy Language }
+\myChapter{Formal Access Control Policy Language }
 \label{chap:Formal Access Control Policy Language}
 Il linguaggio FACPL (fakpol) è stato creato come alternativa a XACML. Come accennato nel capitolo precedente,
 l'organizzazione OASIS ha ideato il linguaggio XACML per sviluppare sistemi basati sul modello PBAC.\par
@@ -55,7 +55,7 @@ Il PEP è definito con un \emph{enforcing algorithm} che sarà applicato per sta
 passare al processo di \emph{enforcement}.\par
 Il PDP è definito come una sequenza di \emph{Policy}\textsuperscript{+} e da un algoritmo \emph{Alg} per combinare i
 risultati delle valutazione delle policy.\par
-\input{Chapters/Facpl_Syntax}{\label{Sintassi di FACPL}}
+\input{extraTex/Facpl_Syntax}{\label{Sintassi di FACPL}}
 Una \ePolicy può essere una \eRule semplice oppure un \ePolicySet cioè un insieme di rule o altri
 policy set. In questo modo si possono creare regole singole, ma anche gerarchie di regole.\par
 Un \ePolicySet è definito da un \etarget che indica l'insieme di richieste di accesso al quale la policy
@@ -82,11 +82,10 @@ La valutazione in due passi descritta in \ref{sec:Il processo di valutazione} pr
 La prima nel caso in cui la decisione sia permit o deny si associa a una sequenza (anche vuota) di fulfilled obligations.\par
 Una \emph{Fulfilled Obligation} è una coppia formata da un tipo e da un'azione con i rispettivi argomenti risultato della
 valutazione del PDP.
-\input{Chapters/Facpl_Syntax2}
+\input{extraTex/Facpl_Syntax2}
 
-
-\section{Semantica }
-\label{sec:Semantica }
+\section{Semantica}
+\label{sec:sem_fpl}
 Si presenta adesso informalmente il processo di autorizzazione del PDP e poi quello di enforcement del PEP.\par
 Quando il PDP riceve una richiesta di accesso, valuta la richiesta in base alle \epolicy disponibili poi determina
 il risultato unendo le decisioni restituite dalle policy con l'utilizzo dei \emph{combining algorithm}.\par
@@ -154,9 +153,9 @@ Si nota infine che gli errori causati da obbligazioni opzionali sono ignorati.
 Ora si propone un semplice esempio di politica in FACPL. Due utenti possono interagire con il sistema attraverso delle richieste.
 John può scrivere sulla risorsa "file.txt", ma non vi è specificata nessuna regola per la lettura. Invece Tom può
 leggere il "file.txt", ma non può scriverci.\par
-\lstinputlisting[language = FACPL, caption = {Esempio di politica in FACPL}\label{lst:facpl_es_Pol}]{./code/esempioFacpl}
+\lstinputlisting[language = FACPL, caption = {Esempio di politica in FACPL}\label{lst:facpl_es_Pol}]{./code/cap3/esempioFacpl}
 Ci sono 4 richieste. Entrambi gli utenti richiedono sia l'azione di "WRITE" che l'azione di "READ".
-\lstinputlisting[language = FACPL, caption = {Esempio di richieste in FACPL}\label{lst:facpl_es_Req}]{./code/esempioRichiesteFacpl}
+\lstinputlisting[language = FACPL, caption = {Esempio di richieste in FACPL}\label{lst:facpl_es_Req}]{./code/cap3/esempioRichiesteFacpl}
 L'output dopo l'esecuzione sarà il seguente:
 \begin{verbatim}
   Request: Request1
@@ -185,3 +184,7 @@ La richiesta di lettuta di Tom invece viene accettata, mentre la sua ultima rich
 perché è bloccata alla \emph{rule} writeRuleT.\par
 Da questo esempio si può vedere la semplicità con cui si possono scrivere le policy e le richieste.
 Le stesse politiche scritte in XML oltre a risultare prolisse a confronto, sono difficili da comprendere o analizzare.\par
+Infine si fa notare che in questa versione, le richieste in ingresso sono completamente indipendenti tra loro e
+la parte dello Usage Control descritta in \ref{sec:Usage_Control}, in cui si enfatizza l'uso di controlli continuativi e
+la gestione di contesti mutabili, non è ancora implementata. Nel capitolo successivo si mostra la nuova struttura per
+per uno sviluppo basato proprio sullo Usage Control.

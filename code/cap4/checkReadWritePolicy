@@ -1,0 +1,47 @@
+PolicySet ReadWrite_Policy { deny-unless-permit
+  target: in ( name / id , set ("Alice", "Bob"))
+  policies:
+
+  PolicySet Write_Policy { deny-unless-permit
+    target:equal ("write", action/id)
+    policies:
+      Rule write ( permit target:
+        equal ( group / id, "Administrator") &&
+        equal ( file / id, "thesis.tex") &&
+        equal ( status / isWritingThesis , false )  &&
+        )
+    obl:
+    [ permit M flagStatus(isWritingThesis, true) ]
+  }
+  PolicySet Read_Policy { deny-unless-permit
+    target: in ( file/id) , set ("thesis.tex" , "facpl.pdf"))
+    policies:
+      Rule read ( permit target:
+        equal ("read", action/id) &&
+        equal ( status / isWritingThesis , false )
+        )
+    obl:
+    [ permit M equal ("read",action/id) , equal ( status / isWritingThesis , false ) ]
+  }
+  PolicySet StopWrite_Policy { deny-unless-permit
+    target: equal ("stopWrite", action/id)
+    policies:
+      Rule stopWrite ( permit target:
+        equal("thesis.tex", file/id) &&
+        equal ( status / isWritingThesis , true ) &&
+        equal("Administrator", group/id) &&
+        )
+    obl:
+    [ permit M flagStatus(isWritingThesis, false) ]
+  }
+}
+PAS {
+  Combined Decision : false ;
+  Extended Indeterminate : false ;
+  Java Package : "exampleReadWrite" ;
+  Requests To Evaluate : Request1, Request2, Request3, Request4, Request5, Request6 , Request7, Request8, Request9, Request10, Request11
+  pep: deny-biased
+  pdp: deny-unless-permit
+  status: [(boolean isWritingThesis = false) ]
+  include exampleReadWrite
+}

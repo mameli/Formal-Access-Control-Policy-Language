@@ -46,7 +46,7 @@
 \usepackage{scrextend}
 \addtokomafont{labelinglabel}{\sffamily}
 %--------------------------------------------------------------
-\usepackage{dia-classicthesis-ldpkg}
+\usepackage{pkg/dia-classicthesis-ldpkg}
 %--------------------------------------------------------------
 % Options for classicthesis.sty:
 % tocaligned eulerchapternumbers drafting linedheaders
@@ -98,7 +98,7 @@ parts]{classicthesis}
 \newcommand{\etrue}{\texttt{true}}
 \newcommand{\eand}{\emph{and }}
 \newcommand{\eor}{\emph{or }}
-\input{Chapters/macro}
+\input{extraTex/macro}
 
 \definecolor{eclipsePurple}{RGB}{127,0,85}
 \definecolor{dkgreen}{rgb}{0,.6,0}
@@ -203,8 +203,7 @@ parts]{classicthesis}
 \include{Chapters/UsageControl}
 \include{Chapters/FACPL}
 \include{Chapters/Estensione}
-\include{Chapters/Esempi}
-\include{Chapters/Strumenti_FACPL}
+\include{Chapters/Libreria}
 \include{Chapters/Conclusioni}
 \include{Chapters/bibliografia}
 %--------------------------------------------------------------

@@ -18,3 +18,13 @@ PolicySet filePolicy { permit-overrides
 		[ deny M log_deny (subject / id )]
 		[ permit M log_permit (subject / id)]
 }
+
+PAS {
+  Combined Decision : false ;
+  Extended Indeterminate : false ;
+  Java Package : "filePolicy" ;
+  Requests To Evaluate : Request1, Request2, Request3, Request4
+  pep: deny-biased
+  pdp: deny-unless-permit
+  include filePolicy
+}

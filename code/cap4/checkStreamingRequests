@@ -3,22 +3,22 @@ Request:{ Request1
 	(action / id, "listen")
 }
 Request:{ Request2
+	(name / id , "Bob")
+	(action / id, "listen")
+}
+Request:{ Request3
 	(name / id , "Alice")
 	(action / id, "login")
 	(password / id, "123456")
 }
-Request:{ Request3
-	(name / id , "Alice")
-	(action / id, "listen")
-}
 Request:{ Request4
-	(name / id , "Bob")
-	(action / id, "listen")
-}
-Request:{ Request5
 	(name / id , "Bob")
 	(action / id, "login")
 	(password / id, "abcdef")
+}
+Request:{ Request5
+	(name / id , "Alice")
+	(action / id, "listen")
 }
 Request:{ Request6
 	(name / id , "Bob")

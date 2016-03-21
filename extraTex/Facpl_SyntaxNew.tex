@@ -38,7 +38,7 @@ $
 \mathit{Policy} & ::= &
 \ruleOpt{\mathit{Effect}\ \ \x{target:} \, Expr\ \ \x{obl:} \, \mathit{Obligation}^{*} \, } \\
 && \mid &
-\{ \algNT\ \ \x{target:} \, Expr\ \ \\
+\{ \algNT\ \ \x{target:} \, \mathit{Expr}\ \ \\
 &&  &
 \x{policies:} \, \mathit{Policy}^{+}  \ \ \x{obl:} \, \mathit{Obligation}^{*} \, \}
 \\[.2cm]
@@ -47,17 +47,17 @@ $
 \\[.2cm]
 {\textbf{Obligations}} &
 \mathit{Obligation} & ::= & [ \, \mathit{Effect} \ \ \mathit{ObType} \ \ \obl{Expr} \, ]\\
-&& & \Sep [ \, \mathit{Effect} \ \ \mathit{ObType} \ \ \mathit{(Expr)}^* \ \ \mathit{CheckValue}^?\, ]\\
-\\[.2cm]
+&& & \Sep [ \, \mathit{Effect} \ \ \x{env:} \, \mathit{Expr}\ \  \x{status:}\mathit{Expr} \ \ \x{exp:}\mathit{Value}^?\, ]\\
+[.2cm]
 {\textbf{PepAction}} & \mathit{PepAction} & ::= & \, \x{add(\mathit{Attribute}, int)} \Sep \x{flag(\mathit{Attribute}, boolean)} \\
 && & \Sep \x{sumDate(\mathit{Attribute}, date)} \Sep \x{div(\mathit{Attribute}, int)} \\
 && & \Sep \x{add(\mathit{Attribute}, float)} \ \Sep \x{mul(\mathit{Attribute}, float)} \\
 %&& & \Sep \x{mul(\mathit{Attribute}, int)} \ \Sep \x{div(\mathit{Attribute}, float)} \\
 %&& & \Sep \x{sub(\mathit{Attribute}, int)} \ \Sep \x{sub(\mathit{Attribute}, float)} \\
-&& & \Sep \x{sumString(\mathit{Attribute}, string)} \\
-&& & \Sep \x{setValue(\mathit{Attribute}, string)}\\
+%&& & \Sep \x{sumString(\mathit{Attribute}, string)} \\
+%&& & \Sep \x{setValue(\mathit{Attribute}, string)}\\
 && & \Sep \x{setDate(\mathit{Attribute}, date)}\\
-\\[.1cm]
+[.1cm]
 {\textbf{Obligation Types}} &
 \mathit{ObType} & ::= & M \Sep O
 \\[.2cm]
@@ -70,13 +70,10 @@ $
 & & \mid & \x{greater}\textrm{-}\x{than(\mathit{Expr},\mathit{Expr})} \Sep \x{add(\mathit{Expr} ,\mathit{Expr} )}\\
 & & \mid & \x{subtract(\mathit{Expr} ,\mathit{Expr} )} \Sep \x{divide(\mathit{Expr} ,\mathit{Expr} )}\\
 & & \mid & \x{multiply(\mathit{Expr} ,\mathit{Expr} )}  \Sep \x{less}\textrm{-}\x{than(\mathit{Expr}, \mathit{Expr})}\\
-\\[.2cm]
+[.2cm]
 %
 \textbf{Attribute Names} &
 \mathit{Name} & ::= & \mathit{Identifier}/\mathit{Identifier} \ | \ \mathit{Status}/\mathit{Identifier}\\[.1cm]
-%
-\textbf{Check Values} &
-\mathit{cValue} & ::= & \mathit{Int} \mid \mathit{StringDate}\\[.1cm]
 %
 \textbf{Literal Values} &
 \mathit{Value} & ::= & \x{true} \mid \x{false} \mid \mathit{Double} \mid \mathit{String} \mid \mathit{Date}

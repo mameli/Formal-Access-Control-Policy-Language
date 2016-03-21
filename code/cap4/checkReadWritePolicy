@@ -8,20 +8,21 @@ PolicySet ReadWrite_Policy { deny-unless-permit
       Rule write ( permit target:
         equal ( group / id, "Administrator") &&
         equal ( file / id, "thesis.tex") &&
-        equal ( status / isWritingThesis , false )  &&
+        equal ( status / isWritingThesis , false )
         )
     obl:
     [ permit M flagStatus(isWritingThesis, true) ]
   }
   PolicySet Read_Policy { deny-unless-permit
-    target: in ( file/id) , set ("thesis.tex" , "facpl.pdf"))
+    target: equal ("read", action/id)
     policies:
       Rule read ( permit target:
-        equal ("read", action/id) &&
-        equal ( status / isWritingThesis , false )
+        in ( file/id , set ("thesis.tex" , "facpl.pdf")) &&
+        equal ( status / isWritingThesis , false ) &&
+        equal ( status / isWritingFacpl , false )
         )
     obl:
-    [ permit M equal ("read",action/id) , equal ( status / isWritingThesis , false ) ]
+    [ permit M equal ("read",action/id) , in ( file/id , set ("thesis.tex" , "facpl.pdf")) ]
   }
   PolicySet StopWrite_Policy { deny-unless-permit
     target: equal ("stopWrite", action/id)
@@ -42,6 +43,6 @@ PAS {
   Requests To Evaluate : Request1, Request2, Request3, Request4, Request5, Request6 , Request7, Request8, Request9, Request10, Request11
   pep: deny-biased
   pdp: deny-unless-permit
-  status: [(boolean isWritingThesis = false) ]
+  status: [(boolean isWritingThesis = false),(boolean isWritingFacpl = false) ]
   include exampleReadWrite
 }

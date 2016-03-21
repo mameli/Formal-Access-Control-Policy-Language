@@ -5,16 +5,5 @@ Policy readPolicy < permit-overrides
       permit target: equal(status/isWriting, false))
     obl:
       [permit M flag(status/isReading, true)],
-      [permit M (equal("read", action/id)) , (equal("contabilita.xlsx", resource/id))]
+      [permit (equal("read", action/id)) , (equal("contabilita.xlsx", resource/id))]
 >
-
-PAS {
-  Combined Decision : false ;
-  Extended Indeterminate : false ;
-  Java Package : "readPolicy" ;
-  Requests To Evaluate : Request_example ;
-  pep: deny-biased
-  pdp: deny-unless-permit
-  status: [(boolean isWriting = false), (boolean isReading = false)]
-  include readPolicy
-}

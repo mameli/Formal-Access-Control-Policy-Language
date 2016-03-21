@@ -1,17 +1,195 @@
 \myChapter{Estensione della libreria FACPL}
 \label{chap:Estensione della libreria FACPL}
-FACPL è basato su Java. Per implementare le nuove funzioni sono state aggiunte varie classi e sono state modificate
-alcune parti per adattare il comportamento della libreria ai nuovi componenti e alle nuove strutture.\par
+La librearia \ac{FACPL} è basata su Java. Per implementare le nuove funzioni sono state aggiunte varie classi e sono state modificate
+alcune parti per adattare il comportamento ai nuovi componenti e alle nuove strutture.\par
 Nelle sezioni successive si descriveranno gli aspetti più rilevanti del codice. L'intera libreria si può trovare su
 GitHub all'indirizzo
-\center \url{https://github.com/andreamargheri/FACPL}
-\\\par
-Lo sviluppo dell'estensione si può dividere in due passi principali.\par
-La prima parte consiste nel creare una classe PEP che può gestire le richieste e adattare il processo di valutazione.
-La seconda parte invece comprende l'implementazione di una gerarchia di \emph{Obbligations} che possono essere
-sfruttate dal PEP per la nuova gestione delle richieste.
+\begin{center}
+  \url{https://github.com/andreamargheri/FACPL}
+\end{center}
+Lo sviluppo dell'estensione si può dividere in due passi principali.
+La prima parte(\ref{sec:PEPCheck}) consiste nel creare una classe \ac{PEP} che può gestire le richieste e adattare il processo di valutazione.
+La seconda parte(\ref{sec:Le Obligations Check} e \ref{sec:FulfilledObligationCheck})
+invece comprende l'implementazione di una gerarchia di \emph{Obbligations} che possono essere
+sfruttate dal \ac{PEP} per la nuova gestione delle \emph{request}. \par
+Nella sezione(\ref{sec:Esempi in Java}) si descrive le classi java associate ai file \ac{FACPL}
+dell'esempio in \ref{sub:Stream_Code_Sec}, inoltre si mostrano i miglioramenti
+prestazionali utilizzando il caso sviluppato in \ref{sub:RW_Code_Sec}.
 \section{La classe PEPCheck}
 \label{sec:PEPCheck}
+Il normale flusso del processo valutativo passa prima dal \ac{PEP}. Questo riceve la richiesta e poi la manda al
+PDP affinchè possa valutarla. Infine la risposta del PDP è passata al \ac{PEP} che controlla le obbligazioni e
+elabora la decisione conclusiva.
+Il processo di valutazione ridotto invece avviene interamente nel \ac{PEP} che usa solo il \emph{Context Handler}
+per ricavare gli attributi dell'ambiente e dello stato.
 
-\section{Le Obbligations Check}
-\label{sec:Le Obbligations Check}
+Avendo bisogno di entrambe le modalità di valutazione, una per avere la decisione completa e l'altra per eliminare la
+ridondanza di verifiche da parte del \ac{PDP} su richieste ripetute,
+la soluzione più appropriata è stata quella di creare un monitor
+in cui si potesse valutare l'esigenza d'uso di uno o dell'alto flusso valutativo.
+
+La classe PEPCheck è il monitor che esegue i controlli per determinare la gestione più adatta al contesto.
+Questa estende la classe \ac{PEP} e contiente come campo privato il \ac{PDP} e la sua autorizzazione.
+\myIjava{PEPCheck.java}{Costruttore}{22}{34}{PEPCostruttore}
+L'elemento che contraddistingue di più la nuova classe dal precedente \ac{PEP} è la lista di
+\emph{AbstractFulfilledObligationCheck} che è usata nel metodo \emph{doAuthorisation}
+per prendere la decisione sul flusso valutativo. I casi da controllare sono tre:
+\begin{description}
+
+  \item[\normalfont\bfseries{\MakeUppercase{N}on ci sono \emph{Obligation Check} in lista}]
+  {
+  \hfill \\
+  Non si apporta nessun cambiamento al normale flusso del processo valutativo.
+  Si invia la richiesta al PDP che poi la passa la sua decisione al PEP.
+  Il codice successivo mostra la condizione che rende possibile il paradigma.
+  \myIjava{PEPCheck.java}{Processo senza obligation check}{51}{57}{PEPNoCheck}
+  }
+
+  \item[\normalfont\bfseries{\MakeUppercase{N}ella lista c'è almeno una \emph{Obligation Check}}]
+  {
+  \hfill \\
+  Il sistema valuta le \emph{Expression} associate alle obbligazioni con il metodo
+  \emph{doPEPCheck}(vedi \ref{sec:Il processo di valutazione}
+  per la struttura). Nel caso in cui la decisione sia \texttt{PERMIT} oppure \texttt{DENY},
+  il risultato viene subito restituito senza i controlli del PDP.
+  \myIjava{PEPCheck.java}{Processo con obligation check}{59}{67}{PEPCheck}
+  }
+
+  \item[\normalfont\bfseries{\MakeUppercase{I}l controllo sulla lista restituisce error/NOT\_APPLICABLE}]
+  {
+  \hfill \\
+  Se la decisione non ricade nei casi precedenti,
+  si è verificato un errore nella valutazione delle espressioni. Se ci sono problemi nei controlli, il PEPCheck, prima di
+  inviare la risposta, esegue una valutazione completa facendo il \emph{doAuthorisation} sul \ac{PDP} e \emph{doEnforcement}.
+  \myIjava{PEPCheck.java}{error/NOT\_APPLICABLE durante il processo}{66}{77}{PEPError}
+  }
+
+\end{description}
+
+Il \emph{doEnforcement} nel codice \ref{lst:PEPError} del PEPCheck richiama il metodo implementato in \ac{PEP}.
+Nella linea \texttt{super.doEnforcement(authPDP, cxtReq);} come si mostra di seguito.
+\myIjava{PEPCheck.java}{Invocazione metodo doEnforcement su PEP}{82}{93}{PEPenforce}
+Se la decisione non è \texttt{PERMIT} viene restituita subito la risposta negativa sull'autorizzazione e si conclude la valutazione.
+Se invece la decisione è positiva si esegue un controllo sulle \emph{FulfilledObligations} e
+nel caso in cui queste siano FulfilledObligationCheck oppure FulfilledObligationTimeCheck,
+sono aggiunte alla lista di AbstractFulfilledObligationCheck di PEPCheck. Solo dopo l'inserimento delle obbligazioni
+si restituisce la decisione ricavata.
+\myIjava{PEPCheck.java}{Aggiunta delle FulfilledObligationCheck}{95}{124}{PEPAddCheck}
+
+La lista modificata in \ref{lst:PEPAddCheck} è utilizzata nel metodo \emph{doPEPCheck}(nel listato \ref{lst:PEPdoPEP})
+per eseguire la valutazione di ogni singola obligation check senza passare dal \ac{PDP}.
+Questo metodo controlla che i valori siano corretti confrontandoli con gli attributi del contesto. Se non ci
+sono errori e le espressioni hanno superato i controlli, si ritiene la richiesta verificata
+utilizzando il processo di valutazione ridotto.
+\myIjava{PEPCheck.java}{Valutazione FulfilledObligationCheck}{130}{153}{PEPdoPEP}
+
+Nella sezione successiva \ref{sec:Le Obligations Check} si descrive le Obligations utilizzate
+nel metodo \emph{doPEPCheck} listato in \ref{lst:PEPdoPEP}.
+
+\section{Le Obligations Check}
+\label{sec:Le Obligations Check}
+La libreria è stata estesa con le \emph{Obbligations Check} perché c'era bisogno di obbligazioni che avessero solo
+\emph{Expressions} da verificare senza avere nella struttura le pepAction.
+La \emph{Obbligation Check} è una classe che estende la preesistente \emph{AbstractObligation}.
+Nel codice \ref{lst:OBLConstr} si mostra che la classe ha come campi due alberi di espressioni booleane, che possono
+a loro volta contenere altre \emph{expressions}, due classi per indicare la scadenza e una variabile che determina
+il tipo di obligation check.
+\myIjava{ObligationCheck.java}{Costruttore e campi}{12}{31}{OBLConstr}
+La scadenza, come già detto in \ref{sub:Semantica_Ext}, può essere di tre tipi: persistente,
+limitata temporalmente oppure limitata dal numero di richieste gestite. I tipi sono indicati con "P" per le obbligation Persistenti,
+"T" per le Temporali e "N" per quelle Numeriche come si mostra nell'\texttt{enum} in \ref{lst:OBLType}.
+\myIjava{CheckObligationType.java}{Enum delle Obligations}{1}{5}{OBLType}
+Per ogni obbligazione ci sono quattro struttori in modo tale da poter creare l'oggetto per ogni combinazione di \emph{Expressions}
+in input. In \ref{lst:OBLConstrT} si mostra un construttore per le Obligation Temporali che prende in input due ExpressionBooleanTree,
+la scadenza determinata da \emph{FacplDate expiration} e l'effetto (che può essere \texttt{PERMIT} oppure \texttt{DENY}).
+\myIjava{ObligationCheck.java}{Costruttore Obligation Temporale}{127}{133}{OBLConstrT}
+Il metodo \emph{init} in \ref{lst:OBLInit}, presente in tutti i costruttori, inizializza i campi della classe a seconda del tipo di scadenza data
+in input. Se la scadenza non è presenste si utilizza il metodo init per creare le obbligazioni di tipo Persistente.
+\myIjava{ObligationCheck.java}{init}{59}{74}{OBLInit}
+
+In \emph{createObligation} in \ref{lst:OBLFul} si utilizzano i campi assegnati dai costruttori
+e da init per la creazione delle \emph{FulfilledObligationCheck}
+che sono descritte più approfonditamente in \ref{sec:FulfilledObligationCheck}.
+\myIjava{ObligationCheck.java}{Creazione di FulfilledObligationCheck}{153}{168}{OBLFul}
+
+\section{Fulfilled Obligation Check}
+\label{sec:FulfilledObligationCheck}
+Le \emph{Fulfilled Obligation Check} sono una gerarchia di classi che è stata aggiunta
+come estensione alla \emph{AbstractFulfilledObligation} già presente nella libreria.
+Ogni tipo di Obligation check ha una Fulfilled Obligation Check associata. Quindi sono state create
+tre tipi di Fulfilled:
+\begin{enumerate}
+  \item FulfilledObligationNumCheck
+  \item FulfilledObligationCheckPersistent
+  \item FulfilledObligationTimeCheck
+\end{enumerate}
+Le tre \emph{Fulfilled Obligation Check} sono molto simili
+tra loro e l'unica differenza è la loro gestione della scadenza.
+
+\myIjava{FulfilledObligationCheck.java}{FulfilledObligationCheck N}{58}{66}{FULn}
+Quando si crea una Fulfilled Obligation con una scadenza determinata da un numero intero, si utilizza
+la \emph{FulfilledObligationNumCheck}. In \ref{lst:FULn} si mostra il costruttore di questo tipo di
+FulfilledObligation nel caso in cui la prima espressione sia una \emph{ExpressionFunction}, la seconda
+una \emph{ExpressionBooleanTree} e la scadenza sia, ovviamente, un intero.
+
+In \ref{lst:FULnGet} si mostra il funzionamento di \emph{GetObligationResult}.
+Questo metodo ha il compito, sia di verificare il valore di
+verità delle espressioni associate, sia di gestire il valore di \emph{expiration}.
+\begin{description}
+  \item[\normalfont\bfseries{\MakeUppercase{E}xpiration valido}]
+  {
+  \hfill \\
+  Se l'intero che identifica la scadenza è maggiore di zero,
+  si possono valutare le \emph{Expressions} e richiamare il metodo \emph{subExpiration}(listato \ref{lst:FULnSub})
+  per aggiornare il valore.
+  \myIjava{FulfilledObligationCheck.java}{Condizione di expiration valido}{94}{100}{FULeV}
+  }
+  \item[\normalfont\bfseries{\MakeUppercase{E}xpiration scaduta}]
+  {
+  \hfill \\
+  Se si raggiunge la scadenza(in questo caso quando expiration è zero), le expressions non sono valutate
+  e si assegna direttamente il valore \texttt{ERROR}.
+  \myIjava{FulfilledObligationCheck.java}{Condizione di expiration scaduta}{101}{105}{FULeS}
+  }
+\end{description}
+In \ref{lst:FULeV} si richiama \emph{subExpiration}. Il metodo è utilizzato per aggiornare il
+valore della scadenza. Come si vede nel listato \ref{lst:FULnSub} se il valore è -1 non si modifica expiration
+(spiegherà il motivo in seguito nel paragrafo delle FulfilledObligationCheckPersistent).
+Negli altri casi si sottrae una unità a \emph{expiration} e
+se si raggiunge il valore zero, si assegna al campo hasExpired \texttt{true}.
+\myIjava{FulfilledObligationCheck.java}{subExpiration}{147}{159}{FULnSub}
+
+La Fulfilled persistente estende la classe FulfilledObligationNumCheck.
+Il costruttore richiama la classe superiore e inizializza la scadenza numerica con
+il valore speciale -1. Come si è mostrato in nel codice \ref{lst:FULnSub}, se \emph{expiration= -1}
+il metodo non modifica mai il valore. In questo modo in \emph{GetObligationResult} di
+FulfilledObligationNumCheck non si raggiungerà
+il limite, le funzioni non restituiranno mai il risultato \texttt{ExpressionValue.ERROR} associato
+ad un obbligazione scaduta e si valuteranno sempre le \emph{Expressions}.
+Nel codice \ref{lst:FULp} si mostra il costruttore per FulfilledObligationCheck di tipo "P".
+\myIjava{FulfilledObligationCheckPersistent.java}{FulfilledObligationCheck P}{8}{16}{FULp}
+
+Infine se la scadenza è di tipo \emph{FACPLDate} allora si utilizzerà le FulfilledObligationTimeCheck.
+Queste si comportano in modo analogo alle \emph{FulfilledObligationNumCheck}. La differenza che le contraddistingue è
+l'utilizzo dei metodi \emph{before} e \emph{after} per i controlli sulla scadenza.
+\myIjava{FulfilledObligationTimeCheck.java}{getObligationResult per le tipo T}{139}{156}{FULtGet}
+Inoltre al posto del metodo \emph{subExpiration} in \emph{GetObligationResult} si richiama \emph{checkExpiration}.
+La funzione è utilizzata in questo caso solo per richiamare il metodo di debug per mostrare
+la differenza tra il tempo relativo alla determinata richiesta e la scadenza. In \ref{lst:FULtCheck} si
+mostra come viene calcolato il divario tra la scadenza e il tempo.
+\myIjava{FulfilledObligationTimeCheck.java}{Time difference}{202}{205}{FULtCheck}
+
+\section{Esempio di servizio Streaming in Java}
+\label{sec:Esempio di servizio Streaming in Java}
+Si mostra adesso le classi in java relative all'esempio di servizio streaming descritto nel capitolo precedente.
+Gli elementi in questione sono lo status, le request, la policySet e il MAIN.
+StatusStreaming è solo una classe contenitore di FacplStatus.
+\myIjava{checkStreamingExample/StatusStreaming.java}{Status}{9}{32}{statusStr}
+Si può vedere che lo status viene creato una sola volta e sarà unico per tutte le richieste. Se non è inizializzato
+si creano gli attributi e si aggiungono al campo FacplStatus.
+\myIjava{checkStreamingExample/ContextRequest_ListenPremiumAlice.java}{Request}{10}{33}{requestStr}
+Nel codice \ref{lst:requestStr} si mostra la richiesta di ascolto di Alice e il recupero dello stato.
+
+Il codice seguente è relativo alla Policy di ascolto dell'utente standard Bob. Si fa notare la creazione di una
+FacplDate (new FacplDate("00:15:00")) di quindici minuti per assegnare la scadenza all'obligation check.
+\myIjava{checkStreamingExample/PolicySet_Streaming.java}{Policy Set}{169}{192}{policyStr}

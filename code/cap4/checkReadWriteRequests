@@ -3,65 +3,46 @@ Request:{ Request1
 	(action / id, "read")
 	(file / id, "thesis.tex")
 }
-
 Request:{ Request2
 	(name / id , "Bob")
 	(action / id, "read")
 	(file / id, "thesis.tex")
 }
-
 Request:{ Request3
 	(name / id , "Alice")
 	(action / id, "read")
 	(file / id, "facpl.pdf")
 }
 Request:{ Request4
-	(name / id , "Bob")
-	(action / id, "read")
+	(name / id , "Alice")
+	(group / id , "Administrator")
+	(action / id, "write")
 	(file / id, "thesis.tex")
 }
-
 Request:{ Request5
 	(name / id , "Bob")
 	(action / id, "read")
 	(file / id, "thesis.tex")
 }
-
 Request:{ Request6
-	(name / id , "Alice")
-	(group / id , "Administrator")
-	(action / id, "write")
-	(file / id, "thesis.tex")
-}
-
-Request:{ Request7
-	(name / id , "Bob")
-	(action / id, "read")
-	(file / id, "thesis.tex")
-}
-
-Request:{ Request8
 	(name / id , "Charlie")
 	(group / id , "Administrator")
 	(action / id, "write")
 	(file / id, "thesis.tex")
 }
-
-Request:{ Request9
+Request:{ Request7
 	(name / id , "Alice")
 	(group / id , "Administrator")
 	(action / id, "stopWrite")
 	(file / id, "thesis.tex")
 }
-
-Request:{ Request10
+Request:{ Request8
 	(name / id , "Bob")
 	(action / id, "read")
 	(file / id, "thesis.tex")
 }
-
-Request:{ Request11
-	(name / id , "Bob")
+Request:{ Request9
+	(name / id , "Alice")
 	(action / id, "read")
-	(file / id, "thesis.tex")
+	(file / id, "facpl.pdf")
 }

@@ -13,8 +13,9 @@
 \documentclass[twoside,openright,titlepage,fleqn,
 	headinclude,12pt,a4paper,BCOR5mm,footinclude]{scrbook}
 %--------------------------------------------------------------
-\newcommand{\myItalianTitle}{Estensione del linguaggio FACPL per esprimere politiche di gestione dell'utilizzo continuativo delle risorse di un sistema di calcolo\xspace}
-\newcommand{\myEnglishTitle}{Extension of language FACPL To use access control policies based on continuative use of resouces\xspace}
+\newcommand{\myItalianTitle}{Progetto e implementazione in FACPL di un monitor  a runtime per il supporto al controllo continuativo degli accessi}
+%\newcommand{\myItalianTitle}{Estensione del linguaggio FACPL per esprimere politiche di gestione dell'utilizzo continuativo delle risorse di un sistema di calcolo\xspace}
+\newcommand{\myEnglishTitle}{Devising a run-time monitor for continuative access controls with FACPL\xspace}
 % use the right myDegree option
 \newcommand{\myDegree}{Corso di Laurea in Informatica\xspace}
 %\newcommand{\myDegree}{
@@ -27,7 +28,7 @@
 \newcommand{\myFaculty}{Scuola di Scienze Matematiche, Fisiche e Naturali\xspace}
 \newcommand{\myUni}{\protect{Universit\`a degli Studi di Firenze}\xspace}
 \newcommand{\myLocation}{Firenze\xspace}
-\newcommand{\myTime}{Anno Accademico 2015-2016\xspace}
+\newcommand{\myTime}{Anno Accademico 2014-2015\xspace}
 \newcommand{\myVersion}{Version 0.1\xspace}
 %--------------------------------------------------------------
 \usepackage[italian]{babel}
@@ -44,6 +45,7 @@
 \usepackage{float}
 \usepackage{blindtext}
 \usepackage{scrextend}
+\usepackage{enumitem}
 \addtokomafont{labelinglabel}{\sffamily}
 %--------------------------------------------------------------
 \usepackage{pkg/dia-classicthesis-ldpkg}
@@ -64,6 +66,9 @@ parts]{classicthesis}
 % Comandi personali
 %--------------------------------------------------------------
 \usepackage{verbatimbox}
+\usepackage{listings}
+\usepackage{color}
+\definecolor{name}{rgb}{0.5,0.5,0.5}
 \newcommand{\MyFigure}[3]{
 	\begin{figure}[h]
 
@@ -147,6 +152,35 @@ parts]{classicthesis}
 	stringstyle=\color{blue}\ttfamily
 }
 %--------------------------------------------------------------
+% Java
+%--------------------------------------------------------------
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\lstdefinestyle{javigno}{
+	frame=tb,
+	language=Java,
+	aboveskip=3mm,
+	belowskip=3mm,
+	showstringspaces=false,
+	columns=flexible,
+	basicstyle={\small\ttfamily},
+	numbers=left,
+	numberstyle=\tiny\color{mygray},
+	numbersep=5pt,
+	stepnumber=2,
+	breaklines=true,
+	breakatwhitespace=true,
+	tabsize=3
+}
+
+\newcommand{\myIjava}[5]
+	{
+		\lstinputlisting[language = Java, style = javigno, firstline = #3, lastline = #4, caption = {#2}\label{lst:#5}]{./code/cap5/#1}
+	}
+\newcommand{\myjava}[2]
+	{
+		\lstinputlisting[language = Java, style = javigno, caption = {#2}\label{lst:#1}]{./code/cap5/#1}
+	}
+%--------------------------------------------------------------
 % Layout setting
 %--------------------------------------------------------------
 \usepackage{geometry}
@@ -205,6 +239,26 @@ parts]{classicthesis}
 \include{Chapters/Estensione}
 \include{Chapters/Libreria}
 \include{Chapters/Conclusioni}
+\section{Acronimi}
+\label{sec:Acronimi}
+\begin{acronym}[cap2]
+  \acro{ACL}{Access Control List}
+  \acro{RBAC}{Role Based Access Control}
+  \acro{ABAC}{Attribute Based Access Control}
+  \acro{PBAC}{Policy Based Access Control}
+  \acro{UCON}{Usage Control}
+  \acro{TM}{Trust Management}
+  \acro{DRM}{Digital Rights Management}
+	\acro{PAS}{Policy Authorization System}
+	\acro{PR}{Policy Repository}
+	\acro{PDP}[PDP]{Policy Decision Point}
+ 	\acro{PEP}[PEP]{Policy Enforcement Point}
+	\acro{OASIS}{Organization for the Advancement of Structured Information Standards}
+ 	\acro{XACML}[XACML]{eXtensible Access Control Markup Language}
+ 	\acro{XML}[XML]{eXtensible Markup Language}
+ 	\acro{FACPL}[FACPL]{Formal Access Control Policy Language}
+	\acro{EBNF}{Extended Backus-Naur form}
+\end{acronym}
 \include{Chapters/bibliografia}
 %--------------------------------------------------------------
 \end{document}

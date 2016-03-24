@@ -192,7 +192,6 @@ public class PolicySet_Streaming extends PolicySet{
 		}
 
 		private class Rule_ListenBob extends Rule {
-
 			Rule_ListenBob() {
 				addId("ListenBob_Rule");
 				// Effect

@@ -1,5 +1,24 @@
-\chapter{Conclusioni}
+\myChapter{Conclusioni}
 \label{chap:Conclusioni}
+In questa tesi è stata sviluppata un'estensione del linguaggio \ac{FACPL} per migliorare la gestione delle richieste di accesso.
+Nella prima parte sono state descritte le strutture su cui si è basato lo sviluppo. Sono stati introdotti i primi modelli
+dell'Access Control partendo dal più semplice \ac{ACL} arrivando fino a \ac{PBAC}. In seguito è stato mostrato lo Usage Control
+descrivendo il nuovo modello UCON\textsubscript{ABC} creato da Jaehong Park e Ravi Sandhu.
+
+Successivamente è stato esaminato il linguaggio \ac{FACPL} su cui si è basato implementazione del monitor a runtime.
+\MakeUppercase{è} stata mostrata la sintassi, la semantica e il processo di valutazione per presentare i lati positivi
+e soprattutto i limiti del linguaggio su cui si è lavorato per migliorare il controllo continuativo degli accessi.
+
+Sono state aggiunte nuove produzioni alla sintassi ed è stata modificata la risposta dell'autorizzazione per poter
+essere utilizzata nel nuovo processo valutativo, in cui si elimina i controlli superflui per un determinato tipo di richieste.
+Alle modifiche apportate sulla sintassi sono seguite le implementazioni di nuove strutture nella libreria Java su cui si
+basa \ac{FACPL}. Infine sono stati proposti esempi per presentare le operazioni possibili e i miglioramenti nell'uso delle
+risorse computative.
 
 \section{Sviluppi Futuri}
 \label{sec:Sviluppi Futuri}
+In questo documento sono stati esposti due esempi, in uno si usa il numero di richieste, nell'altro il tempo.
+La librerie di \ac{FACPL} è semplice da estendere ed è facile pensare a nuove possibili controlli su cui
+le autorizzazioni possono basarsi. Si può associare le verifiche della richiesta alla posizione
+geografica dell'utente, oppure alla congestione della rete aggiungendo la gestione di un nuovo parametro nella
+creazione delle obbligazioni e le rispettive funzioni che ne controllano il valore. 

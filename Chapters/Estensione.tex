@@ -1,13 +1,13 @@
 \myChapter{Usage Control in FACPL}
 \label{chap:Usage Control in FACPL}
-In questo capitolo si descrive l'estensione del linguaggio \ac{FACPL} per implementare lo Usage Control.
+In questo capitolo si descrive un'estensione del linguaggio \ac{FACPL} basata sul modello \ac{UCON}.
 Più precisamente lo sviluppo è stato diviso in due parti. In primis la struttura è stata modificata in modo
 in cui si potesse creare delle politiche che si basassero sul comportamento passato. In seguito il linguaggio
 è stato ulteriormente esteso per migliorare la gestione dell'utilizzo continuativo di risorse .\par
 In questo capitolo e nel succesivo si espone il secondo sviluppo, per la prima parte dell'estensione si rimanda
 alla tesi del mio collega Federico Schipani, con cui ho lavorato per l'implementazione dell'intera nuova struttura. \par
 Il linguaggio è stato esteso in modo tale da ottimizzare la gestione di un insieme di richieste sulla stessa risorsa.
-Per far questo è stato necessaria una modifica sul processo di valutazione(\ref{sec:Il processo di valutazione})
+Per far questo è stata necessaria una modifica sul processo di valutazione(\ref{sec:Il processo di valutazione Facpl})
 e l'inserimento di nuovi componenti(\ref{sec:SintassiNew}).
 \section{Il processo di valutazione}
 \label{sec:Il processo di valutazione}
@@ -17,7 +17,7 @@ Come si vede in figura \ref{fig:img/evaluationProcessStatus}, la nuova component
 Oltre agli \emph{attribute names} il Context Handler avrà anche la possibilità di ricavare gli \emph{status attributes}.
 Il \ac{PDP} quindi potrà richiedere entrambi i tipi di attributi per elaborare la sua risposta. La decisione poi passerà al PEP
 come avveniva precedentemente.\par
-Inoltre sono state aggiunte un tipo di obbligazioni che possono modificare lo Status. Il \ac{PEP} quindi può far eseguire questo tipo di
+Inoltre, sono state aggiunte un tipo di obbligazioni che possono modificare lo Status. Il \ac{PEP} quindi può far eseguire questo tipo di
 azioni per cambiare gli attributi.\par
 Riprendendo il primo esempio \ref{subs:Accessi in lettura e scrittura di file}, si riporta \emph{Se uno degli amministratori
 sta scrivendo su un file, nessuno può leggerlo o apportare modifiche nello stesso momento}. Questa regola è realizzabile
@@ -32,7 +32,7 @@ Si fa riferimento al nuovo metodo per il controllo di richieste uniformi su una 
 in figura \ref{fig:img/evaluationProcessPEP} si mostra il processo di valutazione ridotto.\par
 Si può definire un certo tipo di richieste che verrà interamente gestito dal \ac{PEP} dopo una prima, e unica,
 valutazione del \ac{PDP}. Se un sistema deve gestire numerose richieste di lettura, e non ci sono elementi che bloccano
-un accesso, è possibile accettare una richiesta esaminando soltanto la tipologia e l'appartenenza di una risorsa ad
+un accesso, è possibile accettare una richiesta esaminando soltanto la tipologia dell'azione e l'appartenenza di una risorsa ad
 un insieme predefinito.\par
 Prendiamo per esempio un sistema che gestisce dei file dentro delle cartelle. Supponiamo che ci sia una cartella
 "Share" dove tutti gli utenti possono leggere solo se non ci sono utenti che scrivono.
@@ -76,8 +76,8 @@ si può vedere che le decisioni non sono cambiate, mentre c'è una nuova produzi
 La nuova forma indica le \emph{Fulfilled obligations} di tipo Check. Queste hanno solo due \emph{Expression}, una per
 l'\emph{Environment} e una per lo \emph{Status}. I due termini esprimono i controlli che deve effettuare il \ac{PEP}
 prendendo i valori dal \emph{Context Handler}. Le nuove \emph{Fulfilled obligations} sono prive di pepAction in quanto,
-come enunciato prima, il \ac{PEP} non può eseguire azioni, ma solo verifiche sugli attributi.\\
-
+come enunciato prima, il \ac{PEP} non può eseguire azioni, ma solo verifiche sugli attributi.\par
+\vspace{3mm}
 Si propone adesso un esempio di una Policy che utilizza il nuovo tipo di obbligazione.
 Nella Policy si vuole specificare che un utente di nome \emph{Charlie} può effetture una lettura solo se nessuno sta scrivendo
 e vuole utilizzare la risorsa \emph{contabilita.xlsx}.
@@ -103,12 +103,12 @@ Il \ac{PDP} fa uso degli \emph{Status Attributes} per la valutazione di una rich
 Questi attributi sono modificabili tramite alcune azioni dette \emph{PepAction}, come l'operazione di somma \emph{add(Attribute,int)}
 oppure l'assegnamento di una data con \emph{setDate(Attribute,date)}.
 Sono definiti nel \ac{PAS} come descritto nell'esempio precedente con questa struttura:
-\lstinputlisting[firstline = 18, lastline = 18,language = FACPL, caption = {Esempio per la semantica}\label{lst:esempio_sintassi}]{code/cap4/charlieRead}
+\lstinputlisting[firstline = 8, lastline = 8,language = FACPL, caption = {Esempio status attributes}\label{lst:esempio_sintassi}]{code/cap4/charliePAS}
 \par Il \ac{PEP} oltre a verificare che le PepAction siano eseguite, con l'aggiunta delle \emph{Obbligation Check}, ha il
 controllo nella gestione delle richieste continuative. Se nella policy è presente una obbligazione che fa parte del nuovo tipo,
 il \ac{PEP} ha il compito di controllare che le \emph{Expression} contenute nell'\emph{Obligation Check} siano vere.\par
 Nell'esempio precedente l'obbligazione è definita con:
-\lstinputlisting[firstline = 8, lastline = 8,language = FACPL, caption = {Esempio per la semantica}\label{lst:esempio_sintassi}]{code/cap4/charlieRead}
+\lstinputlisting[firstline = 8, lastline = 8,language = FACPL, caption = {Esempio Obligation Check}\label{lst:esempio_sintassi}]{code/cap4/charlieRead}
 il \ac{PEP} deve verificare quindi che l'azione richiesta sia una "read" e che la risorsia sia "contabilita.xlsx".
 Se il controllo dà esito positivo la richiesta è subito accettata, se la richiesta non passa una delle verifiche si continuerà
 il processo di valutazione ripartendo dal \ac{PDP} e svolgendo tutti i passi.\par
@@ -142,7 +142,7 @@ se i file appartengono ad un determinato insieme. Nella policy che riguarda le l
 file debbano essere "thesis.tex" oppure "facpl.pdf", inoltre viene utilizzato il nuovo tipo di obbligation.
 
 Il \ac{PAS} è differenze dalla versione usata in \ref{sec:Esempio_FACPL} solo nella definizione dello status
-in cui si inizializza isWriting di "thesis.tex" a false.
+in cui si inizializza isWriting di "thesis.tex" e di "facpl.pdf" a false.
 
 \lstinputlisting[language = FACPL, caption = {Policy per esempio lettura e scrittura }\label{lst:esempio_RWP}]{code/cap4/checkReadWritePolicy}
 Di seguito si mostrano 9 richieste per descrivere tutti i possibili scenari.
@@ -164,8 +164,8 @@ L'ultima richiesta è una lettura, ed essendo successiva ad un'altra read, si ad
 \label{sub:Stream_Code_Sec}
 L'esempio seguente è simile al primo, ma in questo caso si fa uso anche delle \emph{Obligations Check} limitate dal tempo.
 Ci sono due utenti. Alice è un utente \emph{Premium} e può ascoltare le canzoni senza limiti una volta fatto il login. Bob
-è un utente standard e dopo un certo lasso di tempo non può più fare richieste di ascolto e dovrà passare la pubblità prima
-di poter ascoltare di nuovo.
+è un utente standard e dopo un certo lasso di tempo non può più fare richieste di ascolto e dovrà sentire la pubblicità prima
+di poter ascoltare di nuovo un brano.
 
 Le "listen" dei due tipi di utenti usano obligations check differenti. Gli ascolti degli utenti premium sono associati
 ad una obbligazione persistente. Possono quindi richiedere i brani senza essere limitati per tutta la durata del login.
@@ -178,6 +178,6 @@ Le prime due \emph{request} non sono accettate perché non è possibile richiede
 Dopo le richieste di login, dove si usa un attributo password per validare l'accesso, i due utenti possono ascoltare i brani.
 
 Si suppone che dopo tre richieste di ascolto, Bob alla \emph{request8} abbia superato il limite di tempo di quindici minuti.
-Tutte le sue possibili richieste di ascolto sono rifiutate finchè non richiede di sentire la pubblità. Dopo una richiesta
+Tutte le sue possibili richieste di ascolto sono rifiutate finchè non richiede di sentire la pubblicità. Dopo una richiesta
 di "listenCommercials" Bob ha di nuovo altri quindici minuti di ascolto possibili.
 \lstinputlisting[language = FACPL, caption = {Richieste per esempio servizio streaming }\label{lst:esempio_SR}]{code/cap4/checkStreamingRequests}

@@ -13,7 +13,7 @@
 \documentclass[twoside,openright,titlepage,fleqn,
 	headinclude,12pt,a4paper,BCOR5mm,footinclude]{scrbook}
 %--------------------------------------------------------------
-\newcommand{\myItalianTitle}{Progetto e implementazione in FACPL di un monitor  a runtime per il supporto al controllo continuativo degli accessi}
+\newcommand{\myItalianTitle}{Progetto e implementazione in FACPL di un monitor a runtime per il supporto al controllo continuativo degli accessi}
 %\newcommand{\myItalianTitle}{Estensione del linguaggio FACPL per esprimere politiche di gestione dell'utilizzo continuativo delle risorse di un sistema di calcolo\xspace}
 \newcommand{\myEnglishTitle}{Devising a run-time monitor for continuative access controls with FACPL\xspace}
 % use the right myDegree option
@@ -73,7 +73,16 @@ parts]{classicthesis}
 	\begin{figure}[h]
 
 		\centering
-		\includegraphics[width=#3\linewidth]{#1}
+		\includegraphics[width=#3\linewidth,keepaspectratio]{#1}
+		\caption{ #2 \label{fig:#1}}
+
+	\end{figure}
+}
+\newcommand{\MyF}[4]{
+	\begin{figure}[h]
+
+		\centering
+		\includegraphics[width=#3\linewidth,keepaspectratio,height=#4]{#1}
 		\caption{ #2 \label{fig:#1}}
 
 	\end{figure}
@@ -239,7 +248,7 @@ parts]{classicthesis}
 \include{Chapters/Estensione}
 \include{Chapters/Libreria}
 \include{Chapters/Conclusioni}
-\section{Acronimi}
+\section*{Acronimi}
 \label{sec:Acronimi}
 \begin{acronym}[cap2]
   \acro{ACL}{Access Control List}

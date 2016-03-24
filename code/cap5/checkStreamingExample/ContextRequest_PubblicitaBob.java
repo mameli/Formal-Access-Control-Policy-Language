@@ -12,7 +12,7 @@ import it.unifi.facpl.system.status.FacplStatus;
 import it.unifi.facpl.system.status.StatusAttribute;
 
 @SuppressWarnings("all")
-public class ContextRequest_PubblicitaBob {
+public class ContextRequest_CommercialsBob {
 
 	private static ContextRequest_Status CxtReq;
 

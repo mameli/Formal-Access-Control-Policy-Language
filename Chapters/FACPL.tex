@@ -9,11 +9,11 @@ e questo rende la lettura problematica per un utente.\par
 costruito sopra basi formali solide, in modo da permettere agli sviluppatori di specificare e verificare automaticamente
 delle proprietà.
 
-In questo capitolo si descrive il linguaggio delinea prima di tutto il processo di valutazione in \ref{sec:Il processo di valutazione}
+In questo capitolo si delinea prima di tutto il processo di valutazione in \ref{sec:Il processo di valutazione Facpl}
 poi mostrano le componenti della sistema in \ref{sub:Componenti del sistema} e il loro significato in \ref{sec:sem_fpl}. Infine si
-mostrerà con un esempio l'utilizzo di \ac{FACPL} in \ref{sec:Esempio_FACPL}.
+mostrerà in \ref{sec:Esempio_FACPL} con un esempio l'utilizzo di \ac{FACPL} .
 \section{Il processo di valutazione}
-\label{sec:Il processo di valutazione}
+\label{sec:Il processo di valutazione Facpl}
 In questa sezione si espone la sequenza di azioni che il sistema compie affinchè una richiesta in input sia valutata.
 \MyFigure{img/evaluationProcess.png}{Processo di valutazione}{1}
 In figura \ref{fig:img/evaluationProcess.png} si mostrano i passi che vengono eseguiti.
@@ -81,13 +81,13 @@ espressioni come argomento.\par
 
 Una richiesta consiste in una sequenza di \emph{attribute} organizzati in categorie.\par
 La risposta ad una richiesta \ac{FACPL} è scritta utilizzando la sintassi ausiliaria riportata in tabella \ref{tab:facpl_context_syntax}.
-La valutazione in due passi descritta in \ref{sec:Il processo di valutazione} produce due tipi differenti di risposte:
+La valutazione in due passi descritta in \ref{sec:Il processo di valutazione Facpl} produce due tipi differenti di risposte:
 \begin{itemize}
   \renewcommand\labelitemi{--}
   \item \emph{\ac{PDP} Response}
   \item \emph{Decisions}
 \end{itemize}
-La prima nel caso in cui la decisione sia permit o deny si associa a una sequenza (anche vuota) di fulfilled obligations.\par
+La prima, nel caso in cui la decisione sia permit o deny, si associa a una sequenza (anche vuota) di fulfilled obligations.\par
 Una \emph{Fulfilled Obligation} è una coppia formata da un tipo e da un'azione con i rispettivi argomenti risultato della
 valutazione del \ac{PDP}.
 \input{extraTex/Facpl_Syntax2}
@@ -96,7 +96,7 @@ valutazione del \ac{PDP}.
 \label{sec:sem_fpl}
 Si presenta adesso informalmente il processo di autorizzazione del \ac{PDP} e poi quello di enforcement del \ac{PEP}.\par
 Quando il \ac{PDP} riceve una richiesta di accesso, valuta la richiesta in base alle \epolicy disponibili poi determina
-il risultato unendo le decisioni restituite dalle policy con l'utilizzo dei \emph{combining algorithm}.\par
+il risultato unendo le decisioni restituite dalle policy con l'utilizzo dei \emph{combining algorithms}.\par
 La valutazione di una policy inizia dalla verifica dell'applicabilità della richiesta, che è compiuta valutando
 l'espressione definita dal \etarget. Ci sono due casi:
 \begin{description}
@@ -107,7 +107,7 @@ l'espressione definita dal \etarget. Ci sono due casi:
         \eobligation da parte del \ac{PEP}.
   \item[\normalfont\bfseries{\MakeUppercase{L}a verifica dà un risultato negativo.}] \hfill \\
         Nel caso in cui la valutazione sia determinata \efalse, viene restituito
-        \texttt{not-app}. Nel caso di \emph{error} o di un valore non booleano, si restituisce \texttt{indet}.
+        \texttt{not-app}. Nel caso di \texttt{ERROR} o di un valore non booleano, si restituisce \texttt{indet}.
 \end{description}
 Valutare le espressioni corrisponde ad applicare gli operatori, a determinare le occorrenze degli \emph{attribute names} e
 a ricavarne il valore associato.\par
@@ -115,13 +115,13 @@ Se questo non è possibile, ad esempio l'attibuto è mancante e non può essere 
 restituisce il valore speciale \texttt{BOTTOM}. Questo valore è usato per implementare strategie diverse per gestire
 la mancanza di un attributo. \texttt{BOTTOM} è trattato da \ac{FACPL} in modo simile a \texttt{false}, si gestisce
 così gli attributi mancanti senza generare errori.\par
-Gli operatori tengono conto degli argomenti e dei valori speciali come \texttt{BOTTOM} e \emph{error}.
+Gli operatori tengono conto degli argomenti e dei valori speciali come \texttt{BOTTOM} e \texttt{ERROR}.
 Se gli argomenti sono \texttt{true} oppure \texttt{false} gli operatori sono applicati in modo regolare.
-Se c'è un argomento \texttt{BOTTOM} e non ci sono \emph{error} si restituisce \texttt{BOTTOM}, \emph{error} altrimenti.
+Se c'è un argomento \texttt{BOTTOM} e non ci sono \texttt{ERROR} si restituisce \texttt{BOTTOM}, \texttt{ERROR} altrimenti.
 Gli operatori \eand e \eor trattano diversamente i valori speciali. Specificatamente, \eand restituisce \texttt{true} se entrambi
 gli operandi sono \etrue, \texttt{false} se almeno uno è \efalse, \texttt{BOTTOM} se almeno uno è \texttt{BOTTOM} e nessun altro è
-\texttt{false} o \emph{error}, \emph{error} negli altri casi. L'operatore \eor è il duale di \eand e ha priorità minore.
-L'operatore unario \emph{not} cambia i valori di \texttt{true} e \texttt{false}, ma non quelli di \texttt{BOTTOM} e \emph{error}.\par
+\texttt{false} o \texttt{ERROR}, \texttt{ERROR} negli altri casi. L'operatore \eor è il duale di \eand e ha priorità minore.
+L'operatore unario \emph{not} cambia i valori di \texttt{true} e \texttt{false}, ma non quelli di \texttt{BOTTOM} e \texttt{ERROR}.\par
 La valutazione di una \epolicy termina con il \emph{fulfilment} di tutte le \emph{Obligations}. Questo consiste nel valutare
 tutti gli argomenti dell'azione corrispondente all'\emph{obligation}. All'occorrenza di un errore, la decisione della \epolicy
 sarà modificata in \texttt{indet}.

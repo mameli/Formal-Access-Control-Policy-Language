@@ -14,10 +14,10 @@ PolicySet ReadWrite_Policy { deny-unless-permit
     [ permit M flagStatus(isWritingThesis, true) ]
   }
   PolicySet Read_Policy { deny-unless-permit
-    target: equal ("read", action/id)
+  target: in ( file/id , set ("thesis.tex" , "facpl.pdf"))
     policies:
       Rule read ( permit target:
-        in ( file/id , set ("thesis.tex" , "facpl.pdf")) &&
+        equal ("read", action/id) &&
         equal ( status / isWritingThesis , false ) &&
         equal ( status / isWritingFacpl , false )
         )

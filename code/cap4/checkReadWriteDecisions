@@ -1,0 +1,48 @@
+---------------------------------------------------
+REQUEST N: 1
+REQUEST: read_request Bob
+ Decision=
+ PERMIT
+time 53ms
+---------------------------------------------------
+REQUEST N: 2
+REQUEST: read_request Bob
+ Decision=
+ PERMIT
+time 6ms
+---------------------------------------------------
+REQUEST N: 3
+REQUEST: read_request Alice
+ Decision=
+ PERMIT
+time 9ms
+---------------------------------------------------
+REQUEST N: 4
+REQUEST: write_request Alice
+ Decision=
+ PERMIT
+time 47ms
+---------------------------------------------------
+REQUEST N: 5
+REQUEST: read_request Bob
+ Decision=
+ DENY
+time 25ms
+---------------------------------------------------
+REQUEST N: 6
+REQUEST: stop_write_request Alice
+ Decision=
+ PERMIT
+time 44ms
+---------------------------------------------------
+REQUEST N: 7
+REQUEST: read_request Bob
+ Decision=
+ PERMIT
+time 32ms
+---------------------------------------------------
+REQUEST N: 8
+REQUEST: read_request Alice
+ Decision=
+ PERMIT
+time 3ms

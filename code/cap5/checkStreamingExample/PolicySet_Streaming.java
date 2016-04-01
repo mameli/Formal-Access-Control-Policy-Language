@@ -166,54 +166,64 @@ public class PolicySet_Streaming extends PolicySet{
 		}
 	}
 
-	private class PolicySet_ListenBob extends PolicySet {
-		public PolicySet_ListenBob()  {
-			addId("ListenBob_Policy");
-			// Algorithm Combining
-			addCombiningAlg(it.unifi.facpl.lib.algorithm.DenyUnlessPermitGreedy.class);
-			// Target
-			ExpressionFunction e1=new ExpressionFunction(it.unifi.facpl.lib.function.comparison.Equal.class, "listen",
-					new AttributeName("action", "id"));
-			ExpressionFunction e2=new ExpressionFunction(it.unifi.facpl.lib.function.comparison.Equal.class, "Bob",
-					new AttributeName("name", "id"));
+private class PolicySet_ListenBob extends PolicySet {
+	public PolicySet_ListenBob()  {
+		addId("ListenBob_Policy");
+		// Algorithm Combining
+		addCombiningAlg(
+			it.unifi.facpl.lib.algorithm.DenyUnlessPermitGreedy.class);
+		// Target
+		ExpressionFunction e1=new ExpressionFunction(
+				it.unifi.facpl.lib.function.comparison.Equal.class,
+				"listen",
+				new AttributeName("action", "id"));
+		ExpressionFunction e2=new ExpressionFunction(
+				it.unifi.facpl.lib.function.comparison.Equal.class,
+		 		"Bob",
+				new AttributeName("name", "id"));
+		ExpressionBooleanTree ebt = new ExpressionBooleanTree(ExprBooleanConnector.AND, e1, e2);
+		addTarget(ebt);
+		// PolElements
+		addPolicyElement(new Rule_ListenBob());
+		// Obligation
+		addObligation(
+				new ObligationCheck(Effect.PERMIT,
+						new ExpressionFunction(
+								it.unifi.facpl.lib.function.comparison.Equal.class,
+								"Bob",
+								new AttributeName("name", "id")),
+						new ExpressionFunction(it.unifi.facpl.lib.function.comparison.Equal.class,
+								new StatusAttribute("streamingBob", FacplStatusType.BOOLEAN),
+								true),
+						new FacplDate("00:15:00")
+				));
+	}
+
+	private class Rule_ListenBob extends Rule {
+		Rule_ListenBob() {
+			addId("ListenBob_Rule");
+			// Effect
+			addEffect(Effect.PERMIT);
+			ExpressionFunction e1=new ExpressionFunction(
+					it.unifi.facpl.lib.function.comparison.Equal.class,
+					new StatusAttribute("loginBob", FacplStatusType.STRING),
+					"STANDARD");
+			ExpressionFunction e2=new ExpressionFunction(
+					it.unifi.facpl.lib.function.comparison.Equal.class,
+					new StatusAttribute("commercialsBob", FacplStatusType.BOOLEAN),
+					false);
 			ExpressionBooleanTree ebt = new ExpressionBooleanTree(ExprBooleanConnector.AND, e1, e2);
 			addTarget(ebt);
-			// PolElements
-			addPolicyElement(new Rule_ListenBob());
-			// Obligation
 			addObligation(
-					new ObligationCheck(Effect.PERMIT,
-							new ExpressionFunction(it.unifi.facpl.lib.function.comparison.Equal.class, "Bob",
-									new AttributeName("name", "id")),
-							new ExpressionFunction(it.unifi.facpl.lib.function.comparison.Equal.class,
-											new StatusAttribute("streamingBob", FacplStatusType.BOOLEAN),
-									true),
-							new FacplDate("00:15:00")));
-		}
-
-		private class Rule_ListenBob extends Rule {
-			Rule_ListenBob() {
-				addId("ListenBob_Rule");
-				// Effect
-				addEffect(Effect.PERMIT);
-				ExpressionFunction e1=new ExpressionFunction(it.unifi.facpl.lib.function.comparison.Equal.class,
-						new StatusAttribute("loginBob", FacplStatusType.STRING),
-						"STANDARD");
-				ExpressionFunction e2=new ExpressionFunction(it.unifi.facpl.lib.function.comparison.Equal.class,
-						new StatusAttribute("commercialsBob", FacplStatusType.BOOLEAN),
-						false);
-				ExpressionBooleanTree ebt = new ExpressionBooleanTree(ExprBooleanConnector.AND, e1, e2);
-				addTarget(ebt);
-				addObligation(
-						new ObligationStatus(
-								new FlagStatus(),
-								Effect.PERMIT,
-								ObligationType.M,
-								new StatusAttribute("commercialsBob", FacplStatusType.BOOLEAN), true)
-							);
-			}
+					new ObligationStatus(
+							new FlagStatus(),
+							Effect.PERMIT,
+							ObligationType.M,
+							new StatusAttribute("commercialsBob", FacplStatusType.BOOLEAN), true)
+						);
 		}
 	}
+}
 
 	private class PolicySet_pubBob extends PolicySet {
 

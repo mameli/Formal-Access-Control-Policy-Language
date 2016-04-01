@@ -8,18 +8,17 @@ PolicySet ReadWrite_Policy { deny-unless-permit
       Rule write ( permit target:
         equal ( group / id, "Administrator") &&
         equal ( file / id, "thesis.tex") &&
-        equal ( status / isWritingThesis , false )
+        equal ( status / isWriting , false )
         )
     obl:
-    [ permit M flagStatus(isWritingThesis, true) ]
+    [ permit M flagStatus(isWriting, true) ]
   }
   PolicySet Read_Policy { deny-unless-permit
   target: in ( file/id , set ("thesis.tex" , "facpl.pdf"))
     policies:
       Rule read ( permit target:
         equal ("read", action/id) &&
-        equal ( status / isWritingThesis , false ) &&
-        equal ( status / isWritingFacpl , false )
+        equal ( status / isWriting , false )
         )
     obl:
     [ permit M equal ("read",action/id) , in ( file/id , set ("thesis.tex" , "facpl.pdf")) ]
@@ -29,20 +28,20 @@ PolicySet ReadWrite_Policy { deny-unless-permit
     policies:
       Rule stopWrite ( permit target:
         equal("thesis.tex", file/id) &&
-        equal ( status / isWritingThesis , true ) &&
-        equal("Administrator", group/id) &&
+        equal ( status / isWriting , true ) &&
+        equal("Administrator", group/id)
         )
     obl:
-    [ permit M flagStatus(isWritingThesis, false) ]
+    [ permit M flagStatus(isWriting, false) ]
   }
 }
 PAS {
   Combined Decision : false ;
   Extended Indeterminate : false ;
   Java Package : "exampleReadWrite" ;
-  Requests To Evaluate : Request1, Request2, Request3, Request4, Request5, Request6 , Request7, Request8, Request9, Request10, Request11
+  Requests To Evaluate : Request1, Request2, Request3, Request4, Request5, Request6 , Request7, Request8;
   pep: deny-biased
   pdp: deny-unless-permit
-  status: [(boolean isWritingThesis = false),(boolean isWritingFacpl = false) ]
+  status: [(boolean isWriting = false) ]
   include exampleReadWrite
 }

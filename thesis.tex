@@ -119,8 +119,11 @@ parts]{classicthesis}
 \definecolor{brightpink}{rgb}{1.0, 0.0, 0.5}
 \definecolor{burgundy}{rgb}{0.5, 0.0, 0.13}
 
+\renewcommand{\lstlistingname}{Codice}% Listing -> Algorithm
+\renewcommand{\lstlistlistingname}{Lista di Codici}
 \lstdefinelanguage{FACPL} {
   % list of keywords
+	alsoletter=-,
 	keywords = [1] {
 		deny-biased, permit-biased, deny-unless-permit, unless, biased
 	},
@@ -153,6 +156,7 @@ parts]{classicthesis}
 	keywordstyle = [5]{
 		\color{brightpink}\bfseries
 	},
+	numbers=left,
 	sensitive=false,
 	morecomment=[l]{//},
 	morecomment=[s]{/*}{*/},
@@ -234,7 +238,7 @@ parts]{classicthesis}
 % use \cleardoublepage here to avoid problems with pdfbookmark
 %\include{intro} % use \myChapter command instead of \chapter
 \tableofcontents
-%\listoffigures
+\listoffigures
 \cleardoublepage
 %\thispagestyle{empty}
 %\begin{flushright}
@@ -256,8 +260,6 @@ parts]{classicthesis}
   \acro{ABAC}{Attribute Based Access Control}
   \acro{PBAC}{Policy Based Access Control}
   \acro{UCON}{Usage Control}
-  \acro{TM}{Trust Management}
-  \acro{DRM}{Digital Rights Management}
 	\acro{PAS}{Policy Authorization System}
 	\acro{PR}{Policy Repository}
 	\acro{PDP}[PDP]{Policy Decision Point}

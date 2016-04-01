@@ -80,16 +80,22 @@ public class PolicySet_ReadWriteCheck extends PolicySet {
 		public PolicySet_Read() {
 			addId("Read_Policy");
 			// Algorithm Combining
-			addCombiningAlg(it.unifi.facpl.lib.algorithm.DenyUnlessPermitGreedy.class);
+			addCombiningAlg(
+				it.unifi.facpl.lib.algorithm.DenyUnlessPermitGreedy.class);
 			// Target
-			ExpressionFunction file1 = new ExpressionFunction(it.unifi.facpl.lib.function.comparison.Equal.class, "thesis.tex",
-					new AttributeName("file", "id"));
-			ExpressionFunction file2 = new ExpressionFunction(it.unifi.facpl.lib.function.comparison.Equal.class, "facpl.pdf",
-					new AttributeName("file", "id"));
+			ExpressionFunction file1 = new ExpressionFunction(
+				it.unifi.facpl.lib.function.comparison.Equal.class,
+				"thesis.tex",
+				new AttributeName("file", "id"));
+			ExpressionFunction file2 = new ExpressionFunction(
+				it.unifi.facpl.lib.function.comparison.Equal.class,
+				"facpl.pdf",
+				new AttributeName("file", "id"));
 			ExpressionBooleanTree setFiles = new ExpressionBooleanTree(ExprBooleanConnector.OR, file1, file2);
 			// Expression ObligationCheck
-			ExpressionFunction read = new ExpressionFunction(it.unifi.facpl.lib.function.comparison.Equal.class, "read",
-					new AttributeName("action", "id"));
+			ExpressionFunction read = new ExpressionFunction(
+				it.unifi.facpl.lib.function.comparison.Equal.class, "read",
+				new AttributeName("action", "id"));
 
 			addTarget(setFiles);
 			// PolElements
@@ -111,10 +117,7 @@ public class PolicySet_ReadWriteCheck extends PolicySet {
 				ExpressionFunction e2 = new ExpressionFunction(it.unifi.facpl.lib.function.comparison.Equal.class,
 						new StatusAttribute("isWritingThesis", FacplStatusType.BOOLEAN),
 						false);
-				ExpressionFunction e3 = new ExpressionFunction(it.unifi.facpl.lib.function.comparison.Equal.class,
-						new StatusAttribute("isWritingFacpl", FacplStatusType.BOOLEAN),
-						false);
-				ExpressionBooleanTree ebt = new ExpressionBooleanTree(ExprBooleanConnector.AND, e1, e2, e3);
+				ExpressionBooleanTree ebt = new ExpressionBooleanTree(ExprBooleanConnector.AND, e1, e2);
 				addTarget(ebt);
 			}
 		}

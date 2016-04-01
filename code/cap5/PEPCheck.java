@@ -122,36 +122,38 @@ public class PEPCheck extends PEP {
 		return first_enforcement;
 	}
 
-	private AuthorisationPEP doPEPCheck(ContextRequest_Status ctxRequest) {
-		/*
-		 * evaluate check obligation
-		 */
-		Logger l = LoggerFactory.getLogger(PEPCheck.class);
-		l.debug("DOING PEP CHECK:");
-		AuthorisationPEP r = new AuthorisationPEP();
-		StandardDecision dec;
-		LinkedList<StandardDecision> decisionList = new LinkedList<StandardDecision>();
-		for (AbstractFulfilledObligationCheck obl : checkObl) {
-			if (obl instanceof FulfilledObligationCheck){
-				dec = ((FulfilledObligationCheck)obl).getObligationResult(ctxRequest);
-				decisionList.add(dec);
-				if (StandardDecision.NOT_APPLICABLE.equals(dec)) {
-					r.setDecision(StandardDecision.NOT_APPLICABLE);
-					return r;
-				}
-			}else if (obl instanceof FulfilledObligationTimeCheck){
-				dec = ((FulfilledObligationTimeCheck)obl).getObligationResult(ctxRequest);
-				decisionList.add(dec);
-				if (StandardDecision.NOT_APPLICABLE.equals(dec)) {
-					r.setDecision(StandardDecision.NOT_APPLICABLE);
-					return r;
-				}
+private AuthorisationPEP doPEPCheck(ContextRequest_Status ctxRequest) {
+	/*
+	 * evaluate check obligation
+	 */
+	Logger l = LoggerFactory.getLogger(PEPCheck.class);
+	l.debug("DOING PEP CHECK:");
+	AuthorisationPEP r = new AuthorisationPEP();
+	StandardDecision dec;
+	LinkedList<StandardDecision> decisionList = new LinkedList<StandardDecision>();
+	for (AbstractFulfilledObligationCheck obl : checkObl) {
+		if (obl instanceof FulfilledObligationCheck){
+			dec =
+			((FulfilledObligationCheck)obl).getObligationResult(ctxRequest);
+			decisionList.add(dec);
+			if (StandardDecision.NOT_APPLICABLE.equals(dec)) {
+				r.setDecision(StandardDecision.NOT_APPLICABLE);
+				return r;
+			}
+		}else if (obl instanceof FulfilledObligationTimeCheck){
+			dec =
+			((FulfilledObligationTimeCheck)obl).getObligationResult(ctxRequest);
+			decisionList.add(dec);
+			if (StandardDecision.NOT_APPLICABLE.equals(dec)) {
+				r.setDecision(StandardDecision.NOT_APPLICABLE);
+				return r;
 			}
 		}
-		r = checkAlg.evaluate(decisionList, ctxRequest);
-		checkAlg.resetAlg();
-		return r;
 	}
+	r = checkAlg.evaluate(decisionList, ctxRequest);
+	checkAlg.resetAlg();
+	return r;
+}
 
 	private void clearAllObligations() {
 		LoggerFactory.getLogger(PEPCheck.class).debug("RESET ALL CHECK OBLIGATION");

@@ -25,23 +25,17 @@ Request:{ Request5
 	(file / id, "thesis.tex")
 }
 Request:{ Request6
-	(name / id , "Charlie")
-	(group / id , "Administrator")
-	(action / id, "write")
-	(file / id, "thesis.tex")
-}
-Request:{ Request7
 	(name / id , "Alice")
 	(group / id , "Administrator")
 	(action / id, "stopWrite")
 	(file / id, "thesis.tex")
 }
-Request:{ Request8
+Request:{ Request7
 	(name / id , "Bob")
 	(action / id, "read")
 	(file / id, "thesis.tex")
 }
-Request:{ Request9
+Request:{ Request8
 	(name / id , "Alice")
 	(action / id, "read")
 	(file / id, "facpl.pdf")

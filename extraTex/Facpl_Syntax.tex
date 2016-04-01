@@ -1,10 +1,10 @@
-\begin{table}[h!]
-\small
+\begin{table}
+\centering
+\scriptsize
 \caption{Sintassi di FACPL}
-\label{Sintassi di FACPL}
+\hrule
 $
 \begin{array}{@{\,}r@{\ \ }r@{\ }r@{\ \ }l@{\ }}
-&&&\\[-.2cm]
 {\textbf{Policy Authorisation Systems}} &
 \mathit{PAS} & ::= & ( \,  \x{pep:} \, \mathit{EnfAlg}\ \ \x{pdp:}\, \mathit{PDP} \, )
 \\[.2cm]
@@ -20,15 +20,12 @@ $
 && \mid &
 \firstApp \Sep \onlyOneApp \Sep \weakCon \Sep \strongCon
 \\[.2cm]
-\textbf{fulfilment strategies} & \delta
-& ::= &
-\greedy \Sep \all
-\\[.2cm]
 {\textbf{Policies}} &
 \mathit{Policy} & ::= &
 \ruleOpt{\mathit{Effect}\ \ \x{target:} \, Expr\ \ \x{obl:} \, \mathit{Obligation}^{*} \, } \\
 && \mid &
-\{ \algNT\ \ \x{target:} \, Expr\ \ \x{policies:} \, \mathit{Policy}^{+} \ \ \x{obl:} \, \mathit{Obligation}^{*} \, \}
+\{ \algNT\ \ \x{target:} \, Expr\ \
+\x{policies:} \, \mathit{Policy}^{+} \ \ \x{obl:} \, \mathit{Obligation}^{*} \, \}
 \\[.2cm]
 {\textbf{Effects}} &
 \mathit{Effect} & ::= & \permit \Sep \deny
@@ -37,7 +34,7 @@ $
 \mathit{Obligation} & ::= & [ \, \mathit{Effect} \ \ \mathit{ObType} \ \ \obl{Expr} \, ]
 \\[.2cm]
 {\textbf{Obligation Types}} &
-\mathit{ObType} & ::= & \obM \Sep \obO
+\mathit{ObType} & ::= & M \Sep O
 \\[.4cm]
 \textbf{Expressions}&
 \mathit{Expr} & ::= &
@@ -60,5 +57,6 @@ $
 \\[.1cm]
 \end{array}
 $
+\hrule
 \label{tab:facpl_syntax}
 \end{table}

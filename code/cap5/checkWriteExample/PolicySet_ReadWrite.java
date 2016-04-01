@@ -85,12 +85,17 @@ public class PolicySet_ReadWrite extends PolicySet {
 		public PolicySet_Read() {
 			addId("Read_Policy");
 			// Algorithm Combining
-			addCombiningAlg(it.unifi.facpl.lib.algorithm.DenyUnlessPermitGreedy.class);
+			addCombiningAlg(
+				it.unifi.facpl.lib.algorithm.DenyUnlessPermitGreedy.class);
 			// Target
-			ExpressionFunction file1 = new ExpressionFunction(it.unifi.facpl.lib.function.comparison.Equal.class, "thesis.tex",
-					new AttributeName("file", "id"));
-			ExpressionFunction file2 = new ExpressionFunction(it.unifi.facpl.lib.function.comparison.Equal.class, "facpl.pdf",
-					new AttributeName("file", "id"));
+			ExpressionFunction file1 = new ExpressionFunction(
+				it.unifi.facpl.lib.function.comparison.Equal.class,
+				"thesis.tex",
+				new AttributeName("file", "id"));
+			ExpressionFunction file2 = new ExpressionFunction(
+				it.unifi.facpl.lib.function.comparison.Equal.class,
+			 	"facpl.pdf",
+				new AttributeName("file", "id"));
 			ExpressionBooleanTree setFiles = new ExpressionBooleanTree(ExprBooleanConnector.OR, file1, file2);
 			// Expression ObligationCheck
 			addTarget(setFiles);

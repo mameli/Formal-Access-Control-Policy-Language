@@ -1,35 +1,40 @@
 \myChapter{Access Control e Usage Control}
 \label{chap:Access Control e Usage Control}
-La protezione dei dati ha determinato la necessità di creare strumenti per il controllo degli accessi che potevano eliminare
-, o almeno limitare, i rischi derivati dalla perdita delle informazioni.\par
+L'esigenza di proteggere i dati ha determinato la necessità di creare strumenti per il controllo degli accessi che potevano eliminare,
+ o almeno limitare, i rischi derivati dalla perdita delle informazioni.\par
 Nel corso del tempo si sono sviluppati alcuni modelli per i sistemi del controllo degli accessi. A seconda delle esigenze
-sono stati adottati numerosi tipi di tecnologie\cite{NISTACM}. Nelle sezioni successive saranno presentate:
-\ac{ACL} in \ref{sec:ACL}, \ac{RBAC} in \ref{sec:RBAC}, \ac{ABAC} in \ref{sec:ABAC}, \ac{PBAC} in \ref{sec:PBAC}.
+sono stati adottati numerosi modelli~\cite{NISTACM}. Nelle sezioni successive saranno presentate:
+\ac{ACL}, \ac{RBAC}, \ac{ABAC}, \ac{PBAC} in \ref{sub:PBAC}.
 In \ref{sec:Usage_Control} sarà descritto lo \ac{UCON} e il recente modello UCON\textsubscript{ABC} poi in \ref{subs:es_UC}
 si esporranno due esempi che utilizzano il nuovo schema.
-\section{Access Control List}
-\label{sec:ACL}
-\ac{ACL} è stato creato agli inizi degli anni settanta per la necessità di un controllo degli
+\section{Access Control}
+
+\subsection*{Access Control List}
+\label{sub:ACL}
+\ac{ACL} è stato creato agli inizi degli anni settanta per la necessità di aver un controllo degli
 accessi sui sistemi multiutente.
-Utilizza una lista di utenti con annesse le possibili azioni autorizzate. Il modello è semplice,
+Utilizza una lista di utenti con annesse le possibili azioni autorizzate~\cite{ACL}. Il modello è semplice,
 ma ha molte limitazioni. Quando nel sistema ci sono numerosi utenti o risorse, la quantità di dati da verificare diventa
-difficile da gestire. Questo può portare a errori di assegnazione di autorizzazioni e ad un eccesivo numero di controlli
+difficile da gestire. Questo può portare a errori di assegnazione di autorizzazioni e ad un eccessivo numero di controlli
 necessari per un singolo accesso.
-\section{Role Based Access Control}
-\label{sec:RBAC}
-\ac{RBAC} è l'evoluzione di \ac{ACL}. In questo modello vengono introdotti i \emph{ruoli}. Più utenti
-possono avere lo stesso ruolo e quindi avere a disposizione le tutte risorse connesse a questo. Il modello
+\subsection*{Role Based Access Control}
+\label{sub:RBAC}
+\ac{RBAC} è l'evoluzione di \ac{ACL}. In questo modello vengono introdotti i \emph{ruoli}~\cite{RBAC}. Più utenti
+possono avere lo stesso ruolo e quindi avere a disposizione tutte le risorse connesse a questo. Il modello
 diventa scalabile e più facile da gestire, inoltre si possono anche creare delle gerarchie per facilitare l'assegnamento di
-risorse in base alla classificazione dell'utente. \par In figura \ref{fig:img/RBAC} si mostra un gruppo di utenti
+risorse in base alla classificazione dell'utente. \ac{RBAC} è limitato dalla staticità dei permessi e dal concetto di ruolo
+che non può essere associato a nessun attributo.
+\par In figura \ref{fig:img/RBAC} si mostra un gruppo di utenti
 facente parte di un \emph{role} e la connessione tra i permessi e il ruolo.
 \MyFigure{img/RBAC}{RBAC}{0.7}
-\section{Attribute Based Access Control}
-\label{sec:ABAC}
+\subsection*{Attribute Based Access Control}
+\label{sub:ABAC}
 \ac{ABAC} si basa sull'utilizzo di attributi associati all'utente, all'azione o al contesto
-della richiesta. La valutazione di una autorizzazione diventa più specifica e le regole sono più precise per ogni risorsa.
+della richiesta~\cite{ABAC}. La valutazione di una autorizzazione diventa più specifica rispetto a \ac{RBAC},
+le regole sono più precise per ogni risorsa e inoltre il modello si basa su politiche invece che su permessi statici.
 
-In figura \ref{fig:img/abac.png} si illustra l'utilizzo da parte del sistema di valutazione(Rules engine) di
-attributi dell'\emph{utente}(user), del \emph{contesto}(environment) e delle \emph{azioni}, per la decisione
+In figura \ref{fig:img/abac.png} si illustra l'utilizzo da parte del sistema di valutazione~(Rules engine) di
+attributi dell'\emph{utente}~(user), del \emph{contesto}~(environment) e delle \emph{azioni}, per la decisione
 sull'autorizzazione.
 \MyFigure{img/abac.png}{ABAC}{0.7}
 
@@ -37,41 +42,43 @@ Il modello non è utilizzato nei sistemi operativi, dove \ac{ACL} e \ac{RBAC} so
 spesso a livello applicativo. Il problema fondamentale di questo paradigma è che le regole non sono uniformi e se il numero
 di risorse è consistente, la gestione di queste diventa complicata. Il modello \acf{PBAC} cerca di
 risolvere i difetti di \ac{ABAC}.
-\section{Policy Based Access Control}
-\label{sec:PBAC}
-\ac{PBAC} riorganizza il modello \ac{ABAC} per semplificare la gestione delle regole.
-Il sistema si basa su \emph{politiche} che non sono altro che insiemi di \emph{rule}. A ogni regola è associato un attributo
-che l'utente deve avere, e ogni politica valuta tutte le regole nel suo insieme per creare la risposta sull'autorizzazione. Anche
-le politiche possono essere messe insieme per creare gruppi di politiche, in questo modo il sistema diventa scalabile e di
+\subsection*{Policy Based Access Control}
+\label{sub:PBAC}
+\ac{PBAC} riorganizza il modello \ac{ABAC} per semplificare la gestione delle regole~\cite{NISTACM}.
+\MakeUppercase{è} una standardizzazione di \ac{ABAC} e si basa su \emph{politiche} che non sono altro che insiemi di \emph{rule}.
+\ac{PBAC} combina gli attributi della risorsa, dell'ambiente e dell'utente, e li utilizza insieme alle \emph{rule} per
+determinare l'autorizzazione.
+Le politiche possono essere messe insieme per creare gruppi di politiche, in questo modo il sistema diventa scalabile e di
 più facile utilizzo.\par
-Per costruire un sistema di controllo degli accessi basato sul modello \ac{PBAC} è necessario l'utilizzo di
+Per costruire un sistema di controllo degli accessi basato sul modello \ac{PBAC} è necessario però l'utilizzo di
 un linguaggio adatto allo scopo. \ac{OASIS} ha creato il linguaggio \ac{XACML} che è diventato lo standard per lo sviluppo di un sistema costruito sul modello PBAC.
 \section{Usage Control}
 \label{sec:Usage_Control}
 Dopo quaranta anni di studi sul controllo degli accessi i modelli sviluppati si sono consolidati e sono largamente utilizzati
 su sistemi operativi o applicazioni. Tuttavia la complessità e la varietà degli ambienti informatici moderni va oltre i limiti
-dei modelli creati.\par
-Il termine Usage Control \ac{UCON} è stato ripreso da Jaehong Park e Ravi Sandhu per creare il modello UCON\textsubscript{ABC}\cite{ucon},
-questo è una generalizzazione dell'Access Control che include obbligazioni, condizioni sull'utilizzo,
-controlli continuativi e mutabilità. Comprende e migliora i modelli di controllo di accesso tradizionali, quali \ac{TM} e
-\ac{DRM} aggiungendo la gestione di attributi variabili e la continuità nella valutazione
-delle decisioni per l'accesso. Il modello UCON\textsubscript{ABC} estende i controlli sull'accesso tradizionali ed è composto da otto componenti fondamentali.
-Queste sono subjects,subject attributes, objects,objects attributes, rights, authorizations, obligations e conditions.\par
+dei modelli creati ~\cite{uconSN}.\par
+Il termine Usage Control \ac{UCON} è stato ripreso da Jaehong Park e Ravi Sandhu per creare il modello UCON\textsubscript{ABC}~\cite{ucon}.
+Questo è una generalizzazione dell'Access Control che include obbligazioni, condizioni sull'utilizzo,
+controlli continuativi e mutabilità ~\cite{UCRT}. Comprende e migliora i modelli di controllo di accesso tradizionali aggiungendo
+obblighi da parte dell'utente per accedere ad una risorsa, vincoli sulle azioni permesse,
+la gestione di attributi variabili nel tempo e la continuità nella valutazione delle decisioni.\par
+Il modello UCON\textsubscript{ABC} estende i controlli sull'accesso tradizionali ed è composto da otto componenti fondamentali.
+Queste sono subject, subject attribute, object, object attribute, right, authorization, obligation e condition.\par
 \MyFigure{img/ucon.png}{UCON}{1.1}
-I \emph{Subjects} sono entità a cui si associano degli attributi e hanno o esercitano \emph{Rights} sugli \emph{Objects}. Possiamo per semplicità
-associare i Subjects ad un singolo individuo umano.\par
-Gli \emph{Objects} sono insiemi di entità su cui i \emph{Subjects} possono avere dei \emph{Rights}, questi possono essere usati o vi si può
+I \emph{Subject} sono entità a cui si associano degli attributi e hanno o esercitano \emph{Right} sugli \emph{Object}. Possiamo per semplicità
+associare i Subject ad un singolo individuo umano.\par
+Gli \emph{Object} sono insiemi di entità su cui i \emph{Subject} possono avere dei \emph{Right}, questi possono essere usati o vi si può
 fare accesso. Possono essere associati ad esempio a un libro, o a una qualsiasi risorsa.\par
-I \emph{Rights} sono i privilegi che i \emph{Subjects} hanno o esercitano sugli \emph{Objects}.\par
-I tre fattori Authorizations, oBligations e Conditions(da cui prende anche il
+I \emph{Right} sono i privilegi che i \emph{Subject} hanno o esercitano sugli \emph{Object}.\par
+I tre fattori Authorization, oBligation e Condition (da cui prende anche il
 nome il modello UCON\textsubscript{ABC}) sono predicati funzionali che devono essere valutati per le decisioni sull'uso.
-I tradizionali Access Controls utilizzano solo le Authorizations per il processo di decisione, Obligations e Conditions
-sono i nuovi componenti che entrano a far parte della valutazione.\par
-Le \emph{Authorizations} devono valutare la decisione sull'uso. Queste danno un responso positivo
+I tradizionali modelli di Access Controls utilizzano solo le Authorization per il processo di decisione, Obligation e Condition
+sono i nuovi componenti che entrano a far parte della valutazione ~\cite{IEEE}.\par
+Le \emph{Authorization} devono valutare la decisione sull'uso. Queste danno un responso positivo
 o negativo a seconda che la domanda di un Subject sia accettata o meno.\par
 Le \emph{Obligation} verificano i requisiti obbligatori che un Subject deve eseguire prima o durante l'utilizzo di una risorsa.\par
-Infine le \emph{Condition} restituiscono true o false in base alle variabili dell'ambiente o allo stato del sistema.\par
-Il processo di decisione è diviso in tre fasi\cite{SurveyUsageControl}:Before usage(pre), Ongoing usage(on) e After usage.
+Infine le \emph{Condition} restituiscono \texttt{true} o \texttt{false} in base alle variabili dell'ambiente o allo stato del sistema.\par
+Il processo di decisione è diviso in tre fasi ~\cite{SurveyUsageControl}:Before usage (pre), Ongoing usage (on) e After usage.
 \MyFigure{img/uconFase.png}{Fasi del processo di decisione}{1}
 La valutazione della prima parte inizia da una richiesta e non ha differenze con il processo valutativo dell'Access Control.
 Nella seconda invece si utilizzano i nuovi predicati introdotti ed è in questa parte che si affermano i controlli continuativi,
@@ -82,18 +89,18 @@ nessuna sua richiesta.
 
 \section{Esempi di Usage Control}
 \label{subs:es_UC}
-Si propongono adesso due esempio in cui si utilizza lo Usage Control
+Si propongono adesso due esempi in cui si utilizza lo Usage Control
 \subsubsection*{Accessi in lettura e scrittura di file}
 \label{subs:Accessi in lettura e scrittura di file}
 In un sistema ci sono alcuni file e gli utenti sono divisi in gruppi, si suppone inoltre che le richieste di lettura
 siano più comuni rispetto a quelle di scrittura.\par Tutti possono leggere i file, ma solo
 gli utenti nel gruppo degli amministratori possono modificare un elemento. Se uno degli amministratori sta scrivendo
-su un file, nessuno può leggerlo o apportare modifiche nello stesso momento. Una volta finita la scrittura si potrà sbloccare
-il file e renderlo di nuovo disponibile a tutti.\par
+su un file, nessuno può leggere o apportare modifiche nello stesso momento. Una volta finita la scrittura si potrà sbloccare
+i file e renderli di nuovo disponibili a tutti.\par
 Letture ripetute, su uno stesso insieme di file, vengono gestite in modo efficiente.
 \subsubsection*{Servizio di streaming}
 \label{subs:Servizio di streaming}
 In un sistema gli utenti, dopo aver fatto il login, possono fare una richiesta di ascolto di un brano. I clienti
 sono divisi in due tipologie. Chi effettua il login come utente premium può fare richieste di ascolto senza nessuna restrizione.
-I clienti stardard hanno invece un tempo limite e una volta esaurito devono ascoltare la pubblicità prima di poter fare
+I clienti stardard hanno invece un tempo limite esaurito il quale devono ascoltare la pubblicità prima di poter fare
 un'altra richiesta di ascolto. In questo caso si assumono le richieste di ascolto più numerose rispetto ai login o ai logout.

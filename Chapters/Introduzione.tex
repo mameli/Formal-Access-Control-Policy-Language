@@ -1,31 +1,47 @@
 \myChapter{Introduzione}
-Dalla loro nascita i sistemi informatici hanno avuto il ruolo di gestore di dati.
-Il tipo di queste informazioni ha reso necessario l'utilizzo di un sistema che le proteggesse, infatti i
+I sistemi informatici, fin dalla loro nascita, sono stati utilizzati per la gestione di dati.
+Il tipo di informazioni gestite ha reso necessario la creazione di un sistema che le proteggesse, infatti i
 dati più sensibili, se diffusi senza una valida autorizzazione, possono arrecare ad esempio danni economici
 ad una società o nuocere anche gli utenti nel privato.
 Per far fronte al problema sono stati sviluppati dei modelli per il controllo degli accessi. Tuttavia la quantità di dati
 e la complessità dei sistemi moderni ha mostrato i limiti delle tecnologie concepite e questo fatto ha portato inevitabilmente
-allo sviluppo di un nuovo modello: lo \ac{UCON}
+allo sviluppo di un nuovo approccio: lo \ac{UCON}.
+
+I ricercatori dell'università di San Antonio, Jaehong Park e Ravi Sandhu, hanno descritto un modello
+di \ac{UCON}\cite{ucon} che consente di ottenere decisioni durante l'accesso e di basare le valutazioni di una richiesta
+sul comportamento passato.
 
 In questa tesi si descrive un'estensione basata su UCON per \ac{FACPL}.
 Il problema principale da risolvere è la staticità del processo di valutazione del linguaggio.
 Tutte le richieste di accesso ricevono una risposta attraverso un sistema di verifica sempre uguale e i controlli
 risultano ridondati e in alcuni casi inutili.
-Nei capitoli successivi si mostrano i passi che hanno portato allo sviluppo di una nuova gestione delle richieste
-in grado di rendere dinamico il processo valutativo.
+Nella prima parte dello sviluppo è stata modificata la sintassi del linguaggio per adeguarla ad una nuova
+gestione delle richieste, in seguito
+è stata sviluppata un'estensione della libreria su cui si basa \ac{FACPL} per modificare
+il processo valutativo al seguito di richieste di accesso continuative.
+
+Il lavoro di estensione della libreria è stato svolto insieme al mio collega Federico Schipani. Nella tesi del
+mio collega si parla di come è stato possibile esprimere in FACPL politiche di controllo degli accessi basate
+sul comportamento passato. Le modifiche riguardano principalmente il \ac{PDP} (descritto nel Capitolo~\ref{chap:Formal Access Control Policy Language})
+e consistono nella creazione di uno stato del sistema. In questa tesi invece si modifica il \ac{PEP}
+(descritto ugualmente nel Capitolo~\ref{chap:Formal Access Control Policy Language}
+e nel Capitolo~\ref{chap:Usage Control in FACPL} e \ref{chap:Estensione della libreria FACPL} nella versione modificata)
+e si aggiunge un nuovo tipo di obbligazione.
+Nei capitoli successivi si mostrano i passi che hanno portato allo sviluppo della nuova gestione delle richieste
+in grado di rendere dinamico il processo di valutazione.
 \vspace{5mm}
 \newline
 Il resto del documento è così strutturato:
 \begin{itemize}
   \renewcommand\labelitemi{--}
-  \item Nel capitolo~\ref{chap:Access Control e Usage Control}
+  \item Nel Capitolo~\ref{chap:Access Control e Usage Control}
   si introducono vari modelli di Access Control, si descrive lo \ac{UCON} e si mostrano due casi di studio basati sul nuovo modello.
-  \item Nel capitolo~\ref{chap:Formal Access Control Policy Language}
+  \item Nel Capitolo~\ref{chap:Formal Access Control Policy Language}
   si descrive la sintassi e la semantica di \ac{FACPL}, il processo di valutazione e un esempio utilizzando il linguaggio.
-  \item Nel capitolo~\ref{chap:Usage Control in FACPL}
+  \item Nel Capitolo~\ref{chap:Usage Control in FACPL}
   si mostra l'estensione di \ac{FACPL} per migliorare la gestione delle richieste.
-  \item Nel capitolo~\ref{chap:Estensione della libreria FACPL}
+  \item Nel Capitolo~\ref{chap:Estensione della libreria FACPL}
   si riportano le modifiche alla libreria Java su cui è basato il linguaggio per adattarlo al nuovo processo valutativo.
-  \item Nel capitolo~\ref{chap:Conclusioni}
-  si riassume il lavoro svolto e si presentato dei possibili sviluppi futuri.
+  \item Nel Capitolo~\ref{chap:Conclusioni}
+  si riassume il lavoro svolto e si presentano alcuni possibili sviluppi futuri.
 \end{itemize}

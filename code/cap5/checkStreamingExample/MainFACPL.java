@@ -61,10 +61,10 @@ public class MainFACPL {
 		MainFACPL system = new MainFACPL();
 		// Result log
 		StringBuffer result = new StringBuffer();
-		requests.add(ContextRequest_ListenStandardBob.getContextReq());//deny
-		requests.add(ContextRequest_CommercialsBob.getContextReq());//commercials
-		requests.add(ContextRequest_ListenStandardBob.getContextReq());//permit
-		requests.add(ContextRequest_ListenStandardBob.getContextReq());//permit
+		requests.add(ContextRequest_ListenStandardBob.getContextReq());
+		requests.add(ContextRequest_CommercialsBob.getContextReq());
+		requests.add(ContextRequest_ListenStandardBob.getContextReq());
+		requests.add(ContextRequest_ListenStandardBob.getContextReq());
 
 		for (ContextRequest_Status rcxt : requests) {
 			result.append(system.pep.doAuthorisation(rcxt));

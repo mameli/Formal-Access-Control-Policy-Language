@@ -1,7 +1,7 @@
 PolicySet Streaming_Policy { deny-unless-permit
   policies:
 
-  PolicySet LoginAlice_Policy { deny-unless-permit
+  PolicySet LoginPREMIUM_Policy { deny-unless-permit
     target:equal ( name / id, "Alice") && equal ( action/id, "login")
     policies:
       Rule loginAlice( permit target:
@@ -12,7 +12,7 @@ PolicySet Streaming_Policy { deny-unless-permit
     [ permit M flagStatus(streamingAlice, true) ]
   }
 
-  PolicySet LoginBob_Policy { deny-unless-permit
+  PolicySet LoginSTANDARD_Policy { deny-unless-permit
     target:equal ( name / id, "Bob") && equal ( action/id, "login")
     policies:
       Rule loginBob( permit target:
@@ -23,7 +23,7 @@ PolicySet Streaming_Policy { deny-unless-permit
     [ permit M flagStatus(streamingBob, true) ]
   }
 
-  PolicySet ListenAlice_Policy { deny-unless-permit
+  PolicySet ListenPREMIUM_Policy { deny-unless-permit
     target:equal ( name / id, "Alice") && equal ( action/id, "listen")
     policies:
       Rule listenAlice( permit target:
@@ -33,7 +33,7 @@ PolicySet Streaming_Policy { deny-unless-permit
     [ permit M equal(name/id, "Alice"), equal(status/streamingAlice, true)]
   }
 
-  PolicySet ListenBob_Policy { deny-unless-permit
+  PolicySet ListenSTANDARD_Policy { deny-unless-permit
     target:equal ( name / id, "Bob") && equal ( action/id, "listen")
     policies:
       Rule listenBob( permit target:
@@ -45,7 +45,7 @@ PolicySet Streaming_Policy { deny-unless-permit
     [ permit M flagStatus(commercialsBob, true) ]
   }
 
-  PolicySet commercialsBob_Policy { deny-unless-permit
+  PolicySet commercials_Policy { deny-unless-permit
     target:equal ( name / id, "Bob") && equal ( action/id, "listenCommercials")
     policies:
       Rule listenBob( permit target:

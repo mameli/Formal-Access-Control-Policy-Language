@@ -1,0 +1,50 @@
+---------------------------------------------------
+REQUEST N: 1
+REQUEST: listen alice
+PEP Decision=
+ DENY
+---------------------------------------------------
+REQUEST N: 2
+REQUEST: listen bob
+PEP Decision=
+ DENY
+---------------------------------------------------
+REQUEST N: 3
+REQUEST: login alice
+PEP Decision=
+ PERMIT
+---------------------------------------------------
+REQUEST N: 4
+REQUEST: login bob
+PEP Decision=
+ PERMIT
+---------------------------------------------------
+REQUEST N: 5
+REQUEST: listen alice
+PEP Decision=
+ PERMIT
+---------------------------------------------------
+REQUEST N: 6
+REQUEST: listen bob
+PEP Decision=
+ PERMIT
+---------------------------------------------------
+REQUEST N: 7
+REQUEST: listen bob
+PEP Decision=
+ PERMIT
+---------------------------------------------------
+REQUEST N: 8
+REQUEST: listen bob
+PEP Decision=
+ DENY
+---------------------------------------------------
+REQUEST N: 9
+REQUEST: pubblicità bob
+PEP Decision=
+ PERMIT
+---------------------------------------------------
+REQUEST N: 10
+REQUEST: listen bob
+PEP Decision=
+ PERMIT

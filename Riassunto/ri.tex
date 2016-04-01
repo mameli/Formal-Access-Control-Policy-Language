@@ -1,0 +1,47 @@
+\documentclass{article}
+
+\usepackage[italian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage[normalem]{ulem}
+\usepackage[font=large, tablename= ]{caption}
+\useunder{\uline}{\ul}{}
+\renewcommand{\baselinestretch}{1.3}
+\setlength{\textwidth}{16 cm}
+\setlength{\oddsidemargin}{0 cm}
+\setlength{\topmargin}{-1.5 cm}
+\setlength{\textheight}{30 cm}
+\begin{document}
+
+\begin{table}[]
+\centering
+\caption*{Progetto e implementazione in FACPL di un monitor a runtime per il supporto al controllo continuativo degli accessi}
+\begin{tabular}{lll}
+\textbf{Candidato:}   & Filippo Mameli & \href{mailto:filippo.mameli@stud.unifi.it}{\texttt{filippo.mameli@stud.unifi.it}}  \\
+\textbf{Relatore:}    & Rosario Pugliese  & \href{mailto:rosario.pugliese@unifi.it}{\texttt{rosario.pugliese@unifi.it}}                           \\
+\textbf{Correlatore:} & Andrea Margheri   & \href{mailto:andrea.margheri@unifi.it}{\texttt{andrea.margheri@unifi.it}}
+\end{tabular}
+\end{table}
+\subsection*{Riassunto}
+I sistemi informatici, fin dalla loro nascita, sono stati utilizzati per la gestione di dati.
+Il tipo di informazioni gestite ha reso necessario la creazione di un sistema che le proteggesse, infatti i
+dati più sensibili, se diffusi senza una valida autorizzazione, possono arrecare ad esempio danni economici
+ad una società o nuocere anche gli utenti nel privato.
+Per far fronte al problema sono stati sviluppati dei modelli per il controllo degli accessi. Tuttavia la quantità di dati
+e la complessità dei sistemi moderni ha mostrato i limiti delle tecnologie concepite e questo fatto ha portato inevitabilmente
+allo sviluppo di un nuovo approccio: lo UCON.
+
+I ricercatori dell'università di San Antonio, Jaehong Park e Ravi Sandhu, hanno descritto un modello
+di UCON che consente di ottenere decisioni durante l'accesso e di basare le valutazioni di una richiesta
+sul comportamento passato.
+
+In questa tesi si descrive un'estensione basata su UCON per FACPL.
+Il problema principale da risolvere è la staticità del processo di valutazione del linguaggio.
+Tutte le richieste di accesso ricevono una risposta attraverso un sistema di verifica sempre uguale e i controlli
+risultano ridondati e in alcuni casi inutili.
+Nella prima parte dello sviluppo è stata modificata la sintassi del linguaggio per adeguarla ad una nuova
+gestione delle richieste, in seguito
+è stata sviluppata un'estensione della libreria su cui si basa FACPL per modificare
+il processo valutativo al seguito di richieste di accesso continuative.
+
+\end{document}

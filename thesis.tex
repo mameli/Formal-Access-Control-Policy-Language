@@ -168,6 +168,41 @@ parts]{classicthesis}
 % Java
 %--------------------------------------------------------------
 \definecolor{mygray}{rgb}{0.5,0.5,0.5}
+
+
+\definecolor{monokai@black}{HTML}{2C2C2A}
+\definecolor{monokai@gray}{HTML}{524F52}
+\definecolor{monokai@yellow}{HTML}{FDF5A9}
+\definecolor{monokai@orange}{HTML}{FD971F}
+\definecolor{monokai@red}{HTML}{DC322F}
+\definecolor{monokai@magenta}{HTML}{D33682}
+\definecolor{monokai@violet}{HTML}{F7208B}
+\definecolor{monokai@blue}{HTML}{004C99}
+\definecolor{monokai@green}{HTML}{009900}
+
+\lstdefinestyle{monokai}{
+	frame=tb,
+	language=Java,
+	aboveskip=3mm,
+	belowskip=3mm,
+	showstringspaces=false,
+	columns=flexible,
+	basicstyle={\small\ttfamily},
+	numbers=left,
+	numberstyle=\tiny\color{monokai@black},
+	numbersep=5pt,
+	stepnumber=2,
+	breaklines=true,
+	breakatwhitespace=true,
+	tabsize=3,
+	numberstyle=\color{monokai@gray},
+	keywordstyle=\color{monokai@violet},
+	stringstyle=\color{monokai@green}\ttfamily,
+	identifierstyle=\color{monokai@blue},
+	commentstyle=\color{monokai@gray},
+	emphstyle=\color{monokai@red}
+}
+
 \lstdefinestyle{javigno}{
 	frame=tb,
 	language=Java,
@@ -185,13 +220,17 @@ parts]{classicthesis}
 	tabsize=3
 }
 
-\newcommand{\myIjava}[5]
+\newcommand{\javaFirstline}[5]
 	{
-		\lstinputlisting[language = Java, style = javigno, firstline = #3, lastline = #4, caption = {#2}\label{lst:#5}]{./code/cap5/#1}
+		\lstinputlisting[language = Java, style = monokai, firstline = #3, lastline = #4,firstnumber=1, caption = {#2}\label{lst:#5}]{./code/cap5/#1}
 	}
-\newcommand{\myjava}[2]
+\newcommand{\javaLastline}[5]
 	{
-		\lstinputlisting[language = Java, style = javigno, caption = {#2}\label{lst:#1}]{./code/cap5/#1}
+		\lstinputlisting[language = Java, style = monokai, firstline = #3, lastline = #4,firstnumber=last, caption = {#2}\label{lst:#5}]{./code/cap5/#1}
+	}
+\newcommand{\javaFirstlineN}[6]
+	{
+		\lstinputlisting[language = Java, style = monokai, firstline = #3, lastline = #4,firstnumber=#6, caption = {#2}\label{lst:#5}]{./code/cap5/#1}
 	}
 %--------------------------------------------------------------
 % Layout setting
@@ -209,7 +248,7 @@ parts]{classicthesis}
 
 \lstset{
   	frame=tb,
-	language=Matlab,
+		language=Matlab,
   	aboveskip=3mm,
   	belowskip=3mm,
   	showstringspaces=false,

@@ -43,23 +43,24 @@ public class PEPCheck extends PEP {
 
 	public AuthorisationPEP doAuthorisation(ContextRequest_Status cxtReq) {
 		/*
-		 * authorisation: if number of check obligation == 0 -> PDP evaluation
-		 * -> PEP Enforcement otherwise -> PEP Evaluation
+		 * authorisation: if number of check obligation == 0
+		 * -> PDP+PEP evaluation
+		 * else
+		 * -> PEP Evaluation
 		 */
 		Logger l = LoggerFactory.getLogger(PEPCheck.class);
 		AuthorisationPEP result;
 		if (checkObl.size() == 0) {
 			/*
-			 * PDP Evaluation -> PEP ENFORCEMENT
+			 * PDP Evaluation -> PEP Enforcement
 			 */
-			// ENFORCEMENT BY PEP");
 			authPDP = pdp.doAuthorisation(cxtReq);
 			return this.doEnforcement(authPDP, cxtReq);
 		} else {
 			/*
-			 * PEP EVALUATION
+			 * PEP Evaluation
 			 */
-			// EVALUATING CHECK OBLIGATION");
+			// Evaluating check obligation
 			result = this.doPEPCheck(cxtReq);
 			StandardDecision dec = result.getDecision();
 			l.debug("CHECK RESULT: " + dec);
@@ -67,8 +68,8 @@ public class PEPCheck extends PEP {
 				return result;
 			} else {
 				/*
-				 * if check obligation returns an error -> PDP Evaluation -> PEP
-				 * Enforcement
+				 * if check obligation returns an error
+				 * -> PDP Evaluation -> PEP Enforcement
 				 */
 				l.debug("BACK TO PDP");
 				authPDP = pdp.doAuthorisation(cxtReq);
@@ -124,7 +125,7 @@ public class PEPCheck extends PEP {
 
 private AuthorisationPEP doPEPCheck(ContextRequest_Status ctxRequest) {
 	/*
-	 * evaluate check obligation
+	 * Evaluate check obligation
 	 */
 	Logger l = LoggerFactory.getLogger(PEPCheck.class);
 	l.debug("DOING PEP CHECK:");

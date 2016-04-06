@@ -16,7 +16,7 @@ public class ObligationCheck extends AbstractObligation {
 	private FacplDate expirationTime;
 	private CheckObligationType type;
 	/*
-	 * four constructor for all combination of Expression:
+	 * four constructor for all combinations of Expression:
 	 * 1: ExpressionFunction, ExpressionFunction
 	 * 2: ExpressionBooleanTree, ExpressionBooleanTree
 	 * 3: ExpressionBooleanTree, ExpressionFunction
@@ -61,13 +61,11 @@ public class ObligationCheck extends AbstractObligation {
 		this.pepAction = "CHECK";
 		this.type = CheckObligationType.N;
 	}
-
 	private void init(FacplDate expiration) {
 		this.expirationTime = expiration;
 		this.pepAction = "CHECK";
 		this.type = CheckObligationType.T;
 	}
-
 	private void init() {
 		this.pepAction = "CHECK";
 		this.type = CheckObligationType.P;
@@ -156,13 +154,16 @@ public class ObligationCheck extends AbstractObligation {
 		 * this method create a fulfilledobligationcheck
 		 */
 		if (this.type == CheckObligationType.N) {
-			return new FulfilledObligationCheck(this.evaluatedOn, this.target, this.status_target,
+			return new FulfilledObligationCheck(this.evaluatedOn, this.target,
+					this.status_target,
 					this.expiration);
 		} else if (this.type == CheckObligationType.T){
-			return new FulfilledObligationTimeCheck(this.evaluatedOn, this.target, this.status_target,
+			return new FulfilledObligationTimeCheck(this.evaluatedOn, this.target,
+					this.status_target,
 					this.expirationTime);
 		} else{
-			return new FulfilledObligationCheckPersistent(this.evaluatedOn, this.target,
+					return new FulfilledObligationCheckPersistent(this.evaluatedOn,
+					this.target,
 					this.status_target);
 		}
 	}

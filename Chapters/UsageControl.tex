@@ -1,12 +1,12 @@
 \myChapter{Access Control e Usage Control}
 \label{chap:Access Control e Usage Control}
-L'esigenza di proteggere i dati ha determinato la necessità di creare strumenti per il controllo degli accessi che potevano eliminare,
- o almeno limitare, i rischi derivati dalla perdita delle informazioni.\par
-Nel corso del tempo si sono sviluppati alcuni modelli per i sistemi del controllo degli accessi. A seconda delle esigenze
-sono stati adottati numerosi modelli~\cite{NISTACM}. Nelle sezioni successive saranno presentate:
-\ac{ACL}, \ac{RBAC}, \ac{ABAC}, \ac{PBAC} in \ref{sub:PBAC}.
-In \ref{sec:Usage_Control} sarà descritto lo \ac{UCON} e il recente modello UCON\textsubscript{ABC} poi in \ref{subs:es_UC}
-si esporranno due esempi che utilizzano il nuovo schema.
+L'esigenza di proteggere i dati ha determinato la necessità di creare strumenti per il controllo degli accessi così da eliminare,
+ o almeno limitare, i rischi derivati dall'accesso non autorizzato alle informazioni.\par
+Nel corso del tempo si sono sviluppati numerosi modelli per i sistemi di controllo degli accessi~\cite{NISTACM}.
+Nelle sezioni successive saranno presentati:
+\ac{ACL}, \ac{RBAC}, \ac{ABAC} e \ac{PBAC}. Questi modelli sono introdotti in Sezione~\ref{sub:PBAC}.
+In Sezione~\ref{sec:Usage_Control} è descritto lo \ac{UCON} e il recente modello UCON\textsubscript{ABC}, poi in Sezione~\ref{subs:es_UC}
+sono esposti due esempi che utilizzano \ac{UCON}.
 \section{Access Control}
 
 \subsection*{Access Control List}
@@ -19,12 +19,13 @@ difficile da gestire. Questo può portare a errori di assegnazione di autorizzaz
 necessari per un singolo accesso.
 \subsection*{Role Based Access Control}
 \label{sub:RBAC}
-\ac{RBAC} è l'evoluzione di \ac{ACL}. In questo modello vengono introdotti i \emph{ruoli}~\cite{RBAC}. Più utenti
+\ac{RBAC} è l'evoluzione di \ac{ACL}. In questo modello vengono introdotti i \emph{ruoli}~\cite{RBAC}.
+Il ruolo è un titolo che definisce un livello di autorità. Più utenti
 possono avere lo stesso ruolo e quindi avere a disposizione tutte le risorse connesse a questo. Il modello
 diventa scalabile e più facile da gestire, inoltre si possono anche creare delle gerarchie per facilitare l'assegnamento di
 risorse in base alla classificazione dell'utente. \ac{RBAC} è limitato dalla staticità dei permessi e dal concetto di ruolo
 che non può essere associato a nessun attributo.
-\par In figura \ref{fig:img/RBAC} si mostra un gruppo di utenti
+\par In Figura \ref{fig:img/RBAC} si mostra un gruppo di utenti
 facente parte di un \emph{role} e la connessione tra i permessi e il ruolo.
 \MyFigure{img/RBAC}{RBAC}{0.7}
 \subsection*{Attribute Based Access Control}
@@ -33,7 +34,7 @@ facente parte di un \emph{role} e la connessione tra i permessi e il ruolo.
 della richiesta~\cite{ABAC}. La valutazione di una autorizzazione diventa più specifica rispetto a \ac{RBAC},
 le regole sono più precise per ogni risorsa e inoltre il modello si basa su politiche invece che su permessi statici.
 
-In figura \ref{fig:img/abac.png} si illustra l'utilizzo da parte del sistema di valutazione~(Rules engine) di
+In Figura \ref{fig:img/abac.png} si illustra l'utilizzo da parte del sistema di valutazione~(Rules engine) di
 attributi dell'\emph{utente}~(user), del \emph{contesto}~(environment) e delle \emph{azioni}, per la decisione
 sull'autorizzazione.
 \MyFigure{img/abac.png}{ABAC}{0.7}
@@ -72,14 +73,14 @@ fare accesso. Possono essere associati ad esempio a un libro, o a una qualsiasi 
 I \emph{Right} sono i privilegi che i \emph{Subject} hanno o esercitano sugli \emph{Object}.\par
 I tre fattori Authorization, oBligation e Condition (da cui prende anche il
 nome il modello UCON\textsubscript{ABC}) sono predicati funzionali che devono essere valutati per le decisioni sull'uso.
-I tradizionali modelli di Access Controls utilizzano solo le Authorization per il processo di decisione, Obligation e Condition
+I tradizionali modelli di Access Control utilizzano solo le Authorization per il processo di decisione, Obligation e Condition
 sono i nuovi componenti che entrano a far parte della valutazione ~\cite{IEEE}.\par
 Le \emph{Authorization} devono valutare la decisione sull'uso. Queste danno un responso positivo
 o negativo a seconda che la domanda di un Subject sia accettata o meno.\par
 Le \emph{Obligation} verificano i requisiti obbligatori che un Subject deve eseguire prima o durante l'utilizzo di una risorsa.\par
 Infine le \emph{Condition} restituiscono \texttt{true} o \texttt{false} in base alle variabili dell'ambiente o allo stato del sistema.\par
-Il processo di decisione è diviso in tre fasi ~\cite{SurveyUsageControl}:Before usage (pre), Ongoing usage (on) e After usage.
-\MyFigure{img/uconFase.png}{Fasi del processo di decisione}{1}
+Il processo di decisione è diviso in tre fasi come mostrato in Figura \ref{fig:img/uconFase.png} : Before usage (pre), Ongoing usage (on) e After usage ~\cite{SurveyUsageControl}.
+\MyFigure{img/uconFase.png}{Fasi del processo di decisione}{1}\\
 La valutazione della prima parte inizia da una richiesta e non ha differenze con il processo valutativo dell'Access Control.
 Nella seconda invece si utilizzano i nuovi predicati introdotti ed è in questa parte che si affermano i controlli continuativi,
 le obbligazioni e le condizioni sull'utilizzo.\par
@@ -103,4 +104,8 @@ Letture ripetute, su uno stesso insieme di file, vengono gestite in modo efficie
 In un sistema gli utenti, dopo aver fatto il login, possono fare una richiesta di ascolto di un brano. I clienti
 sono divisi in due tipologie. Chi effettua il login come utente premium può fare richieste di ascolto senza nessuna restrizione.
 I clienti stardard hanno invece un tempo limite esaurito il quale devono ascoltare la pubblicità prima di poter fare
-un'altra richiesta di ascolto. In questo caso si assumono le richieste di ascolto più numerose rispetto ai login o ai logout.
+un'altra richiesta di ascolto. In questo caso si assumono le richieste di ascolto più numerose rispetto ai login o ai logout.\par
+\vspace{1em}
+I due esempi non possono essere implementati con i modelli di Access Control tradizionali perché basano
+le valutazioni sul comportamento passato e richieste ripetute di uno stesso tipo sono valutate
+in modo differente.

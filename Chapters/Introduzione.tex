@@ -5,20 +5,26 @@ dati più sensibili, se diffusi senza una valida autorizzazione, possono arrecar
 ad una società o nuocere anche gli utenti nel privato.
 Per far fronte al problema sono stati sviluppati dei modelli per il controllo degli accessi. Tuttavia la quantità di dati
 e la complessità dei sistemi moderni ha mostrato i limiti delle tecnologie concepite e questo fatto ha portato inevitabilmente
-allo sviluppo di un nuovo approccio: lo \ac{UCON}.
+allo sviluppo di un nuovo approccio: lo \acl{UCON}.
 
-I ricercatori dell'università di San Antonio, Jaehong Park e Ravi Sandhu, hanno descritto un modello
-di \ac{UCON}\cite{ucon} che consente di ottenere decisioni durante l'accesso e di basare le valutazioni di una richiesta
+I ricercatori dell'università di San Antonio, Jaehong Park e Ravi Sandhu, hanno descritto il modello
+\ac{UCON}~\cite{ucon} che consente di ottenere controlli continuativi di accesso e di basare le valutazioni di una richiesta
 sul comportamento passato.
 
 In questa tesi si descrive un'estensione basata su UCON per \ac{FACPL}.
+\ac{FACPL} è un linguaggio basato su \ac{XACML} ed è supportato da una libreria Java. Questo viene utilizzato per lo
+sviluppo di sistemi basati sul modello per controllo degli accessi \acl{PBAC}.\par
 Il problema principale da risolvere è la staticità del processo di valutazione del linguaggio.
-Tutte le richieste di accesso ricevono una risposta attraverso un sistema di verifica sempre uguale e i controlli
-risultano ridondati e in alcuni casi inutili.
+Tutte le richieste di accesso ricevono una risposta attraverso un sistema di verifica che esegue sempre
+tutti i controlli. Non modificando mai i passi della valutazione, vari controlli per le richieste potrebbero
+risultare ridondati e in alcuni casi inutili. Le richieste che non modificano i dati
+o lo stato del sistema, come ad esempio le letture su file, passano per lo stesso processo di valutazione
+di tutte le altre richieste e il sistema dei controlli risulta eccessivamente complesso per l'autorizzazione di azioni semplici.
+Per questo motivo è stato ideato un monitor in grado di scegliere a runtime il processo di verifica delle richieste.\par
 Nella prima parte dello sviluppo è stata modificata la sintassi del linguaggio per adeguarla ad una nuova
 gestione delle richieste, in seguito
-è stata sviluppata un'estensione della libreria su cui si basa \ac{FACPL} per modificare
-il processo valutativo al seguito di richieste di accesso continuative.
+è stata sviluppata un'estensione della libreria Java che supporta \ac{FACPL} per modificare
+il processo valutativo così da garantire controlli di accesso continuativi.
 Nei capitoli successivi si mostrano i passi che hanno portato allo sviluppo della nuova gestione delle richieste
 in grado di rendere dinamico il processo di valutazione.
 \vspace{5mm}
@@ -27,13 +33,14 @@ Il resto del documento è così strutturato:
 \begin{itemize}
   \renewcommand\labelitemi{--}
   \item Nel Capitolo~\ref{chap:Access Control e Usage Control}
-  si introducono vari modelli di Access Control, si descrive lo \ac{UCON} e si mostrano due casi di studio basati sul nuovo modello.
+  si introducono vari modelli di Access Control, si descrive \ac{UCON} e si mostrano due casi di studio basati sul
+  controllo continuativo degli accessi.
   \item Nel Capitolo~\ref{chap:Formal Access Control Policy Language}
-  si descrive la sintassi e la semantica di \ac{FACPL}, il processo di valutazione e un esempio utilizzando il linguaggio.
+  si descrive la sintassi e la semantica di \ac{FACPL}, il processo di valutazione e un esempio di utilizzo del linguaggio.
   \item Nel Capitolo~\ref{chap:Usage Control in FACPL}
-  si mostra l'estensione di \ac{FACPL} per migliorare la gestione delle richieste.
+  si mostra l'estensione di \ac{FACPL} al fine di supportare controlli continativi di accesso.
   \item Nel Capitolo~\ref{chap:Estensione della libreria FACPL}
-  si riportano le modifiche alla libreria Java su cui è basato il linguaggio per adattarlo al nuovo processo valutativo.
+  si riportano le modifiche alla libreria Java che supporta \ac{FACPL} per adattarlo al nuovo processo valutativo.
   \item Nel Capitolo~\ref{chap:Conclusioni}
   si riassume il lavoro svolto e si presentano alcuni possibili sviluppi futuri.
 \end{itemize}

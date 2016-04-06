@@ -198,8 +198,8 @@ parts]{classicthesis}
 	numberstyle=\color{monokai@gray},
 	keywordstyle=\color{monokai@violet},
 	stringstyle=\color{monokai@green}\ttfamily,
-	identifierstyle=\color{monokai@blue},
-	commentstyle=\color{monokai@gray},
+	identifierstyle=\color{monokai@black},
+	commentstyle=\color{monokai@blue},
 	emphstyle=\color{monokai@red}
 }
 
@@ -220,15 +220,27 @@ parts]{classicthesis}
 	tabsize=3
 }
 
-\newcommand{\javaFirstline}[5]
+\newcommand{\javaFirstline}[4]
+	{
+		\lstinputlisting[language = Java, style = monokai, firstline = #2, lastline = #3,firstnumber=1]{./code/cap5/#1}\label{lst:#4}
+	}
+\newcommand{\javaLastline}[4]
+	{
+		\lstinputlisting[language = Java, style = monokai, firstline = #2, lastline = #3,firstnumber=last]{./code/cap5/#1}\label{lst:#4}
+	}
+\newcommand{\javaFirstlineN}[5]
+	{
+		\lstinputlisting[language = Java, style = monokai, firstline = #2, lastline = #3,firstnumber=#5]{./code/cap5/#1}\label{lst:#4}
+	}
+\newcommand{\javaFirstlineC}[5]
 	{
 		\lstinputlisting[language = Java, style = monokai, firstline = #3, lastline = #4,firstnumber=1, caption = {#2}\label{lst:#5}]{./code/cap5/#1}
 	}
-\newcommand{\javaLastline}[5]
+\newcommand{\javaLastlineC}[5]
 	{
 		\lstinputlisting[language = Java, style = monokai, firstline = #3, lastline = #4,firstnumber=last, caption = {#2}\label{lst:#5}]{./code/cap5/#1}
 	}
-\newcommand{\javaFirstlineN}[6]
+\newcommand{\javaFirstlineNC}[6]
 	{
 		\lstinputlisting[language = Java, style = monokai, firstline = #3, lastline = #4,firstnumber=#6, caption = {#2}\label{lst:#5}]{./code/cap5/#1}
 	}
@@ -308,8 +320,11 @@ parts]{classicthesis}
  	\acro{XML}[XML]{eXtensible Markup Language}
  	\acro{FACPL}[FACPL]{Formal Access Control Policy Language}
 	\acro{EBNF}{Extended Backus-Naur form}
+	\acro{UML}{Unified Modeling Language}
 \end{acronym}
-\include{Chapters/bibliografia}
+\nocite{*}
+\bibliographystyle{abbrv}
+\bibliography{Chapters/bib}
 %--------------------------------------------------------------
 \end{document}
 %--------------------------------------------------------------

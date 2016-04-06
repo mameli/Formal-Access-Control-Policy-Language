@@ -12,6 +12,16 @@ PolicySet Streaming_Policy { deny-unless-permit
     [ permit M flagStatus(streamingAlice, true) ]
   }
 
+  PolicySet ListenPREMIUM_Policy { deny-unless-permit
+    target:equal ( name / id, "Alice") && equal ( action/id, "listen")
+    policies:
+      Rule listenAlice( permit target:
+          equal ( status / loginAlice, "PREMIUM")
+        )
+    obl:
+    [ permit M equal(name/id, "Alice"), equal(status/streamingAlice, true)]
+  }
+
   PolicySet LoginSTANDARD_Policy { deny-unless-permit
     target:equal ( name / id, "Bob") && equal ( action/id, "login")
     policies:
@@ -21,16 +31,6 @@ PolicySet Streaming_Policy { deny-unless-permit
     obl:
     [ permit M SetString(loginBob, "STANDARD") ],
     [ permit M flagStatus(streamingBob, true) ]
-  }
-
-  PolicySet ListenPREMIUM_Policy { deny-unless-permit
-    target:equal ( name / id, "Alice") && equal ( action/id, "listen")
-    policies:
-      Rule listenAlice( permit target:
-          equal ( status / loginAlice, "PREMIUM")
-        )
-    obl:
-    [ permit M equal(name/id, "Alice"), equal(status/streamingAlice, true)]
   }
 
   PolicySet ListenSTANDARD_Policy { deny-unless-permit
@@ -59,10 +59,16 @@ PolicySet Streaming_Policy { deny-unless-permit
 PAS {
   Combined Decision : false ;
   Extended Indeterminate : false ;
-  Java Package : "exampleReadWrite" ;
+  Java Package : "exampleStreaming" ;
   Requests To Evaluate : Request1, Request2, Request3, Request4, Request5, Request6 , Request7, Request8, Request9, Request10
   pep: deny-biased
   pdp: deny-unless-permit
-  status: [(boolean isWritingThesis = false) ]
-  include exampleReadWrite
+  status: [ (string loginBob = "NOLOGIN"),
+            (string loginAlice = "NOLOGIN"),
+            (string passwordBob = "abcdef"),
+            (string passwordAlice = "123456"),
+            (boolean streamingBob = false),
+            (boolean streamingAlice = false),
+            (boolean commercialsBob = false) ]
+  include exampleStreaming
 }

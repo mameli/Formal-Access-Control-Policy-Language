@@ -1,0 +1,33 @@
+\myChapter{Conclusioni}
+\label{chap:Conclusioni}
+In questa tesi è stata sviluppata un'estensione del linguaggio \ac{FACPL} per migliorare la gestione delle richieste di accesso.
+Nella prima parte sono state descritte le strutture su cui si è basato lo sviluppo. Sono stati introdotti i primi modelli
+dell'Access Control partendo dal più semplice \ac{ACL} arrivando fino a \ac{PBAC}. In seguito è stato mostrato lo Usage Control
+descrivendo il modello UCON\textsubscript{ABC} ideato da Jaehong Park e Ravi Sandhu.
+
+Successivamente è stato esaminato il linguaggio \ac{FACPL} su cui si è basata l'implementazione del monitor a runtime.
+\MakeUppercase{è} stata mostrata la sintassi, la semantica e il processo di valutazione del linguaggio.
+Utilizzando un esempio di politica, sono stati evidenziati i limiti e le strutture mancanti per
+il supporto al controllo continuativo degli accessi.
+
+Per eliminare i controlli superflui delle verifiche di autorizzazione, è stata modificata la sintassi di \ac{FACPL}
+e il processo valutativo.
+Alle modifiche apportate sono seguite le implementazioni di nuove strutture nella libreria Java
+che supporta \ac{FACPL}.
+Infine, sulla base degli esempi di Usage Control proposti, sono stati mostrati i miglioramenti nell'uso delle
+risorse computative.
+
+Il lavoro di estensione della libreria è stato svolto insieme al mio collega Federico Schipani. Nella tesi del
+mio collega si parla di come è stato possibile esprimere in \ac{FACPL} politiche di controllo degli accessi basate
+sul comportamento passato. Le modifiche riguardano principalmente il \ac{PDP} (descritto nel Capitolo~\ref{chap:Formal Access Control Policy Language})
+e consistono nella creazione di uno stato del sistema. In questa tesi invece si modifica il \ac{PEP}
+(descritto ugualmente nel Capitolo~\ref{chap:Formal Access Control Policy Language}
+e nel Capitolo~\ref{chap:Usage Control in FACPL} e \ref{chap:Estensione della libreria FACPL} nella versione modificata),
+si implementa un nuovo tipo di obbligazione e si mostrano i miglioramenti dei tempi di valutazione delle richieste.
+\section{Sviluppi Futuri}
+\label{sec:Sviluppi Futuri}
+In questo documento sono stati esposti due esempi di Usage Control, uno si basa sul numero di richieste, l'altro sul tempo.
+La libreria di \ac{FACPL} è semplice da estendere ed è facile pensare a nuovi possibili controlli su cui
+le autorizzazioni possono basarsi. Si potrebbe associare le verifiche della richiesta alla posizione
+geografica dell'utente, oppure alla congestione della rete aggiungendo semplicemente la gestione di un nuovo parametro nella
+creazione delle obbligazioni e le rispettive funzioni che ne controllano il valore.

@@ -1,0 +1,330 @@
+%--------------------------------------------------------------
+% thesis.tex
+%--------------------------------------------------------------
+% Corso di Laurea in Informatica
+% http://if.dsi.unifi.it/
+% @Facolt\`a di Scienze Matematiche, Fisiche e Naturali
+% @Universit\`a degli Studi di Firenze
+%--------------------------------------------------------------
+% - template for the main file of Informatica@Unifi Thesis
+% - based on Classic Thesis Style Copyright (C) 2008
+%   Andr\'e Miede http://www.miede.de
+%--------------------------------------------------------------
+\documentclass[twoside,openright,titlepage,fleqn,
+	headinclude,12pt,a4paper,BCOR5mm,footinclude]{scrbook}
+%--------------------------------------------------------------
+\newcommand{\myItalianTitle}{Progetto e implementazione in FACPL di un monitor a runtime per il supporto al controllo continuativo degli accessi}
+%\newcommand{\myItalianTitle}{Estensione del linguaggio FACPL per esprimere politiche di gestione dell'utilizzo continuativo delle risorse di un sistema di calcolo\xspace}
+\newcommand{\myEnglishTitle}{Devising a run-time monitor for continuative access controls with FACPL\xspace}
+% use the right myDegree option
+\newcommand{\myDegree}{Corso di Laurea in Informatica\xspace}
+%\newcommand{\myDegree}{
+	%Corso di Laurea Specialistica in Scienze e Tecnologie
+	%dell'Informazione\xspace}
+\newcommand{\myName}{Filippo Mameli\xspace}
+\newcommand{\myProf}{Rosario Pugliese\xspace}
+\newcommand{\myOtherProf}{Andrea Margheri\xspace}
+\newcommand{\mySupervisor}{\xspace}
+\newcommand{\myFaculty}{Scuola di Scienze Matematiche, Fisiche e Naturali\xspace}
+\newcommand{\myUni}{\protect{Universit\`a degli Studi di Firenze}\xspace}
+\newcommand{\myLocation}{Firenze\xspace}
+\newcommand{\myTime}{Anno Accademico 2014-2015\xspace}
+\newcommand{\myVersion}{Version 0.1\xspace}
+%--------------------------------------------------------------
+\usepackage[italian]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[square,numbers]{natbib}
+\usepackage[fleqn]{amsmath}
+\usepackage{ellipsis}
+\usepackage{listings}
+\usepackage{subfig}
+\usepackage{caption}
+\usepackage{appendix}
+\usepackage{siunitx}
+\usepackage{float}
+\usepackage{blindtext}
+\usepackage{scrextend}
+\usepackage{enumitem}
+\addtokomafont{labelinglabel}{\sffamily}
+%--------------------------------------------------------------
+\usepackage{pkg/dia-classicthesis-ldpkg}
+%--------------------------------------------------------------
+% Options for classicthesis.sty:
+% tocaligned eulerchapternumbers drafting linedheaders
+% listsseparated subfig nochapters beramono eulermath parts
+% minionpro pdfspacing
+\usepackage[eulerchapternumbers,linedheaders,subfig,beramono,eulermath,
+parts]{classicthesis}
+%--------------------------------------------------------------
+\newlength{\abcd} % for ab..z string length calculation
+% how all the floats will be aligned
+\newcommand{\myfloatalign}{\centering}
+\setlength{\extrarowheight}{3pt} % increase table row height
+\captionsetup{format=hang,font=small}
+%--------------------------------------------------------------
+% Comandi personali
+%--------------------------------------------------------------
+\usepackage{verbatimbox}
+\usepackage{listings}
+\usepackage{color}
+\definecolor{name}{rgb}{0.5,0.5,0.5}
+\newcommand{\MyFigure}[3]{
+	\begin{figure}[h]
+
+		\centering
+		\includegraphics[width=#3\linewidth,keepaspectratio]{#1}
+		\caption{ #2 \label{fig:#1}}
+
+	\end{figure}
+}
+\newcommand{\MyF}[4]{
+	\begin{figure}[h]
+
+		\centering
+		\includegraphics[width=#3\linewidth,keepaspectratio,height=#4]{#1}
+		\caption{ #2 \label{fig:#1}}
+
+	\end{figure}
+}
+
+\newcommand{\MyFig}[4]{
+	\begin{figure}[#4]
+
+		\centering
+		\includegraphics[width=#3\linewidth]{#1}
+		\caption{ #2 }\label{#1}
+
+	\end{figure}
+}
+
+\newcommand{\statusattribute}{\textit{Status Attribute }}
+\newcommand{\status}{\textit{Status }}
+\newcommand{\ePolicy}{\emph{Policy }}
+\newcommand{\epolicy}{\emph{policy }}
+\newcommand{\ePolicySet}{\emph{Policy Set }}
+\newcommand{\eObligation}{\emph{Obligation }}
+\newcommand{\eobligation}{\emph{obligation }}
+\newcommand{\eObligations}{\emph{Obligations }}
+\newcommand{\eRule}{\emph{Rule }}
+\newcommand{\etarget}{\emph{target }}
+\newcommand{\efalse}{\texttt{false}}
+\newcommand{\etrue}{\texttt{true}}
+\newcommand{\eand}{\emph{and }}
+\newcommand{\eor}{\emph{or }}
+\input{extraTex/macro}
+
+\definecolor{eclipsePurple}{RGB}{127,0,85}
+\definecolor{dkgreen}{rgb}{0,.6,0}
+\definecolor{brightpink}{rgb}{1.0, 0.0, 0.5}
+\definecolor{burgundy}{rgb}{0.5, 0.0, 0.13}
+
+\renewcommand{\lstlistingname}{Codice}% Listing -> Algorithm
+\renewcommand{\lstlistlistingname}{Lista di Codici}
+\lstdefinelanguage{FACPL} {
+  % list of keywords
+	alsoletter=-,
+	keywords = [1] {
+		deny-biased, permit-biased, deny-unless-permit, unless, biased
+	},
+  	morekeywords = [2] {
+		target, policies, obl, rules
+	},
+	keywords = [3] {
+		addStatus, subStatus, equal, flagstatus,
+		less-than, greater-than, sumDate, setString
+	},
+	keywords = [4] {
+		Policy, PolicySet, Rule, Request
+	},
+	keywords = [5] {
+		permit, deny
+	},
+  %style
+	keywordstyle = [1]{
+		\color{dkgreen}
+	},
+	keywordstyle = [2]{
+		\color{burgundy}\bfseries
+	},
+	keywordstyle = [3]{
+		\color{dkgreen}
+	},
+	keywordstyle = [4]{
+		\color{orange}\bfseries
+	},
+	keywordstyle = [5]{
+		\color{brightpink}\bfseries
+	},
+	numbers=left,
+	sensitive=false,
+	morecomment=[l]{//},
+	morecomment=[s]{/*}{*/},
+	morestring=[b]",
+	morestring=[b]',
+	stringstyle=\color{blue}\ttfamily
+}
+%--------------------------------------------------------------
+% Java
+%--------------------------------------------------------------
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+
+
+\definecolor{monokai@black}{HTML}{2C2C2A}
+\definecolor{monokai@gray}{HTML}{524F52}
+\definecolor{monokai@yellow}{HTML}{FDF5A9}
+\definecolor{monokai@orange}{HTML}{FD971F}
+\definecolor{monokai@red}{HTML}{DC322F}
+\definecolor{monokai@magenta}{HTML}{D33682}
+\definecolor{monokai@violet}{HTML}{F7208B}
+\definecolor{monokai@blue}{HTML}{004C99}
+\definecolor{monokai@green}{HTML}{009900}
+
+\lstdefinestyle{monokai}{
+	frame=tb,
+	language=Java,
+	aboveskip=3mm,
+	belowskip=3mm,
+	showstringspaces=false,
+	columns=flexible,
+	basicstyle={\small\ttfamily},
+	numbers=left,
+	numberstyle=\tiny\color{monokai@black},
+	numbersep=5pt,
+	stepnumber=2,
+	breaklines=true,
+	breakatwhitespace=true,
+	tabsize=3,
+	numberstyle=\color{monokai@gray},
+	keywordstyle=\color{monokai@violet},
+	stringstyle=\color{monokai@green}\ttfamily,
+	identifierstyle=\color{monokai@black},
+	commentstyle=\color{monokai@blue},
+	emphstyle=\color{monokai@red}
+}
+
+\lstdefinestyle{javigno}{
+	frame=tb,
+	language=Java,
+	aboveskip=3mm,
+	belowskip=3mm,
+	showstringspaces=false,
+	columns=flexible,
+	basicstyle={\small\ttfamily},
+	numbers=left,
+	numberstyle=\tiny\color{mygray},
+	numbersep=5pt,
+	stepnumber=2,
+	breaklines=true,
+	breakatwhitespace=true,
+	tabsize=3
+}
+
+\newcommand{\javaFirstline}[4]
+	{
+		\lstinputlisting[language = Java, style = monokai, firstline = #2, lastline = #3,firstnumber=1]{./code/cap5/#1}\label{lst:#4}
+	}
+\newcommand{\javaLastline}[4]
+	{
+		\lstinputlisting[language = Java, style = monokai, firstline = #2, lastline = #3,firstnumber=last]{./code/cap5/#1}\label{lst:#4}
+	}
+\newcommand{\javaFirstlineN}[5]
+	{
+		\lstinputlisting[language = Java, style = monokai, firstline = #2, lastline = #3,firstnumber=#5]{./code/cap5/#1}\label{lst:#4}
+	}
+\newcommand{\javaFirstlineC}[5]
+	{
+		\lstinputlisting[language = Java, style = monokai, firstline = #3, lastline = #4,firstnumber=1, caption = {#2}\label{lst:#5}]{./code/cap5/#1}
+	}
+\newcommand{\javaLastlineC}[5]
+	{
+		\lstinputlisting[language = Java, style = monokai, firstline = #3, lastline = #4,firstnumber=last, caption = {#2}\label{lst:#5}]{./code/cap5/#1}
+	}
+\newcommand{\javaFirstlineNC}[6]
+	{
+		\lstinputlisting[language = Java, style = monokai, firstline = #3, lastline = #4,firstnumber=#6, caption = {#2}\label{lst:#5}]{./code/cap5/#1}
+	}
+%--------------------------------------------------------------
+% Layout setting
+%--------------------------------------------------------------
+\usepackage{geometry}
+\geometry{
+	a4paper,
+	ignoremp,
+	bindingoffset = 1cm,
+	textwidth     = 13.5cm,
+	textheight    = 21.5cm,
+	lmargin       = 3.5cm, % left margin
+	tmargin       = 4cm    % top margin
+}
+
+\lstset{
+  	frame=tb,
+		language=Matlab,
+  	aboveskip=3mm,
+  	belowskip=3mm,
+  	showstringspaces=false,
+  	columns=flexible,
+  	basicstyle={\small\ttfamily},
+  	numbers=none,
+  	breaklines=true,
+  	breakatwhitespace=true,
+  	tabsize=3
+}
+%--------------------------------------------------------------
+\begin{document}
+\frenchspacing
+\raggedbottom
+\pagenumbering{roman}
+\pagestyle{plain}
+%--------------------------------------------------------------
+% Frontmatter
+%--------------------------------------------------------------
+\include{title/titlePage}
+\pagestyle{scrheadings}
+%--------------------------------------------------------------
+% Mainmatter
+%--------------------------------------------------------------
+\pagenumbering{arabic}
+% use \cleardoublepage here to avoid problems with pdfbookmark
+%\include{intro} % use \myChapter command instead of \chapter
+\tableofcontents
+\listoffigures
+\cleardoublepage
+%\thispagestyle{empty}
+%\begin{flushright}
+%\null\vspace{\stretch {1}}
+%\emph{"Inserire citazione" \break --- Inserire autore citazione} \vspace{\stretch{2}}\null
+%\end{flushright}
+%\cleardoublepage
+\include{Chapters/Introduzione}
+\include{Chapters/UsageControl}
+\include{Chapters/FACPL}
+\include{Chapters/Estensione}
+\include{Chapters/Libreria}
+\include{Chapters/Conclusioni}
+\section*{Acronimi}
+\label{sec:Acronimi}
+\begin{acronym}[cap2]
+  \acro{ACL}{Access Control List}
+  \acro{RBAC}{Role Based Access Control}
+  \acro{ABAC}{Attribute Based Access Control}
+  \acro{PBAC}{Policy Based Access Control}
+  \acro{UCON}{Usage Control}
+	\acro{PAS}{Policy Authorization System}
+	\acro{PR}{Policy Repository}
+	\acro{PDP}[PDP]{Policy Decision Point}
+ 	\acro{PEP}[PEP]{Policy Enforcement Point}
+	\acro{OASIS}{Organization for the Advancement of Structured Information Standards}
+ 	\acro{XACML}[XACML]{eXtensible Access Control Markup Language}
+ 	\acro{XML}[XML]{eXtensible Markup Language}
+ 	\acro{FACPL}[FACPL]{Formal Access Control Policy Language}
+	\acro{EBNF}{Extended Backus-Naur form}
+	\acro{UML}{Unified Modeling Language}
+\end{acronym}
+\nocite{*}
+\bibliographystyle{abbrv}
+\bibliography{Chapters/bib}
+%--------------------------------------------------------------
+\end{document}
+%--------------------------------------------------------------

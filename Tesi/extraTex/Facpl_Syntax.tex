@@ -1,0 +1,62 @@
+\begin{table}[h]
+\centering
+\scriptsize
+\caption{Sintassi di FACPL}
+\hrule
+$
+\begin{array}{@{\,}r@{\ \ }r@{\ }r@{\ \ }l@{\ }}
+{\textbf{Policy Authorisation Systems}} &
+\mathit{PAS} & ::= & ( \,  \x{pep:} \, \mathit{EnfAlg}\ \ \x{pdp:}\, \mathit{PDP} \, )
+\\[.2cm]
+{\textbf{Enforcement algorithms}} &
+\mathit{EnfAlg}
+& ::= & \based \Sep \denyBiased \Sep \permitBiased
+\\[.2cm]
+{\textbf{Policy Decision Points}} &
+\mathit{PDP} & ::= & \pdpPol{\algNT\ }{\x{policies:} \, \mathit{Policy}^{+}}
+\\[.2cm]
+{\textbf{Combining algorithms}} &
+\algNT & ::= & \permitOver \Sep \denyOver \Sep \denyUnless \Sep \permitUnless \\
+&& \mid &
+\firstApp \Sep \onlyOneApp \Sep \weakCon \Sep \strongCon
+\\[.2cm]
+{\textbf{Policies}} &
+\mathit{Policy} & ::= &
+\ruleOpt{\mathit{Effect}\ \ \x{target:} \, Expr\ \ \x{obl:} \, \mathit{Obligation}^{*} \, } \\
+&& \mid &
+\{ \algNT\ \ \x{target:} \, Expr\ \
+\x{policies:} \, \mathit{Policy}^{+} \ \ \x{obl:} \, \mathit{Obligation}^{*} \, \}
+\\[.2cm]
+{\textbf{Effects}} &
+\mathit{Effect} & ::= & \permit \Sep \deny
+\\[.2cm]
+{\textbf{Obligations}} &
+\mathit{Obligation} & ::= & [ \, \mathit{Effect} \ \ \mathit{ObType} \ \ \obl{Expr} \, ]
+\\[.2cm]
+{\textbf{Obligation Types}} &
+\mathit{ObType} & ::= & M \Sep O
+\\[.4cm]
+\textbf{Expressions}&
+\mathit{Expr} & ::= &
+\mathit{Name} \Sep \mathit{Value}  \\
+& & \mid &\x{and(\mathit{Expr}, \mathit{Expr})} \Sep \x{or(\mathit{Expr}, \mathit{Expr})} \Sep \x{not(\mathit{Expr})} \\
+& & \mid &
+ \x{equal(\mathit{Expr},\mathit{Expr})}  \Sep \x{in}(\mathit{Expr}, \mathit{Expr}) \\
+& & \mid & \x{greater}\textrm{-}\x{than(\mathit{Expr},\mathit{Expr})} \Sep \x{add(\mathit{Expr} ,\mathit{Expr} )}\\
+& & \mid & \x{subtract(\mathit{Expr} ,\mathit{Expr} )} \Sep \x{divide(\mathit{Expr} ,\mathit{Expr} )}\\
+& & \mid & \x{multiply(\mathit{Expr} ,\mathit{Expr} )} \\[.2cm]
+%
+\textbf{Attribute Names} &
+\mathit{Name} & ::= & \mathit{Identifier}/\mathit{Identifier} \\[.2cm]
+%
+\textbf{Literal Values} &
+\mathit{Value} & ::= & \x{true} \mid \x{false} \mid \mathit{Double} \mid \mathit{String} \mid \mathit{Date}
+\\[.4cm]
+{\textbf{Requests}} &
+\mathit{Request} & ::= & {\attribute{\mathit{Name}}{\mathit{Value}}}^{+}
+\\[.1cm]
+\end{array}
+$
+\hrule
+\label{tab:facpl_syntax}
+\end{table}

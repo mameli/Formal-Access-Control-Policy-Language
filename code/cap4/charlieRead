@@ -1,9 +1,0 @@
-Policy readPolicy < permit-overrides
-  target:equal("Charlie",name/id) && equal("read", action/id) && equal("contabilita.xlsx", resource/id)
-  rules:
-    Rule accessReadRule (
-      permit target: equal(status/isWriting, false))
-    obl:
-      [permit M flag(status/isReading, true)],
-      [permit (equal("read", action/id)) , (equal("contabilita.xlsx", resource/id))]
->

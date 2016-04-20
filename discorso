@@ -1,0 +1,180 @@
+\documentclass[12pt]{article}
+
+\usepackage[italian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage[normalem]{ulem}
+\usepackage[font=large, tablename= ]{caption}
+\usepackage{fixltx2e}
+
+\begin{document}
+\caption*{Progetto e implementazione in FACPL di un monitor a runtime per il supporto al controllo continuativo degli accessi}
+\subsection*{Discorso}
+Salve, in questa tesi ho sviluppato un estensione del linguaggio
+facpl per il controllo continuativo degli accessi.
+
+Riprenderò il discorso di schipani, in quanto la mia tesi utilizza
+le parti da lui sviluppate e ne migliora degli aspetti.
+
+\subsection{Slide 2}
+\label{sub:Slide 2}
+In questa slide si illustra il processo di decisione
+di usage control, anche detto UCON,
+diviso in 3 fasi.
+La mia tesi si basa proprio su questo modello e più precisamente sulla
+fase di "ongoing usage" cioè la parte a runtime dei controlli sulla
+decisione.
+
+\subsection{Slide 3}
+\label{sub:Slide 3}
+Qui si ripropone il processo di valutazione facpl prima dell'estensione
+per lo usage control. Come ha detto il mio collega, con questo
+processo non è possibile implementare politiche che si basano sul
+comportamento passato o prendere decisioni durante la valutazione
+delle richieste.
+
+\subsection{Slide 4}
+\label{sub:Slide 4}
+Le limitazioni sono evidenti esponendo un semplice esempio basato su
+usage control sull accesso in lettuo e scrittura di file.
+Supponiamo che un sistema controlli un insieme di utenti. Gli utenti
+possono far parte del gruppo degli amministratori o di un gruppo
+di default. Solo gli utenti amministratori possono scrivere su un file
+mentre tutti gli utenti possono leggere un file.
+Se qualcuno sta già scrivendo nessuna azione può essere concessa
+fino alla fine della scrittura.
+
+\subsection{Slide 5}
+\label{sub:Slide 5}
+In questa slide si illustra il diagramma di flusso dell'esempio.
+Dopo aver ricevuto una richiesta, il sistema verifica il nome del file
+e quello dell utente. Se i valori sono validi si passa alla verifica
+dell' azione richiesta. Se è una lettura, si deve controllare che
+nessuno stia scrivendo. Se questo è vero, la richiesta è accettata.
+Per le scritture invece, dopo aver controllato che nessuno stia
+scrivendo, si deve verificare ne il gruppo dell utente richiedente
+sia quello degli amministratori. Se l utente è amministratore
+allora la sua richiesta di scrittura viene accettata.
+Se anche uno di questi controlli non risulta positivo, il sistema
+restituisce deny e la richiesta non viene accettata.
+
+\subsection{Slide 6}
+\label{sub:Slide 6}
+L esempio descritto è implementabile con l estensione descritta da
+schipani utilizzando lo status per memorizzare un parametro come
+isWriting, posto a vero quando un utente sta scrivendo.
+Il problema principale da risolvere è la staticità
+del processo di valutazione del linguaggio e non
+c'è nessuno controllo continuativo.
+Quindi a runtime tutte le richieste di accesso ricevono una risposta attraverso un
+sistema di verifica che esegue sempre
+tutti i controlli. Non modificando mai i passi della valutazione,
+vari controlli per le richieste potrebbero
+risultare ridondati e in alcuni casi inutili. Le richieste che non
+modificano i dati
+o lo stato del sistema, come ad esempio le letture su file, passano
+per lo stesso processo di valutazione
+di tutte le altre richieste e il sistema dei controlli risulta
+eccessivamente complesso per l'autorizzazione di azioni semplici.
+Per questo motivo è stato ideato un monitor in grado di scegliere a
+runtime il processo di verifica delle richieste.
+Sono state create dell obbligazioni utilizzate dal monitor per la
+scelta del processo valutativo. Queste obbligazioni possono
+indicare anche una scadenza che determina la fine dell'utilizzo
+del processo di verifica ridotto.  Infine la sintassi dell risposte
+è stata adattata in modo tale da poter essere utilizzata
+per le nuove verifiche.
+
+\subsection{Slide 7}
+\label{sub:Slide 7}
+In questa slide si può vedere il processo di valutazione descritto
+dal mio collega precedentemente. La mia tesi si è focalizzata sulla
+parte del PEP e obligation services.
+\subsection{Slide 8}
+\label{sub:Slide 8}
+In rosso si possono vedere le parti che vengono eliminate nel nuovo
+processo di valutazione ridotto. La azioni del obligation service saranno
+eseguite direttamente dal monitor. Il pep diventa l unica componente
+del processo valutativo illustrato in questa slide.
+\subsection{Slide 9}
+\label{sub:Slide 9}
+Il pep riceve una richiesta e controlla che i parametri siano giusti
+utilizzando solo il context handler per prendere gli attributi dello
+stato dell ambiente. In questo modo non ci sono controlli superflui
+per le richieste che non modificano le risorse o lo stato da parte
+della componente delle obligation service.
+\subsection{Slide 10}
+\label{sub:Slide 10}
+Il nuovo processo di valutazione non sostituisce quello completo,
+ma si usa come supporto solo per le azioni che non modificano lo stato.
+Quindi il sistema, come si vede in figura, parte sempre con il
+processo di valutazione completo. Se le nuove obbligazioni chiamate
+obligationCheck sono presenti e le verifiche sono valide, il monitor
+scegli il processo di valutazione ridotto qui chiamato PEP. Si
+rimane in questo processo fino a che gli attributi delle richieste
+sono conformi ai parametri. Al primo errore, o alla scadenza termina
+oppure alla prima richiesta
+che non è supportata dal processo di valutazione ridotto si passa
+di nuovo al sistema di verifica completo.
+\subsection{Slide 11}
+\label{sub:Slide 11}
+Qui si può vedere l esempio di politica per la scrittura. Come ho
+detto si controlla il nome del file, che l utente sia un amministratore
+e che nessuno stia scrivendo. Se la richiesta viene accettata si cambia
+a true l attributo isWriting.
+\subsection{Slide 12}
+\label{sub:Slide 12}
+In questo esempio di politica si può vedere il nuovo tipo di obbligazione
+nell ultima riga. Si indica che i parametri che deve verificare il pep siano
+il tipo di azione e che i file su cui si richiede la lettura siano
+nell insieme thesis e facpl. In questo caso non si indica la scadenza quindi
+il processo valutativo rimane lo stesso fino a che gli attributi delle
+richiesti sono questi qui indicati.
+\subsection{Slide 13}
+\label{sub:Slide 13}
+Qui si mostrano gli altri due tipi di obbligazioni. Queste si differenziano
+per la scadenza. La prima è a tempo e qui si indicano 12 ore di
+esecuzione.
+La seconda invece è sul numero di richieste eseguite e quindi dopo 10
+richieste in questo caso il processo di valutazione cambia.
+\subsection{Slide 14}
+\label{sub:Slide 14}
+Le richieste rimangono le stesse, l utente non ha nessun controllo
+sulla scelta del processo valutativo. Solo il monitor può cambiarlo
+\subsection{Slide 15}
+\label{sub:Slide 15}
+Qui si mostra una tabella con le risposte del sistema per 8 richieste.
+Con PV si indica il processo valutativo. Il monitor comincia l
+esecuzione con il processo completo indicato con PDP+PEP.
+Alla seconda richiesta si passa a quello
+ridotto che viene indicato con PEP. La prima risposta impiega 53ms
+per essere restituita mentre la seconda anche se è sempre una lettura
+solo 6. La richiesta 5 è unica che riceve deny in
+quanto qualcuno sta scrivendo.
+\subsection{Slide 16}
+\label{sub:Slide 16}
+Ripropongo il toolchain di facpl si dire che anche per questa estensione
+è stata modificata la libreria Java di supporto di facpl e i file Xtext
+della sintassi del linguaggio.
+\subsection{Slide 17}
+\label{sub:Slide 17}
+In questa slide si mostra il diagramma uml della classe principale java cioè PEPCheck.
+Questa è il monitor che sceglie il processo valutativo e esegue tutti i controlli
+ha come campo il PDP che usa quando si vuole applicare il processo completo e una lista
+di obbligazioni
+\subsection{Slide 18}
+\label{sub:Slide 18}
+Anche per questa estensione dei usage control è stato utilizzato il
+plugin di eclipse che offre funzionalità come l autocompletamendo
+e l highlight delle parole chiavi. Il plugin è stato modificando usando
+per poter generare il codice java partendo da un file scritto in facpl.
+
+\subsection{Obligation Check}
+\label{sub:Obligation Check}
+Per utilizzare il nuovo processo di valutazione si fa uso
+del nuovo costrutto delle obligation check. queste sono
+un tipo di obbligazioni che invece di indicare un azione da
+eseguire indicano un espressione che deve essere valutata dal pep.
+
+
+\end{document}

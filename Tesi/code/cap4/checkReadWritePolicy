@@ -32,7 +32,9 @@ PolicySet ReadWrite_Policy { deny-unless-permit
         equal ( status / isWriting , false )
         )
     obl:
-    [ permit M equal ("read",action/id) , in ( file/id , set ("thesis.tex" , "facpl.pdf")) ]
+    [ permit  equal ("read",action/id) , in ( file/id , set ("thesis.tex" , "facpl.pdf")) ]
+    [ permit  equal ("read",action/id) , in ( file/id , set ("thesis.tex" , "facpl.pdf")) , 12:00:00 ]
+    [ permit  equal ("read",action/id) , in ( file/id , set ("thesis.tex" , "facpl.pdf")) , 10]
   }
 }
 PAS {
